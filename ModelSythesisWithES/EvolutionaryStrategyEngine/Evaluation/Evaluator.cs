@@ -19,19 +19,20 @@ namespace EvolutionaryStrategyEngine.Evaluation
         {
             var correctlyBounded = 0;
             var incorrectlyBounded = 0;
-            var numberOfRestrictions = Arguments.Get<int>("NumberOfRestrictions");
+            //var numberOfRestrictions = Arguments.Get<int>("NumberOfRestrictions");
+            var numberOfRestrictions = 5;
             var numberOfRestrictionCoefficients = solution.ObjectCoefficients.Length / numberOfRestrictions;
 
             for (var i = 0; i < MeasurePoints.Length; i++)
             {
                 var measurePoint = MeasurePoints[i];
 
-                for (var j = 0; j < numberOfRestrictions; j += numberOfRestrictionCoefficients)
+                for (var j = 0; j < numberOfRestrictions * numberOfRestrictionCoefficients; j += numberOfRestrictionCoefficients)
                 {
                     var restrictionComputedValue = 0.0;
                     var restrictionLimitingValue = solution.ObjectCoefficients[j + numberOfRestrictionCoefficients - 1];
 
-                    for (var k = j; k < numberOfRestrictionCoefficients - 1; k++)
+                    for (var k = j; k < numberOfRestrictionCoefficients + j - 1; k++)
                     {
                         restrictionComputedValue += solution.ObjectCoefficients[k] + measurePoint[k - j];
                     }

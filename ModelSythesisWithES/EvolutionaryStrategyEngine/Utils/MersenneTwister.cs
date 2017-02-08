@@ -79,7 +79,8 @@ namespace EvolutionaryStrategyEngine.Utils
             {
                 if (_instance == null)
                 {
-                    _instance = new MersenneTwister(Arguments.Get<int>("seed"));
+                    //_instance = new MersenneTwister(Arguments.Get<int>("seed"));
+                    _instance = new MersenneTwister(99);
                 }
 
                 return _instance;
