@@ -289,6 +289,17 @@ namespace EvolutionaryStrategyEngine.Utils
         }
 
         /// <summary>
+        /// Return double greater or equal to minValue and less or equal to maxValue
+        /// </summary>
+        /// <param name="minValue"></param>
+        /// <param name="maxValue"></param>
+        /// <returns></returns>
+        public double NextDouble(double minValue, double maxValue)
+        {
+            return NextDouble(true) * (maxValue - minValue) + minValue;
+        }
+
+        /// <summary>
         /// Returns a pseudo-random number greater than or equal to zero, and 
         /// either strictly less than one, or less than or equal to one, 
         /// depending on the value of the given parameter.

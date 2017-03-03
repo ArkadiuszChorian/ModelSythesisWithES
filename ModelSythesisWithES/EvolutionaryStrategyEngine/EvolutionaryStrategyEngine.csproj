@@ -38,19 +38,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constraints\LinearConstraint.cs" />
     <Compile Include="DistanceMeasuring\CanberraDistanceCalculator.cs" />
     <Compile Include="DistanceMeasuring\IDistanceCalculator.cs" />
     <Compile Include="Evaluation\Evaluator.cs" />
     <Compile Include="EvolutionaryStrategyEngine.cs" />
-    <Compile Include="IPointsGenerator.cs" />
+    <Compile Include="Models\Domain.cs" />
+    <Compile Include="PointsGeneration\IPointsGenerator.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Constraints\Constraint.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\Point.cs" />
     <Compile Include="MutationSupervison\IMutationRuleSupervisor.cs" />
     <Compile Include="MutationSupervison\NStepsMutationOneFifthRuleSupervisor.cs" />
     <Compile Include="MutationSupervison\OneStepMutationOneFifthRuleSupervisor.cs" />
     <Compile Include="Mutation\CorrelatedMutationObjectMutator.cs" />
+    <Compile Include="PointsGeneration\PositiveMeasurePointsGenerator.cs" />
     <Compile Include="Recombination\NStepsMutationStdDeviationsDiscreteRecombiner.cs" />
     <Compile Include="Recombination\NStepsMutationStdDeviationsIntermediateRecombiner.cs" />
     <Compile Include="Recombination\ObjectDiscreteRecombiner.cs" />

@@ -54,6 +54,7 @@ namespace EvolutionaryStrategyEngine.Models
         public int NumberOfSurvivorsSolutionsToSelect { get; set; }
         public int NumberOfNegativeMeasurePoints { get; set; }
         public int NumberOfDimensions { get; set; }
+        public Tuple<double, double> DefaultDomainLimit { get; set; }
         public MutationType TypeOfMutation { get; set; }      
     }
 }
