@@ -4,28 +4,32 @@ namespace EvolutionaryStrategyEngine.Models
 {
     public class AlgorithmParameters
     {
-        public AlgorithmParameters(int objectVectorSize, int populationSize)
+        public AlgorithmParameters(int objectVectorSize)
         {
             GlobalLearningRate = 1 / Math.Sqrt(2 * objectVectorSize);
             IndividualLearningRate = 1 / Math.Sqrt(2 * Math.Sqrt(objectVectorSize));
-            StepThreshold = 0.005;
+            StepThreshold = 0;
             RotationAngle = 5 * Math.PI / 180;
-            ObjectVectorSize = objectVectorSize;         
-            PopulationSize = populationSize;
-            NumberOfParentsSolutionsToSelect = PopulationSize;
-            NumberOfSurvivorsSolutionsToSelect = PopulationSize;
-            TypeOfMutation = MutationType.UncorrelatedNSteps;
+            ObjectVectorSize = objectVectorSize;
+            TypeOfMutation = MutationType.Correlated;
         }
-        public AlgorithmParameters(double globalLerningRate, double individualLearningRate, double stepThreshold, double rotationAngle, int objectVectorSize, int populationSize, int numberOfParentsSolutionsToSelect, int numberOfSurvivorsSolutionsToSelect, MutationType typeOfMutation)
+        public AlgorithmParameters(
+            double globalLerningRate, 
+            double individualLearningRate, 
+            double stepThreshold, 
+            double rotationAngle, 
+            int objectVectorSize, 
+            int numberOfNegativeMeasurePoints,
+            int numberOfDimensions, 
+            MutationType typeOfMutation)
         {           
             GlobalLearningRate = globalLerningRate;
             IndividualLearningRate = individualLearningRate;
             StepThreshold = stepThreshold;
             RotationAngle = rotationAngle;
             ObjectVectorSize = objectVectorSize;
-            PopulationSize = populationSize;
-            NumberOfParentsSolutionsToSelect = numberOfParentsSolutionsToSelect;
-            NumberOfSurvivorsSolutionsToSelect = numberOfSurvivorsSolutionsToSelect;
+            NumberOfNegativeMeasurePoints = numberOfNegativeMeasurePoints;
+            NumberOfDimensions = numberOfDimensions;
             TypeOfMutation = typeOfMutation;
         }
 
@@ -46,9 +50,10 @@ namespace EvolutionaryStrategyEngine.Models
         public double StepThreshold { get; set; }
         public double RotationAngle { get; set; }
         public int ObjectVectorSize { get; set; }
-        public int PopulationSize { get; set; }
         public int NumberOfParentsSolutionsToSelect { get; set; }
         public int NumberOfSurvivorsSolutionsToSelect { get; set; }
+        public int NumberOfNegativeMeasurePoints { get; set; }
+        public int NumberOfDimensions { get; set; }
         public MutationType TypeOfMutation { get; set; }      
     }
 }

@@ -1,4 +1,4 @@
-﻿using EvolutionaryStrategyEngine.Models;
+﻿using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.Evaluation
 {

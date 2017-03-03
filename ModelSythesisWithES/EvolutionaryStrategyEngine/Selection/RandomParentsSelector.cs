@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using EvolutionaryStrategyEngine.Models;
+using EvolutionaryStrategyEngine.Solutions;
 using EvolutionaryStrategyEngine.Utils;
 
 namespace EvolutionaryStrategyEngine.Selection

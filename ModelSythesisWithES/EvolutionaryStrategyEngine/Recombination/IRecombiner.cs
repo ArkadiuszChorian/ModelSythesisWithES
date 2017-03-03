@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using EvolutionaryStrategyEngine.Models;
+using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.Recombination
 {
-    public interface IRecombiner
+    public interface IRecombiner<T> where T : Solution
     {
-        Solution Recombine(IList<Solution> parents);
+        T Recombine(IList<T> parents, T child = null);
     }
 }

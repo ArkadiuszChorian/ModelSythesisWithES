@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using EvolutionaryStrategyEngine.Models;
+using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.Selection
 {
