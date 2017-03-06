@@ -16,7 +16,7 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
         public Domain Domain { get; set; }
         public int NumberOfDimensions { get; set; }  
            
-        public Point[] GeneratePoints(List<Constraint> constraints, int numberOfPointsToGenerate)
+        public Point[] GeneratePoints(int numberOfPointsToGenerate, List<Constraint> constraints)
         {
             //TODO: Check if constraints has common space. Now, if they don't have, algorithm will stuck in while loop.
 

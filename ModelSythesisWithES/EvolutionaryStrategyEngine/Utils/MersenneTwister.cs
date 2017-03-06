@@ -57,6 +57,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
@@ -79,7 +80,14 @@ namespace EvolutionaryStrategyEngine.Utils
             {
                 if (_instance == null)
                 {
-                    _instance = new MersenneTwister(Arguments.Get<int>("seed"));
+                    try
+                    {
+                        _instance = new MersenneTwister(Arguments.Get<int>("seed"));
+                    }
+                    catch (KeyNotFoundException)
+                    {
+                        _instance = new MersenneTwister();
+                    }                    
                 }
 
                 return _instance;

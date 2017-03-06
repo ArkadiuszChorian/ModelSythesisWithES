@@ -8,11 +8,11 @@ namespace EvolutionaryStrategyEngine.Models
         public Domain(AlgorithmParameters algorithmParameters)
         {
             NumberOfDimensions = algorithmParameters.NumberOfDimensions;
-            Limits = new List<Tuple<double, double>>();
+            Limits = new List<Tuple<double, double>>(algorithmParameters.NumberOfDimensions);
 
             for (var i = 0; i < algorithmParameters.NumberOfDimensions; i++)
             {
-                Limits[i] = algorithmParameters.DefaultDomainLimit;
+                Limits.Add(algorithmParameters.DefaultDomainLimit);
             }
         }
 

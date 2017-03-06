@@ -6,6 +6,6 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
 {
     public interface IPointsGenerator
     {
-        Point[] GeneratePoints(List<Constraint> constraints, int numberOfPointsToGenerate);
+        Point[] GeneratePoints(int numberOfPointsToGenerate, List<Constraint> constraints);
     }
 }

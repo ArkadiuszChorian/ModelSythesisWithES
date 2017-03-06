@@ -4,6 +4,10 @@ namespace EvolutionaryStrategyEngine.Models
 {
     public class AlgorithmParameters
     {
+        public AlgorithmParameters()
+        {
+            
+        }
         public AlgorithmParameters(int objectVectorSize)
         {
             GlobalLearningRate = 1 / Math.Sqrt(2 * objectVectorSize);
@@ -21,6 +25,7 @@ namespace EvolutionaryStrategyEngine.Models
             int objectVectorSize, 
             int numberOfNegativeMeasurePoints,
             int numberOfDimensions, 
+            int numberOfConstraints,
             MutationType typeOfMutation)
         {           
             GlobalLearningRate = globalLerningRate;
@@ -30,6 +35,7 @@ namespace EvolutionaryStrategyEngine.Models
             ObjectVectorSize = objectVectorSize;
             NumberOfNegativeMeasurePoints = numberOfNegativeMeasurePoints;
             NumberOfDimensions = numberOfDimensions;
+            NumberOfConstraints = numberOfConstraints;
             TypeOfMutation = typeOfMutation;
         }
 
@@ -54,6 +60,7 @@ namespace EvolutionaryStrategyEngine.Models
         public int NumberOfSurvivorsSolutionsToSelect { get; set; }
         public int NumberOfNegativeMeasurePoints { get; set; }
         public int NumberOfDimensions { get; set; }
+        public int NumberOfConstraints { get; set; }
         public Tuple<double, double> DefaultDomainLimit { get; set; }
         public MutationType TypeOfMutation { get; set; }      
     }

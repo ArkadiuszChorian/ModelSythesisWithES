@@ -1,68 +1,71 @@
-﻿using EvolutionaryStrategyEngine.DistanceMeasuring;
-using EvolutionaryStrategyEngine.Models;
+﻿using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Solutions;
-using EvolutionaryStrategyEngine.Utils;
 
 namespace EvolutionaryStrategyEngine.Evaluation
 {
     public class Evaluator : IEvaluator
     {
-        private IDistanceCalculator _distanceCalculator;
-
         public Evaluator() {}
 
-        public Evaluator(AlgorithmParameters algorithmParameters, IDistanceCalculator distanceCalculator, double[][] positiveMeasurePoints)
+        public Evaluator(AlgorithmParameters algorithmParameters, Point[] positiveMeasurePoints, Point[] negativeMeasurePoints)
         {
-            _distanceCalculator = distanceCalculator;
             PositiveMeasurePoints = positiveMeasurePoints;
-            NegativeMeasurePoints = new double[algorithmParameters.NumberOfNegativeMeasurePoints][];
-            for (var i = 0; i < algorithmParameters.NumberOfNegativeMeasurePoints; i++)
-            {
-                NegativeMeasurePoints[i] = new double[algorithmParameters.NumberOfDimensions];
-
-                for (var j = 0; j < algorithmParameters.NumberOfDimensions; j++)
-                {
-                    //NegativeMeasurePoints[i][j] = MersenneTwister
-                } 
-            }
+            NegativeMeasurePoints = negativeMeasurePoints;
+            NumberOfConstraints = algorithmParameters.NumberOfConstraints;
+            NumberOfConstraintCoefficients = algorithmParameters.ObjectVectorSize / NumberOfConstraints;
         }
 
-        public double[][] PositiveMeasurePoints { get; set; }
-        public double[][] NegativeMeasurePoints { get; set; }
+        public Point[] PositiveMeasurePoints { get; set; }
+        public Point[] NegativeMeasurePoints { get; set; }
+        public int NumberOfConstraints { get; set; }
+        public int NumberOfConstraintCoefficients { get; set; }
 
         public double Evaluate(Solution solution)
         {
-            var correctlyBounded = 0;
-            var incorrectlyBounded = 0;
-            var numberOfRestrictions = Arguments.Get<int>("NumberOfRestrictions");
-            var numberOfRestrictionCoefficients = solution.ObjectCoefficients.Length / numberOfRestrictions;
+            var numberOfPositivePointsSatisfyingConstraints = 0;
+            var numberOfNegativePointsSatisfyingConstraints = 0;
+            //var numberOfRestrictions = Arguments.Get<int>("NumberOfRestrictions");
+            //var numberOfConstraints = Arguments.Get<int>("NumberOfRestrictions");
+            //var numberOfConstraintCoefficients = solution.ObjectCoefficients.Length / numberOfConstraints;
 
             for (var i = 0; i < PositiveMeasurePoints.Length; i++)
-            {
-                var measurePoint = PositiveMeasurePoints[i];
-
-                for (var j = 0; j < numberOfRestrictions; j += numberOfRestrictionCoefficients)
+            {              
+                if (IsSatisfyingConstraints(solution, PositiveMeasurePoints[i]))
                 {
-                    var restrictionComputedValue = 0.0;
-                    var restrictionLimitingValue = solution.ObjectCoefficients[j + numberOfRestrictionCoefficients - 1];
-
-                    for (var k = j; k < numberOfRestrictionCoefficients - 1; k++)
-                    {
-                        restrictionComputedValue += solution.ObjectCoefficients[k] + measurePoint[k - j];
-                    }
-
-                    if (restrictionComputedValue <= restrictionLimitingValue)
-                    {
-                        correctlyBounded++;
-                    }
-                    else
-                    {
-                        incorrectlyBounded++;
-                    }
+                    numberOfPositivePointsSatisfyingConstraints++;
                 }
             }
 
-            return (double)correctlyBounded / (correctlyBounded + incorrectlyBounded);
+            for (var i = 0; i < NegativeMeasurePoints.Length; i++)
+            {             
+                if (IsSatisfyingConstraints(solution, NegativeMeasurePoints[i]))
+                {
+                    numberOfNegativePointsSatisfyingConstraints++;
+                }
+            }
+
+            return (double)numberOfPositivePointsSatisfyingConstraints / (PositiveMeasurePoints.Length + numberOfNegativePointsSatisfyingConstraints);
+        }
+
+        private bool IsSatisfyingConstraints(Solution solution, Point point)
+        {
+            for (var i = 0; i < NumberOfConstraints; i += NumberOfConstraintCoefficients)
+            {
+                var constraintComputedValue = 0.0;
+                var constraintLimitingValue = solution.ObjectCoefficients[i + NumberOfConstraintCoefficients - 1];
+
+                for (var j = i; j < NumberOfConstraintCoefficients - 1; j++)
+                {
+                    constraintComputedValue += solution.ObjectCoefficients[j] * point.Coordinates[j - i];
+                }
+
+                if (constraintComputedValue > constraintLimitingValue)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
