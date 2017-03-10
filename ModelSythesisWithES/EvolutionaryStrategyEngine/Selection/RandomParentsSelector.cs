@@ -7,9 +7,9 @@ namespace EvolutionaryStrategyEngine.Selection
 {
     public class RandomParentsSelector : ISelector
     {
-        public RandomParentsSelector(AlgorithmParameters algorithmParameters)
+        public RandomParentsSelector(ExperimentParameters experimentParameters)
         {
-            NumberOfSolutionsToSelect = algorithmParameters.NumberOfParentsSolutionsToSelect;
+            NumberOfSolutionsToSelect = (int)experimentParameters.PartOfParentsSolutionsToSelect * experimentParameters.PopulationSize;
         }
 
         public IList<Solution> Select(IList<Solution> solutions)

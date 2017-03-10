@@ -10,15 +10,24 @@ namespace EvolutionaryStrategyEngine.Mutation
 
         public CorrelatedMutationSolution Mutate(CorrelatedMutationSolution solution)
         {
-            var numberOfCoefficients = solution.RotationsCoefficients.Length;
+            var vectorSize = solution.RotationsCoefficients.Length;
 
-            for (var j = 0; j < numberOfCoefficients; j++)
+            for (var i = 0; i < vectorSize; i++)
             {
-                solution.RotationsCoefficients[j] += RotationAngle * MersenneTwister.Instance.NextDoublePositive();
-
-                if (Math.Abs(solution.RotationsCoefficients[j]) > Math.PI)
+                for (var j = i + 1; j < vectorSize; j++)
                 {
-                    solution.RotationsCoefficients[j] -= 2 * Math.PI * Math.Sign(solution.RotationsCoefficients[j]);
+                    var mutationValue = RotationAngle * MersenneTwister.Instance.NextDoublePositive();
+
+                    solution.RotationsCoefficients[i][j] += mutationValue;
+                    solution.RotationsCoefficients[j][i] += mutationValue;
+
+                    if (Math.Abs(solution.RotationsCoefficients[i][j]) > Math.PI)
+                    {
+                        var reduction = 2 * Math.PI * Math.Sign(solution.RotationsCoefficients[i][j]);
+
+                        solution.RotationsCoefficients[i][j] -= reduction;
+                        solution.RotationsCoefficients[j][i] -= reduction;
+                    }
                 }
             }
 

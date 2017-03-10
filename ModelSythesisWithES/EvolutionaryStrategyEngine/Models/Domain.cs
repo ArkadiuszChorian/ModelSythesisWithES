@@ -5,20 +5,20 @@ namespace EvolutionaryStrategyEngine.Models
 {
     public class Domain
     {
-        public Domain(AlgorithmParameters algorithmParameters)
+        public Domain(ExperimentParameters experimentParameters)
         {
-            NumberOfDimensions = algorithmParameters.NumberOfDimensions;
-            Limits = new List<Tuple<double, double>>(algorithmParameters.NumberOfDimensions);
+            NumberOfDimensions = experimentParameters.NumberOfDimensions;
+            Limits = new List<Tuple<double, double>>(experimentParameters.NumberOfDimensions);
 
-            for (var i = 0; i < algorithmParameters.NumberOfDimensions; i++)
+            for (var i = 0; i < experimentParameters.NumberOfDimensions; i++)
             {
-                Limits.Add(algorithmParameters.DefaultDomainLimit);
+                Limits.Add(experimentParameters.DefaultDomainLimit);
             }
         }
 
-        public Domain(AlgorithmParameters algorithmParameters, List<Tuple<double, double>> domainLimits)
+        public Domain(ExperimentParameters experimentParameters, List<Tuple<double, double>> domainLimits)
         {
-            NumberOfDimensions = algorithmParameters.NumberOfDimensions;
+            NumberOfDimensions = experimentParameters.NumberOfDimensions;
             Limits = domainLimits;
         }
 

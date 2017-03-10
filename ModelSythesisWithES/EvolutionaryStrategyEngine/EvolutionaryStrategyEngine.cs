@@ -16,9 +16,9 @@ namespace EvolutionaryStrategyEngine
         //private ISelector _parentsSelector;
         //private ISelector _survivorsSelector;
 
-        //public EvolutionaryStrategyEngine(AlgorithmParameters algorithmParameters, double[][] measurePoints)
+        //public EvolutionaryStrategyEngine(ExperimentParameters algorithmParameters, double[][] measurePoints)
         //{
-        //    AlgorithmParameters = algorithmParameters;
+        //    ExperimentParameters = algorithmParameters;
 
         //    _evaluator = new Evaluator(measurePoints);
         //    _logger = new Logger();
@@ -28,6 +28,6 @@ namespace EvolutionaryStrategyEngine
         //    _survivorsSelector = new SurvivorsSeletor(algorithmParameters);
         //}
 
-        //public AlgorithmParameters AlgorithmParameters { get; set; }
+        //public ExperimentParameters ExperimentParameters { get; set; }
     }
 }

@@ -4,9 +4,9 @@ namespace EvolutionaryStrategyEngine.Solutions
 {
     public abstract class Solution
     {
-        protected Solution(AlgorithmParameters algorithmParameters)
+        protected Solution(ExperimentParameters experimentParameters)
         {
-            ObjectCoefficients = new double[algorithmParameters.ObjectVectorSize];
+            ObjectCoefficients = new double[experimentParameters.NumberOfDimensions];
         }
 
         protected Solution(int vectorSize)
@@ -19,21 +19,21 @@ namespace EvolutionaryStrategyEngine.Solutions
     }
 }
 
-//public Solution(AlgorithmParameters algorithmParameters)
+//public Solution(ExperimentParameters experimentParameters)
 //{
-//    ObjectCoefficients = new double[algorithmParameters.ObjectVectorSize];
+//    ObjectCoefficients = new double[experimentParameters.ObjectVectorSize];
 
-//    switch (algorithmParameters.TypeOfMutation)
+//    switch (experimentParameters.TypeOfMutation)
 //    {
-//        case AlgorithmParameters.MutationType.UncorrelatedNSteps:
-//            StdDeviationsCoefficients = new double[algorithmParameters.ObjectVectorSize];
+//        case ExperimentParameters.MutationType.UncorrelatedNSteps:
+//            StdDeviationsCoefficients = new double[experimentParameters.ObjectVectorSize];
 //            break;
-//        case AlgorithmParameters.MutationType.Correlated:
-//            StdDeviationsCoefficients = new double[algorithmParameters.ObjectVectorSize];
-//            RotationsCoefficients = new double[algorithmParameters.ObjectVectorSize];
+//        case ExperimentParameters.MutationType.Correlated:
+//            StdDeviationsCoefficients = new double[experimentParameters.ObjectVectorSize];
+//            RotationsCoefficients = new double[experimentParameters.ObjectVectorSize];
 //            break;
 //        default:
-//            throw new ArgumentOutOfRangeException(nameof(algorithmParameters.TypeOfMutation), algorithmParameters.TypeOfMutation, null);
+//            throw new ArgumentOutOfRangeException(nameof(experimentParameters.TypeOfMutation), experimentParameters.TypeOfMutation, null);
 //    }
 //}
 

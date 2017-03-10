@@ -7,16 +7,18 @@ namespace EvolutionaryStrategyEngine.Evaluation
     {
         public Evaluator() {}
 
-        public Evaluator(AlgorithmParameters algorithmParameters, Point[] positiveMeasurePoints, Point[] negativeMeasurePoints)
+        public Evaluator(ExperimentParameters experimentParameters, Point[] positiveMeasurePoints, Point[] negativeMeasurePoints)
         {
             PositiveMeasurePoints = positiveMeasurePoints;
             NegativeMeasurePoints = negativeMeasurePoints;
-            NumberOfConstraints = algorithmParameters.NumberOfConstraints;
-            NumberOfConstraintCoefficients = algorithmParameters.ObjectVectorSize / NumberOfConstraints;
+            NumberOfConstraints = experimentParameters.NumberOfConstraints;
+            NumberOfConstraintCoefficients = experimentParameters.NumberOfDimensions / NumberOfConstraints;
         }
 
         public Point[] PositiveMeasurePoints { get; set; }
         public Point[] NegativeMeasurePoints { get; set; }
+
+        //Experiment parameters
         public int NumberOfConstraints { get; set; }
         public int NumberOfConstraintCoefficients { get; set; }
 

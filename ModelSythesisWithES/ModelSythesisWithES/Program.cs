@@ -19,11 +19,7 @@ namespace ModelSythesisWithES
 
         private static void PointsGenerationTest()
         {
-            var algorithmParameters = new AlgorithmParameters
-            {
-                DefaultDomainLimit = Tuple.Create(-100.0, 100.0),
-                NumberOfDimensions = 2
-            };
+            var algorithmParameters = new ExperimentParameters(2, 10);
             var domain = new Domain(algorithmParameters);
             var positiveMeasurePointsGenerator = new PositiveMeasurePointsGenerator(domain);
 

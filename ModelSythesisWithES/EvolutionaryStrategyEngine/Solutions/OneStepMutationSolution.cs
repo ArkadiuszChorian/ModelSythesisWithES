@@ -4,7 +4,7 @@ namespace EvolutionaryStrategyEngine.Solutions
 {
     public class OneStepMutationSolution : Solution
     {
-        public OneStepMutationSolution(AlgorithmParameters algorithmParameters) : base(algorithmParameters){}
+        public OneStepMutationSolution(ExperimentParameters experimentParameters) : base(experimentParameters){}
 
         public OneStepMutationSolution(int vectorSize) : base(vectorSize){}
 

@@ -18,7 +18,13 @@ namespace EvolutionaryStrategyEngine.Recombination
 
             for (var i = 0; i < vectorSize; i++)
             {
-                child.RotationsCoefficients[i] = parents[MersenneTwister.Instance.Next(parents.Count)].RotationsCoefficients[i];
+                for (var j = i + 1; j < vectorSize; j++)
+                {
+                    var chosenValue = parents[MersenneTwister.Instance.Next(parents.Count)].RotationsCoefficients[i][j];
+
+                    child.RotationsCoefficients[i][j] = chosenValue;
+                    child.RotationsCoefficients[j][i] = chosenValue;
+                }
             }
 
             return child;

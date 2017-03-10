@@ -17,7 +17,13 @@ namespace EvolutionaryStrategyEngine.Recombination
 
             for (var i = 0; i < vectorSize; i++)
             {
-                child.RotationsCoefficients[i] = parents.Sum(parent => parent.RotationsCoefficients[i]) / parents.Count;
+                for (var j = i + 1; j < vectorSize; j++)
+                {
+                    var averangeValue = parents.Sum(parent => parent.RotationsCoefficients[i][j]) / parents.Count;
+
+                    child.RotationsCoefficients[i][j] = averangeValue;
+                    child.RotationsCoefficients[j][i] = averangeValue;
+                }
             }
 
             return child;

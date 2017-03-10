@@ -4,9 +4,9 @@ namespace EvolutionaryStrategyEngine.Solutions
 {
     public class NStepsMutationSolution : Solution
     {
-        public NStepsMutationSolution(AlgorithmParameters algorithmParameters) : base(algorithmParameters)
+        public NStepsMutationSolution(ExperimentParameters experimentParameters) : base(experimentParameters)
         {
-            StdDeviationsCoefficients = new double[algorithmParameters.ObjectVectorSize];
+            StdDeviationsCoefficients = new double[experimentParameters.NumberOfDimensions];
         }
 
         public NStepsMutationSolution(int vectorSize) : base(vectorSize)

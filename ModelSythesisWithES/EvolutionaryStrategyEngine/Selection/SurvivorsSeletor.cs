@@ -7,16 +7,16 @@ namespace EvolutionaryStrategyEngine.Selection
 {
     public class SurvivorsSeletor : ISelector
     {
-        public SurvivorsSeletor(AlgorithmParameters algorithmParameters)
+        public SurvivorsSeletor(ExperimentParameters experimentParameters)
         {
-            NumberOfSurvivorsSolutionsToSelect = algorithmParameters.NumberOfSurvivorsSolutionsToSelect;
+            NumberOfSolutionsToSelect = (int)experimentParameters.PartOfSurvivorsSolutionsToSelect * experimentParameters.PopulationSize;
         }
 
         public IList<Solution> Select(IList<Solution> solutions)
         {
-            return solutions.OrderByDescending(solution => solution.FitnessScore).Take(NumberOfSurvivorsSolutionsToSelect).ToList();
+            return solutions.OrderByDescending(solution => solution.FitnessScore).Take(NumberOfSolutionsToSelect).ToList();
         }
 
-        public int NumberOfSurvivorsSolutionsToSelect { get; set; }
+        public int NumberOfSolutionsToSelect { get; set; }
     }
 }
