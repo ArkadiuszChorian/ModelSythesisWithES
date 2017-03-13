@@ -73,8 +73,12 @@
     <Compile Include="DistanceMeasuring\CanberraDistanceCalculator.cs" />
     <Compile Include="DistanceMeasuring\EuclideanDistanceCalculator.cs" />
     <Compile Include="DistanceMeasuring\IDistanceCalculator.cs" />
+    <Compile Include="Engine\CorrelatedEngine.cs" />
+    <Compile Include="Engine\EngineFactory.cs" />
+    <Compile Include="Engine\NStepsEngine.cs" />
+    <Compile Include="Engine\OneStepEngine.cs" />
     <Compile Include="Evaluation\Evaluator.cs" />
-    <Compile Include="EvolutionaryStrategyEngine.cs" />
+    <Compile Include="Engine\Engine.cs" />
     <Compile Include="Models\Domain.cs" />
     <Compile Include="PointsGeneration\IPointsGenerator.cs" />
     <Compile Include="Logging\ILogger.cs" />

@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using EvolutionaryStrategyEngine.Constraints;
 using EvolutionaryStrategyEngine.DistanceMeasuring;
+using EvolutionaryStrategyEngine.Engine;
+using EvolutionaryStrategyEngine.Evaluation;
 using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.PointsGeneration;
+using EvolutionaryStrategyEngine.Solutions;
 using EvolutionaryStrategyEngine.Utils;
 
 namespace ModelSythesisWithES
@@ -14,7 +18,40 @@ namespace ModelSythesisWithES
 
         static void Main(string[] args)
         {
-            PointsGenerationTest();            
+            var experimentParameters = new ExperimentParameters(2, 10, 
+                typeOfMutation: ExperimentParameters.MutationType.UncorrelatedNSteps,
+                stepThreshold: 0.0001);
+
+            var constraints = new List<Constraint>
+            {
+                //new LinearConstraint(new []{1.0, 0}, 10.0),
+                //new LinearConstraint(new []{0, -1.0}, 10.0),
+                new LinearConstraint(new []{-1.0, 1.0}, 20.0),
+                new LinearConstraint(new []{1.0, -1.0}, 20.0)
+            };
+
+            var constraints2 = new List<Constraint>
+            {
+                new LinearConstraint(new []{1.0, 0}, 20),
+                new LinearConstraint(new []{-1.0, 0}, 20),
+                new LinearConstraint(new []{0, 1.0}, 20),
+                new LinearConstraint(new []{0, -1.0}, 20)
+            };
+
+            experimentParameters.ConstraintsToPointGeneration = constraints;
+
+            var engine = new EngineFactory().GetEngine<NStepsMutationSolution>(experimentParameters);
+            engine.RunExperiment();
+
+            var bestSolutionConstraints = engine.Population.First().GetConstraints(experimentParameters);
+            var bestSolutionSamples = new PositiveMeasurePointsGenerator(new Domain(experimentParameters)).GeneratePoints(100, bestSolutionConstraints);
+            var evaluator = (Evaluator)engine.Evaluator;
+
+            Plotter.Plot(evaluator.PositiveMeasurePoints, evaluator.NegativeMeasurePoints);
+            Plotter.Plot(bestSolutionSamples);
+
+            Console.WriteLine("Done!");
+            Console.ReadKey();
         }
 
         private static void PointsGenerationTest()

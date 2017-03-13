@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using EvolutionaryStrategyEngine.Constraints;
 
 namespace EvolutionaryStrategyEngine.Models
 {
@@ -24,7 +26,8 @@ namespace EvolutionaryStrategyEngine.Models
 
             double partOfParentsSolutionsToSelect = 1.0,
             double partOfSurvivorsSolutionsToSelect = 1.0,
-            SelectionType typeOfSelection = SelectionType.Distinct,
+            SelectionType typeOfParentsSelection = SelectionType.Distinct,
+            SelectionType typeOfSurvivorsSelection = SelectionType.Distinct,
 
             int numberOfPositiveMeasurePoints = 100,  
             int numberOfNegativeMeasurePoints = 100,  
@@ -35,22 +38,29 @@ namespace EvolutionaryStrategyEngine.Models
             int populationSize = 100,
             int numberOfGenerations = 100,
             int oneFifthRuleCheckInterval = 5,
-            bool useRecombination = false              
+
+            bool useRecombination = false,
+            RecombinerType typeOfObjectsRecombiner = RecombinerType.Discrete,
+            RecombinerType typeOfStdDeviationsRecombiner = RecombinerType.Discrete,
+            RecombinerType typeOfRotationsRecombiner = RecombinerType.Discrete,
+
+            List<Constraint> constraintsToPointsGeneration = default(List<Constraint>)
             )
         {
             NumberOfDimensions = numberOfDimensions;
 
             NumberOfConstraints = numberOfConstraints;
 
-            GlobalLearningRate = globalLerningRate == 0 ? 1 / Math.Sqrt(2 * numberOfDimensions) : globalLerningRate;
-            IndividualLearningRate = individualLearningRate == 0 ? 1 / Math.Sqrt(2 * Math.Sqrt(numberOfDimensions)) : individualLearningRate;
+            GlobalLearningRate = Math.Abs(globalLerningRate) < double.Epsilon ? 1 / Math.Sqrt(2 * numberOfDimensions) : globalLerningRate;
+            IndividualLearningRate = Math.Abs(individualLearningRate) < double.Epsilon ? 1 / Math.Sqrt(2 * Math.Sqrt(numberOfDimensions)) : individualLearningRate;
             StepThreshold = stepThreshold;
             RotationAngle = rotationAngle;
             TypeOfMutation = typeOfMutation;
 
             PartOfParentsSolutionsToSelect = partOfParentsSolutionsToSelect;
             PartOfSurvivorsSolutionsToSelect = partOfSurvivorsSolutionsToSelect;
-            TypeOfSelection = typeOfSelection;
+            TypeOfParentsSelection = typeOfParentsSelection;
+            TypeOfSurvivorsSelection = typeOfSurvivorsSelection;
 
             NumberOfPositiveMeasurePoints = numberOfPositiveMeasurePoints;
             NumberOfNegativeMeasurePoints = numberOfNegativeMeasurePoints;
@@ -60,7 +70,13 @@ namespace EvolutionaryStrategyEngine.Models
             PopulationSize = populationSize;
             NumberOfGenerations = numberOfGenerations;
             OneFifthRuleCheckInterval = oneFifthRuleCheckInterval;
-            UseRecombination = useRecombination;          
+
+            UseRecombination = useRecombination;
+            TypeOfObjectsRecombiner = typeOfObjectsRecombiner;
+            TypeOfStdDeviationsRecombiner = typeOfStdDeviationsRecombiner;
+            TypeOfRotationsRecombiner = typeOfRotationsRecombiner;
+
+            ConstraintsToPointGeneration = constraintsToPointsGeneration;
         }
 
         public enum MutationType
@@ -73,6 +89,12 @@ namespace EvolutionaryStrategyEngine.Models
         {
             Distinct,
             Union
+        }
+
+        public enum RecombinerType
+        {
+            Discrete,
+            Intermediate
         }
 
         public enum PointsGenerationType
@@ -98,7 +120,8 @@ namespace EvolutionaryStrategyEngine.Models
         //Selection
         public double PartOfParentsSolutionsToSelect { get; set; }
         public double PartOfSurvivorsSolutionsToSelect { get; set; }
-        public SelectionType TypeOfSelection { get; set; }
+        public SelectionType TypeOfParentsSelection { get; set; }
+        public SelectionType TypeOfSurvivorsSelection { get; set; }
 
         //Points generation
         public int NumberOfPositiveMeasurePoints { get; set; }
@@ -110,6 +133,14 @@ namespace EvolutionaryStrategyEngine.Models
         public int PopulationSize { get; set; }
         public int NumberOfGenerations { get; set; }    
         public int OneFifthRuleCheckInterval { get; set; }
-        public bool UseRecombination { get; set; }          
+
+        //Recombination
+        public bool UseRecombination { get; set; }
+        public RecombinerType TypeOfObjectsRecombiner { get; set; }    
+        public RecombinerType TypeOfStdDeviationsRecombiner { get; set; }    
+        public RecombinerType TypeOfRotationsRecombiner { get; set; }    
+
+        //Constraints to generate points
+        public List<Constraint> ConstraintsToPointGeneration { get; set; }
     }
 }

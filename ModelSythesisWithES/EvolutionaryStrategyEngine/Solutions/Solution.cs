@@ -6,12 +6,16 @@ namespace EvolutionaryStrategyEngine.Solutions
     {
         protected Solution(ExperimentParameters experimentParameters)
         {
-            ObjectCoefficients = new double[experimentParameters.NumberOfDimensions];
+            ObjectCoefficients = new double[(experimentParameters.NumberOfDimensions + 1) * experimentParameters.NumberOfConstraints];
         }
 
         protected Solution(int vectorSize)
         {
             ObjectCoefficients = new double[vectorSize];
+        }
+
+        protected Solution()
+        {
         }
 
         public double[] ObjectCoefficients { get; set; }

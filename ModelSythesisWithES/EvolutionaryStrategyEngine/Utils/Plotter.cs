@@ -27,5 +27,10 @@ namespace EvolutionaryStrategyEngine.Utils
 
             ScatterplotBox.Show(points, classes);
         }
+
+        public static void Plot(Point[] points)
+        {
+            ScatterplotBox.Show(points.ToDoublesArray());
+        }
     }
 }
