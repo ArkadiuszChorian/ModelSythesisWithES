@@ -4,15 +4,15 @@ using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.Recombination
 {
-    public class RotationsIntermediateRecombiner : IRecombiner<CorrelatedMutationSolution>
+    public class RotationsIntermediateRecombiner : IRecombiner
     {
-        public CorrelatedMutationSolution Recombine(IList<CorrelatedMutationSolution> parents, CorrelatedMutationSolution child = null)
+        public Solution Recombine(IList<Solution> parents, Solution child = null)
         {
             var vectorSize = parents.First().ObjectCoefficients.Length;
 
             if (child == null)
             {
-                child = new CorrelatedMutationSolution(vectorSize);
+                child = new Solution(parents.First());
             }
 
             for (var i = 0; i < vectorSize; i++)

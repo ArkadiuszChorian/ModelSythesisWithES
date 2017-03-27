@@ -5,19 +5,18 @@ using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.Mutation
 {
-    public class CorrelatedMutationObjectMutator : IMutator<CorrelatedMutationSolution>
+    public class CmObjectMutator : IMutator
     {
         private readonly double[] _zeroMeans;
 
-        public CorrelatedMutationObjectMutator(ExperimentParameters experimentParameters)
+        public CmObjectMutator(ExperimentParameters experimentParameters)
         {
             _zeroMeans = new double[experimentParameters.NumberOfDimensions];
         }
 
-        public CorrelatedMutationSolution Mutate(CorrelatedMutationSolution solution)
+        public Solution Mutate(Solution solution)
         {
             var vectorSize = solution.ObjectCoefficients.Length;
-
             var covarianceMatrix = new double[vectorSize, vectorSize];
 
             for (var i = 0; i < vectorSize; i++)

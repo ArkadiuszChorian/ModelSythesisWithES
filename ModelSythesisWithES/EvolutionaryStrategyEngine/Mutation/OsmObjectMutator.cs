@@ -3,15 +3,15 @@ using EvolutionaryStrategyEngine.Utils;
 
 namespace EvolutionaryStrategyEngine.Mutation
 {
-    public class NStepsMutationObjectMutator : IMutator<NStepsMutationSolution>
+    public class OsmObjectMutator : IMutator
     {
-        public NStepsMutationSolution Mutate(NStepsMutationSolution solution)
+        public Solution Mutate(Solution solution)
         {
             var numberOfCoefficients = solution.ObjectCoefficients.Length;
 
             for (var i = 0; i < numberOfCoefficients; i++)
             {
-                solution.ObjectCoefficients[i] += solution.StdDeviationsCoefficients[i] * MersenneTwister.Instance.NextDoublePositive();
+                solution.ObjectCoefficients[i] += solution.OneStepStdDeviation * MersenneTwister.Instance.NextDoublePositive();
             }
 
             return solution;

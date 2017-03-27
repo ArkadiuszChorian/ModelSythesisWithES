@@ -4,15 +4,15 @@ using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.Recombination
 {
-    public class NStepsMutationStdDeviationsIntermediateRecombiner : IRecombiner<NStepsMutationSolution>
+    public class NsmStdDevsIntermediateRecombiner : IRecombiner
     {
-        public NStepsMutationSolution Recombine(IList<NStepsMutationSolution> parents, NStepsMutationSolution child = null)
+        public Solution Recombine(IList<Solution> parents, Solution child = null)
         {
             var vectorSize = parents.First().ObjectCoefficients.Length;
 
             if (child == null)
             {
-                child = new NStepsMutationSolution(vectorSize);
+                child = new Solution(parents.First());
             }
 
             for (var i = 0; i < vectorSize; i++)

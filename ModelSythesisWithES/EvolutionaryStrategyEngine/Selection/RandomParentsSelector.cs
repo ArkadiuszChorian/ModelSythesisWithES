@@ -12,7 +12,7 @@ namespace EvolutionaryStrategyEngine.Selection
             NumberOfSolutionsToSelect = (int)experimentParameters.PartOfParentsSolutionsToSelect * experimentParameters.PopulationSize;
         }
 
-        public IList<Solution> Select(IList<Solution> solutions)
+        public IList<Solution> Select(IList<Solution> solutions, IList<Solution> oldSolutions = null)
         {
             if (NumberOfSolutionsToSelect == solutions.Count)
             {
@@ -23,7 +23,7 @@ namespace EvolutionaryStrategyEngine.Selection
 
             for (var i = 0; i < NumberOfSolutionsToSelect; i++)
             {
-                //TODO: Solutions are taken with repetition       
+                //TODO: Solutions are taken with repetition
                 selectedSolutions[i] = solutions[MersenneTwister.Instance.Next(solutions.Count)];
             }
 

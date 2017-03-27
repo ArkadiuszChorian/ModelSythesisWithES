@@ -4,11 +4,11 @@ using EvolutionaryStrategyEngine.Utils;
 
 namespace EvolutionaryStrategyEngine.Mutation
 {
-    public class RotationsMutator : IMutator<CorrelatedMutationSolution>
+    public class RotationsMutator : IMutator
     {
         public double RotationAngle { get; set; }
 
-        public CorrelatedMutationSolution Mutate(CorrelatedMutationSolution solution)
+        public Solution Mutate(Solution solution)
         {
             var vectorSize = solution.RotationsCoefficients.Length;
 

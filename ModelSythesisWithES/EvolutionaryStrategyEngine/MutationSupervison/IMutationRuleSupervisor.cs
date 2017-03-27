@@ -3,8 +3,8 @@ using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.MutationSupervison
 {
-    public interface IMutationRuleSupervisor<T> where T : Solution
+    public interface IMutationRuleSupervisor
     {
-        IList<T> EnsureRuleFullfillment(IList<T> solutions);
+        IList<Solution> EnsureRuleFullfillment(IList<Solution> solutions);
     }
 }

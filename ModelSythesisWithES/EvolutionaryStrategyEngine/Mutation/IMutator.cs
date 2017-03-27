@@ -2,8 +2,8 @@
 
 namespace EvolutionaryStrategyEngine.Mutation
 {
-    public interface IMutator<T> where T : Solution
+    public interface IMutator
     {
-        T Mutate(T solution);
+        Solution Mutate(Solution solution);
     }
 }

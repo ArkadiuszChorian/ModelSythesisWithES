@@ -5,15 +5,15 @@ using EvolutionaryStrategyEngine.Utils;
 
 namespace EvolutionaryStrategyEngine.Recombination
 {
-    public class ObjectDiscreteRecombiner<T> : IRecombiner<T> where T : Solution, new()
+    public class ObjectDiscreteRecombiner : IRecombiner
     {
-        public T Recombine(IList<T> parents, T child = null)
+        public Solution Recombine(IList<Solution> parents, Solution child = null)
         {
             var vectorSize = parents.First().ObjectCoefficients.Length;
 
             if (child == null)
             {
-                child = new T {ObjectCoefficients = new double[vectorSize]};
+                child = new Solution(parents.First());
             }
 
             for (var i = 0; i < vectorSize; i++)

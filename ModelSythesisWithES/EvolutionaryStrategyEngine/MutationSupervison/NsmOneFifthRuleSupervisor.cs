@@ -3,7 +3,7 @@ using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.MutationSupervison
 {
-    public class NStepsMutationOneFifthRuleSupervisor : IMutationRuleSupervisor<NStepsMutationSolution>
+    public class NsmOneFifthRuleSupervisor : IMutationRuleSupervisor
     {
         private const double OneFifthRatio = 0.2;
 
@@ -11,7 +11,7 @@ namespace EvolutionaryStrategyEngine.MutationSupervison
         public int MutationsNumber { get; set; }
         public int StdDeviationsScalingFactor { get; set; }
 
-        public IList<NStepsMutationSolution> EnsureRuleFullfillment(IList<NStepsMutationSolution> solutions)
+        public IList<Solution> EnsureRuleFullfillment(IList<Solution> solutions)
         {
             var succesfulMutationsRatio = (double)SuccesfulMutationsNumber / MutationsNumber;
 

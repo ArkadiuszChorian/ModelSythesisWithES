@@ -5,6 +5,6 @@ namespace EvolutionaryStrategyEngine.Selection
 {
     public interface ISelector
     {
-        IList<Solution> Select(IList<Solution> solutions);
+        IList<Solution> Select(IList<Solution> solutions, IList<Solution> oldSolutions = null);
     }
 }

@@ -5,13 +5,13 @@ using EvolutionaryStrategyEngine.Utils;
 
 namespace EvolutionaryStrategyEngine.Recombination
 {
-    public class OneStepMutationStdDeviationsDiscreteRecombiner : IRecombiner<OneStepMutationSolution>
+    public class OsmStdDevsDiscreteRecombiner : IRecombiner
     {
-        public OneStepMutationSolution Recombine(IList<OneStepMutationSolution> parents, OneStepMutationSolution child = null)
+        public Solution Recombine(IList<Solution> parents, Solution child = null)
         {
             if (child == null)
             {
-                child = new OneStepMutationSolution(parents.First().ObjectCoefficients.Length);
+                child = new Solution(parents.First());
             }
 
             child.OneStepStdDeviation = parents[MersenneTwister.Instance.Next(parents.Count)].OneStepStdDeviation;

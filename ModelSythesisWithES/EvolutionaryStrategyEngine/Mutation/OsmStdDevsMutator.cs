@@ -4,18 +4,17 @@ using EvolutionaryStrategyEngine.Utils;
 
 namespace EvolutionaryStrategyEngine.Mutation
 {
-    public class OneStepMutationStdDeviationsMutator : IMutator<OneStepMutationSolution>
+    public class OsmStdDevsMutator : IMutator
     {
         public double IndividualLearningRate { get; set; }
         public double StepThreshold { get; set; }
 
-        public OneStepMutationSolution Mutate(OneStepMutationSolution solution)
+        public Solution Mutate(Solution solution)
         {
             solution.OneStepStdDeviation *= Math.Exp(IndividualLearningRate * MersenneTwister.Instance.NextDoublePositive());
             solution.OneStepStdDeviation = solution.OneStepStdDeviation < StepThreshold ? StepThreshold : solution.OneStepStdDeviation;
 
             return solution; 
-
         }
     }
 }

@@ -3,8 +3,8 @@ using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.Recombination
 {
-    public interface IRecombiner<T> where T : Solution
+    public interface IRecombiner
     {
-        T Recombine(IList<T> parents, T child = null);
+        Solution Recombine(IList<Solution> parents, Solution child = null);
     }
 }

@@ -4,13 +4,13 @@ using EvolutionaryStrategyEngine.Utils;
 
 namespace EvolutionaryStrategyEngine.Mutation
 {
-    public class NStepsMutationStdDeviationsMutator : IMutator<NStepsMutationSolution>
+    public class NsmStdDevsMutator : IMutator
     {
         public double GlobalLearningRate { get; set; }
         public double IndividualLearningRate { get; set; }
         public double StepThreshold { get; set; }
 
-        public NStepsMutationSolution Mutate(NStepsMutationSolution solution)
+        public Solution Mutate(Solution solution)
         {
             var numberOfCoefficients = solution.StdDeviationsCoefficients.Length;
 

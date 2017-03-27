@@ -4,13 +4,13 @@ using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.Recombination
 {
-    public class OneStepMutationStdDeviationsIntermediateRecombiner : IRecombiner<OneStepMutationSolution>
+    public class OsmStdDevsIntermediateRecombiner : IRecombiner
     {
-        public OneStepMutationSolution Recombine(IList<OneStepMutationSolution> parents, OneStepMutationSolution child = null)
+        public Solution Recombine(IList<Solution> parents, Solution child = null)
         {
             if (child == null)
             {
-                child = new OneStepMutationSolution(parents.First().ObjectCoefficients.Length);
+                child = new Solution(parents.First());
             }
 
             child.OneStepStdDeviation = parents.Sum(parent => parent.OneStepStdDeviation) / parents.Count;

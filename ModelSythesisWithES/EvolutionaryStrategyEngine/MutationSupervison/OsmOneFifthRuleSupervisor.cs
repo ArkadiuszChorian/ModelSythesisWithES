@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.MutationSupervison
 {
-    public class OneStepMutationOneFifthRuleSupervisor : IMutationRuleSupervisor<OneStepMutationSolution>
+    public class OsmOneFifthRuleSupervisor : IMutationRuleSupervisor
     {
         private const double OneFifthRatio = 0.2;
 
@@ -12,7 +11,7 @@ namespace EvolutionaryStrategyEngine.MutationSupervison
         public int MutationsNumber { get; set; }
         public int StdDeviationsScalingFactor { get; set; }
 
-        public IList<OneStepMutationSolution> EnsureRuleFullfillment(IList<OneStepMutationSolution> solutions)
+        public IList<Solution> EnsureRuleFullfillment(IList<Solution> solutions)
         {
             var succesfulMutationsRatio = (double)SuccesfulMutationsNumber / MutationsNumber;
 

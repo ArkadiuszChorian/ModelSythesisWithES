@@ -1,6 +1,7 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using EvolutionaryStrategyEngine.DistanceMeasuring;
 using EvolutionaryStrategyEngine.Evaluation;
+using EvolutionaryStrategyEngine.Logging;
 using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Mutation;
 using EvolutionaryStrategyEngine.MutationSupervison;
@@ -13,165 +14,66 @@ namespace EvolutionaryStrategyEngine.Engine
 {
     public class EngineFactory
     {
-        public Engine<T> GetEngine<T>(ExperimentParameters experimentParameters) where T : Solution, new()
+        public IEngine GetEngine(ExperimentParameters experimentParameters)
         {
-            var engine = new Engine<T>();
+            IEngine engine;
 
-            engine.ExperimentParameters = experimentParameters;
+            IList<Solution> population = new List<Solution>(experimentParameters.PopulationSize);
 
-            //TODO
-            engine.Population = new NStepsMutationSolution[experimentParameters.PopulationSize];
-
-            switch (experimentParameters.TypeOfMutation)
-            {
-                case ExperimentParameters.MutationType.UncorrelatedOneStep:
-                    engine.ObjectMutator = (IMutator<T>) new OneStepMutationObjectMutator();
-                    engine.StdDeviationsMutator = (IMutator<T>) new OneStepMutationStdDeviationsMutator();
-
-                    engine.MutationRuleSupervisor = (IMutationRuleSupervisor<T>)new OneStepMutationOneFifthRuleSupervisor();
-
-                    if (experimentParameters.UseRecombination)
-                    {
-                        switch (experimentParameters.TypeOfObjectsRecombiner)
-                        {
-                            case ExperimentParameters.RecombinerType.Discrete:
-                                engine.ObjectRecombiner = new ObjectDiscreteRecombiner<T>();
-                                break;
-                            case ExperimentParameters.RecombinerType.Intermediate:
-                                engine.ObjectRecombiner = new ObjectIntermediateRecombiner<T>();
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-
-                        switch (experimentParameters.TypeOfStdDeviationsRecombiner)
-                        {
-                            case ExperimentParameters.RecombinerType.Discrete:
-                                engine.ObjectRecombiner = (IRecombiner<T>)new OneStepMutationStdDeviationsDiscreteRecombiner();
-                                break;
-                            case ExperimentParameters.RecombinerType.Intermediate:
-                                engine.ObjectRecombiner = (IRecombiner<T>)new OneStepMutationStdDeviationsIntermediateRecombiner();
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                    }
-                    break;
-                case ExperimentParameters.MutationType.UncorrelatedNSteps:
-                    engine.ObjectMutator = (IMutator<T>)new NStepsMutationObjectMutator();
-                    engine.StdDeviationsMutator = (IMutator<T>)new NStepsMutationStdDeviationsMutator();
-
-                    engine.MutationRuleSupervisor = (IMutationRuleSupervisor<T>) new NStepsMutationOneFifthRuleSupervisor();
-
-                    if (experimentParameters.UseRecombination)
-                    {
-                        switch (experimentParameters.TypeOfObjectsRecombiner)
-                        {
-                            case ExperimentParameters.RecombinerType.Discrete:
-                                engine.ObjectRecombiner = new ObjectDiscreteRecombiner<T>();
-                                break;
-                            case ExperimentParameters.RecombinerType.Intermediate:
-                                engine.ObjectRecombiner = new ObjectIntermediateRecombiner<T>();
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-
-                        switch (experimentParameters.TypeOfStdDeviationsRecombiner)
-                        {
-                            case ExperimentParameters.RecombinerType.Discrete:
-                                engine.ObjectRecombiner = (IRecombiner<T>)new NStepsMutationStdDeviationsDiscreteRecombiner();
-                                break;
-                            case ExperimentParameters.RecombinerType.Intermediate:
-                                engine.ObjectRecombiner = (IRecombiner<T>)new NStepsMutationStdDeviationsIntermediateRecombiner();
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                    }
-                    break;
-                case ExperimentParameters.MutationType.Correlated:
-                    engine.ObjectMutator = (IMutator<T>)new CorrelatedMutationObjectMutator(experimentParameters);
-                    engine.StdDeviationsMutator = (IMutator<T>)new CorrelatedMutationObjectMutator(experimentParameters);
-                    engine.RotationsMutator = (IMutator<T>) new RotationsMutator();
-
-                    engine.MutationRuleSupervisor = (IMutationRuleSupervisor<T>)new NStepsMutationOneFifthRuleSupervisor();
-
-                    if (experimentParameters.UseRecombination)
-                    {
-                        switch (experimentParameters.TypeOfObjectsRecombiner)
-                        {
-                            case ExperimentParameters.RecombinerType.Discrete:
-                                engine.ObjectRecombiner = new ObjectDiscreteRecombiner<T>();
-                                break;
-                            case ExperimentParameters.RecombinerType.Intermediate:
-                                engine.ObjectRecombiner = new ObjectIntermediateRecombiner<T>();
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-
-                        switch (experimentParameters.TypeOfStdDeviationsRecombiner)
-                        {
-                            case ExperimentParameters.RecombinerType.Discrete:
-                                engine.ObjectRecombiner = (IRecombiner<T>)new NStepsMutationStdDeviationsDiscreteRecombiner();
-                                break;
-                            case ExperimentParameters.RecombinerType.Intermediate:
-                                engine.ObjectRecombiner = (IRecombiner<T>)new NStepsMutationStdDeviationsIntermediateRecombiner();
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-
-                        switch (experimentParameters.TypeOfRotationsRecombiner)
-                        {
-                            case ExperimentParameters.RecombinerType.Discrete:
-                                engine.ObjectRecombiner = (IRecombiner<T>)new RotationsDiscreteRecombiner();
-                                break;
-                            case ExperimentParameters.RecombinerType.Intermediate:
-                                engine.ObjectRecombiner = (IRecombiner<T>)new RotationsIntermediateRecombiner();
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            //Points generators and evaluator
-
+            //Points generators
             var domain = new Domain(experimentParameters);
+            IPointsGenerator positivePointsGenerator = new PositiveMeasurePointsGenerator(domain);
+            var positivePoints = positivePointsGenerator.GeneratePoints(experimentParameters.NumberOfPositiveMeasurePoints, experimentParameters.ConstraintsToPointGeneration);
+            IPointsGenerator negativePointsGenerator = new NegativeMeasurePointsGenerator(positivePoints, new CanberraDistanceCalculator(), domain);
 
-            switch (experimentParameters.TypeOfPointsGeneration)
-            {
-                case ExperimentParameters.PointsGenerationType.NoGeneration:
-                    break;
-                case ExperimentParameters.PointsGenerationType.OnlyPositive:
-                    engine.PositivePointsGenerator = new PositiveMeasurePointsGenerator(domain);       
-                    engine.Evaluator = new Evaluator(experimentParameters, engine.PositivePointsGenerator.GeneratePoints(experimentParameters.NumberOfPositiveMeasurePoints, experimentParameters.ConstraintsToPointGeneration));            
-                    break;
-                case ExperimentParameters.PointsGenerationType.PositiveAndNegative:
-                    engine.PositivePointsGenerator = new PositiveMeasurePointsGenerator(domain);
+            //Evaluator
+            var negativePoints = negativePointsGenerator.GeneratePoints(experimentParameters.NumberOfNegativeMeasurePoints, experimentParameters.ConstraintsToPointGeneration);
+            IEvaluator evaluator = new Evaluator(experimentParameters, positivePoints, negativePoints);
 
-                    var positivePoints =
-                        engine.PositivePointsGenerator.GeneratePoints(
-                            experimentParameters.NumberOfPositiveMeasurePoints,
-                            experimentParameters.ConstraintsToPointGeneration);
+            //Logger
+            ILogger logger = null;
 
-                    engine.NegativePointsGenerator = new NegativeMeasurePointsGenerator(positivePoints,
-                        new CanberraDistanceCalculator(), domain);
-
-                    engine.Evaluator = new Evaluator(experimentParameters, positivePoints, engine.NegativePointsGenerator.GeneratePoints(experimentParameters.NumberOfNegativeMeasurePoints, experimentParameters.ConstraintsToPointGeneration));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }         
-            
             //Selectors
-            engine.ParentsSelector = new RandomParentsSelector(experimentParameters);
-            engine.SurvivorsSelector = new SurvivorsSeletor(experimentParameters);    
+            var parentsSelector = SelectorsFactory.GetParentsSelector(experimentParameters);
+            var survivorsSelector = SelectorsFactory.GetSurvivorsSelector(experimentParameters);
+
+            //Mutation
+            var objectMutator = MutatorsFactory.GetObjectMutator(experimentParameters);
+            var stdDeviationsMutator = MutatorsFactory.GetStdDevsMutator(experimentParameters);
+            var mutationRuleSupervisor = MutationSupervisorsFactory.GetMutationRuleSupervisor(experimentParameters);
+
+            if (experimentParameters.TypeOfMutation == ExperimentParameters.MutationType.Correlated)
+            {
+                if (experimentParameters.UseRecombination)
+                {
+                    var objectRecombiner = RecombinersFactory.GetObjectRecombiner(experimentParameters);
+                    var stdDevsRecombiner = RecombinersFactory.GetStdDevsRecombiner(experimentParameters);
+                    var rotationsRecombiner = RecombinersFactory.GetRotationsRecombiner(experimentParameters);
+                    var rotationsMutator = MutatorsFactory.GetRotationsMutator(experimentParameters);
+
+                    engine = new CmEngineWithRecombination(evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, population, objectRecombiner, stdDevsRecombiner, rotationsMutator, rotationsRecombiner);
+                }
+                else
+                {
+                    var rotationsMutator = MutatorsFactory.GetRotationsMutator(experimentParameters);
+
+                    engine = new CmEngineWithoutRecombination(evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, population, rotationsMutator);
+                }
+            }
+            else
+            {
+                if (experimentParameters.UseRecombination)
+                {
+                    var objectRecombiner = RecombinersFactory.GetObjectRecombiner(experimentParameters);
+                    var stdDevsRecombiner = RecombinersFactory.GetStdDevsRecombiner(experimentParameters);
+
+                    engine = new UmEngineWithRecombination(evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, population, objectRecombiner, stdDevsRecombiner);
+                }
+                else
+                {
+                    engine = new UmEngineWithoutRecombination(evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, population);
+                }
+            }             
             
             return engine;
         }

@@ -25,15 +25,14 @@ namespace EvolutionaryStrategyEngine.Models
             MutationType typeOfMutation = MutationType.Correlated,
 
             double partOfParentsSolutionsToSelect = 1.0,
-            double partOfSurvivorsSolutionsToSelect = 1.0,
-            SelectionType typeOfParentsSelection = SelectionType.Distinct,
+            double partOfSurvivorsSolutionsToSelect = (double)1/7,
             SelectionType typeOfSurvivorsSelection = SelectionType.Distinct,
 
             int numberOfPositiveMeasurePoints = 100,  
             int numberOfNegativeMeasurePoints = 100,  
             double lowerLimitOfDomain = -100,
             double upperLimitOfDomain = 100,
-            PointsGenerationType typeOfPointsGeneration = PointsGenerationType.PositiveAndNegative,
+            bool usePointsGeneration = true,
 
             int populationSize = 100,
             int numberOfGenerations = 100,
@@ -59,13 +58,12 @@ namespace EvolutionaryStrategyEngine.Models
 
             PartOfParentsSolutionsToSelect = partOfParentsSolutionsToSelect;
             PartOfSurvivorsSolutionsToSelect = partOfSurvivorsSolutionsToSelect;
-            TypeOfParentsSelection = typeOfParentsSelection;
             TypeOfSurvivorsSelection = typeOfSurvivorsSelection;
 
             NumberOfPositiveMeasurePoints = numberOfPositiveMeasurePoints;
             NumberOfNegativeMeasurePoints = numberOfNegativeMeasurePoints;
             DefaultDomainLimit = Tuple.Create(lowerLimitOfDomain, upperLimitOfDomain);
-            TypeOfPointsGeneration = typeOfPointsGeneration;
+            UsePointsGeneration = usePointsGeneration;
 
             PopulationSize = populationSize;
             NumberOfGenerations = numberOfGenerations;
@@ -97,13 +95,6 @@ namespace EvolutionaryStrategyEngine.Models
             Intermediate
         }
 
-        public enum PointsGenerationType
-        {
-            NoGeneration,
-            OnlyPositive,
-            PositiveAndNegative
-        }
-
         //Global parameters
         public int NumberOfDimensions { get; set; }
 
@@ -120,14 +111,13 @@ namespace EvolutionaryStrategyEngine.Models
         //Selection
         public double PartOfParentsSolutionsToSelect { get; set; }
         public double PartOfSurvivorsSolutionsToSelect { get; set; }
-        public SelectionType TypeOfParentsSelection { get; set; }
         public SelectionType TypeOfSurvivorsSelection { get; set; }
 
         //Points generation
         public int NumberOfPositiveMeasurePoints { get; set; }
         public int NumberOfNegativeMeasurePoints { get; set; }
         public Tuple<double, double> DefaultDomainLimit { get; set; }
-        public PointsGenerationType TypeOfPointsGeneration { get; set; }
+        public bool UsePointsGeneration { get; set; }
 
         //Experiment execution
         public int PopulationSize { get; set; }
