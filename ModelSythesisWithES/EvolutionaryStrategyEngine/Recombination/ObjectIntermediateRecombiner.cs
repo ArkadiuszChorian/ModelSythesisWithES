@@ -1,23 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.Recombination
 {
-    public class ObjectIntermediateRecombiner : IRecombiner
+    public class ObjectIntermediateRecombiner : Recombiner
     {
-        public Solution Recombine(IList<Solution> parents, Solution child = null)
+        public ObjectIntermediateRecombiner(ExperimentParameters experimentParameters) : base(experimentParameters)
         {
-            var vectorSize = parents.First().ObjectCoefficients.Length;
+        }
+
+        public override Solution Recombine(IList<Solution> parents, Solution child = null)
+        {
+            var selectedParents = SelectParents(parents);
+            var vectorSize = selectedParents.First().ObjectCoefficients.Length;
 
             if (child == null)
             {
-                child = new Solution(parents.First());
+                child = new Solution(selectedParents.First());
             }
 
             for (var i = 0; i < vectorSize; i++)
             {
-                child.ObjectCoefficients[i] = parents.Sum(parent => parent.ObjectCoefficients[i]) / parents.Count;
+                child.ObjectCoefficients[i] = selectedParents.Sum(parent => parent.ObjectCoefficients[i]) / selectedParents.Count;
             }
 
             return child;

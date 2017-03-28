@@ -6,6 +6,7 @@ using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Mutation;
 using EvolutionaryStrategyEngine.MutationSupervison;
 using EvolutionaryStrategyEngine.PointsGeneration;
+using EvolutionaryStrategyEngine.PopulationGeneration;
 using EvolutionaryStrategyEngine.Recombination;
 using EvolutionaryStrategyEngine.Selection;
 using EvolutionaryStrategyEngine.Solutions;
@@ -18,7 +19,9 @@ namespace EvolutionaryStrategyEngine.Engine
         {
             IEngine engine;
 
+            //Population
             IList<Solution> population = new List<Solution>(experimentParameters.PopulationSize);
+            IPopulationGenerator populationGenerator = PopulationGeneratorsFactory.GetPopulationGenerator(experimentParameters);
 
             //Points generators
             var domain = new Domain(experimentParameters);
@@ -51,13 +54,13 @@ namespace EvolutionaryStrategyEngine.Engine
                     var rotationsRecombiner = RecombinersFactory.GetRotationsRecombiner(experimentParameters);
                     var rotationsMutator = MutatorsFactory.GetRotationsMutator(experimentParameters);
 
-                    engine = new CmEngineWithRecombination(evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, population, objectRecombiner, stdDevsRecombiner, rotationsMutator, rotationsRecombiner);
+                    engine = new CmEngineWithRecombination(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, population, objectRecombiner, stdDevsRecombiner, rotationsMutator, rotationsRecombiner);
                 }
                 else
                 {
                     var rotationsMutator = MutatorsFactory.GetRotationsMutator(experimentParameters);
 
-                    engine = new CmEngineWithoutRecombination(evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, population, rotationsMutator);
+                    engine = new CmEngineWithoutRecombination(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, population, rotationsMutator);
                 }
             }
             else
@@ -67,11 +70,11 @@ namespace EvolutionaryStrategyEngine.Engine
                     var objectRecombiner = RecombinersFactory.GetObjectRecombiner(experimentParameters);
                     var stdDevsRecombiner = RecombinersFactory.GetStdDevsRecombiner(experimentParameters);
 
-                    engine = new UmEngineWithRecombination(evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, population, objectRecombiner, stdDevsRecombiner);
+                    engine = new UmEngineWithRecombination(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, population, objectRecombiner, stdDevsRecombiner);
                 }
                 else
                 {
-                    engine = new UmEngineWithoutRecombination(evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, population);
+                    engine = new UmEngineWithoutRecombination(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, population);
                 }
             }             
             

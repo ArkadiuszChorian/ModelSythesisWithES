@@ -42,6 +42,7 @@ namespace EvolutionaryStrategyEngine.Models
             RecombinerType typeOfObjectsRecombiner = RecombinerType.Discrete,
             RecombinerType typeOfStdDeviationsRecombiner = RecombinerType.Discrete,
             RecombinerType typeOfRotationsRecombiner = RecombinerType.Discrete,
+            double partOfPopulationToRecombine = (double)2/100,
 
             List<Constraint> constraintsToPointsGeneration = default(List<Constraint>)
             )
@@ -73,6 +74,7 @@ namespace EvolutionaryStrategyEngine.Models
             TypeOfObjectsRecombiner = typeOfObjectsRecombiner;
             TypeOfStdDeviationsRecombiner = typeOfStdDeviationsRecombiner;
             TypeOfRotationsRecombiner = typeOfRotationsRecombiner;
+            PartOfPopulationToRecombine = partOfPopulationToRecombine;
 
             ConstraintsToPointGeneration = constraintsToPointsGeneration;
         }
@@ -128,7 +130,8 @@ namespace EvolutionaryStrategyEngine.Models
         public bool UseRecombination { get; set; }
         public RecombinerType TypeOfObjectsRecombiner { get; set; }    
         public RecombinerType TypeOfStdDeviationsRecombiner { get; set; }    
-        public RecombinerType TypeOfRotationsRecombiner { get; set; }    
+        public RecombinerType TypeOfRotationsRecombiner { get; set; }
+        public double PartOfPopulationToRecombine { get; set; }    
 
         //Constraints to generate points
         public List<Constraint> ConstraintsToPointGeneration { get; set; }

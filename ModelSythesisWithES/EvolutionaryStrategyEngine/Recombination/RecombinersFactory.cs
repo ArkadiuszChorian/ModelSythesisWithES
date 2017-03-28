@@ -10,9 +10,9 @@ namespace EvolutionaryStrategyEngine.Recombination
             switch (experimentParameters.TypeOfObjectsRecombiner)
             {
                 case ExperimentParameters.RecombinerType.Discrete:
-                    return new ObjectDiscreteRecombiner();
+                    return new ObjectDiscreteRecombiner(experimentParameters);
                 case ExperimentParameters.RecombinerType.Intermediate:
-                    return new ObjectIntermediateRecombiner();
+                    return new ObjectIntermediateRecombiner(experimentParameters);
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -26,9 +26,9 @@ namespace EvolutionaryStrategyEngine.Recombination
                     switch (experimentParameters.TypeOfStdDeviationsRecombiner)
                     {
                         case ExperimentParameters.RecombinerType.Discrete:
-                            return new OsmStdDevsDiscreteRecombiner();
+                            return new OsmStdDevsDiscreteRecombiner(experimentParameters);
                         case ExperimentParameters.RecombinerType.Intermediate:
-                            return new OsmStdDevsIntermediateRecombiner();
+                            return new OsmStdDevsIntermediateRecombiner(experimentParameters);
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
@@ -36,9 +36,9 @@ namespace EvolutionaryStrategyEngine.Recombination
                     switch (experimentParameters.TypeOfStdDeviationsRecombiner)
                     {
                         case ExperimentParameters.RecombinerType.Discrete:
-                            return new NsmStdDevsDiscreteRecombiner();
+                            return new NsmStdDevsDiscreteRecombiner(experimentParameters);
                         case ExperimentParameters.RecombinerType.Intermediate:
-                            return new NsmStdDevsIntermediateRecombiner();
+                            return new NsmStdDevsIntermediateRecombiner(experimentParameters);
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
@@ -46,9 +46,9 @@ namespace EvolutionaryStrategyEngine.Recombination
                     switch (experimentParameters.TypeOfStdDeviationsRecombiner)
                     {
                         case ExperimentParameters.RecombinerType.Discrete:
-                            return new NsmStdDevsDiscreteRecombiner();
+                            return new NsmStdDevsDiscreteRecombiner(experimentParameters);
                         case ExperimentParameters.RecombinerType.Intermediate:
-                            return new NsmStdDevsIntermediateRecombiner();
+                            return new NsmStdDevsIntermediateRecombiner(experimentParameters);
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
@@ -62,9 +62,9 @@ namespace EvolutionaryStrategyEngine.Recombination
             switch (experimentParameters.TypeOfRotationsRecombiner)
             {
                 case ExperimentParameters.RecombinerType.Discrete:
-                    return new RotationsDiscreteRecombiner();
+                    return new RotationsDiscreteRecombiner(experimentParameters);
                 case ExperimentParameters.RecombinerType.Intermediate:
-                    return new RotationsIntermediateRecombiner();
+                    return new RotationsIntermediateRecombiner(experimentParameters);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

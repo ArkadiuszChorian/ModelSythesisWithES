@@ -5,18 +5,17 @@ using EvolutionaryStrategyEngine.Utils;
 
 namespace EvolutionaryStrategyEngine.Selection
 {
-    public class RandomParentsSelector : ISelector
+    public class ParentsRandomUnionSelector : ParentsRandomDistinctSelector
     {
-        public RandomParentsSelector(ExperimentParameters experimentParameters)
+        public ParentsRandomUnionSelector(ExperimentParameters experimentParameters) : base(experimentParameters)
         {
-            NumberOfSolutionsToSelect = (int)experimentParameters.PartOfParentsSolutionsToSelect * experimentParameters.PopulationSize;
         }
 
-        public IList<Solution> Select(IList<Solution> solutions, IList<Solution> oldSolutions = null)
+        public override IList<Solution> Select(IList<Solution> solutions)
         {
             if (NumberOfSolutionsToSelect == solutions.Count)
             {
-                return solutions;
+                return solutions.DeepCopyByExpressionTree();
             }
 
             var selectedSolutions = new List<Solution>(NumberOfSolutionsToSelect);
@@ -27,9 +26,7 @@ namespace EvolutionaryStrategyEngine.Selection
                 selectedSolutions[i] = solutions[MersenneTwister.Instance.Next(solutions.Count)];
             }
 
-            return selectedSolutions;
-        }
-
-        public int NumberOfSolutionsToSelect { get; set; }
+            return selectedSolutions.DeepCopyByExpressionTree();
+        }    
     }
 }

@@ -5,18 +5,15 @@ using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.Selection
 {
-    public class SurvivorsUnionSelector : ISelector
+    public class SurvivorsUnionSelector : SurvivorsDistinctSeletor
     {
-        public SurvivorsUnionSelector(ExperimentParameters experimentParameters)
+        public SurvivorsUnionSelector(ExperimentParameters experimentParameters) : base(experimentParameters)
         {
-            NumberOfSolutionsToSelect = (int)experimentParameters.PartOfSurvivorsSolutionsToSelect * experimentParameters.PopulationSize;
         }
 
-        public IList<Solution> Select(IList<Solution> solutions, IList<Solution> oldSolutions)
-        {      
-            return solutions.Concat(oldSolutions).OrderByDescending(solution => solution.FitnessScore).Take(NumberOfSolutionsToSelect).ToList();
+        public override IList<Solution> MakeUnionOrDistinct(IList<Solution> newSolutions, IList<Solution> oldSolutions)
+        {
+            return oldSolutions.Concat(newSolutions).ToList();
         }
-
-        public int NumberOfSolutionsToSelect { get; set; }
     }
 }

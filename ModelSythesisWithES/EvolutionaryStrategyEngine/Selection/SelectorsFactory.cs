@@ -7,10 +7,18 @@ namespace EvolutionaryStrategyEngine.Selection
     {
         public static ISelector GetParentsSelector(ExperimentParameters experimentParameters)
         {
-            return new RandomParentsSelector(experimentParameters);
+            switch (experimentParameters.TypeOfSurvivorsSelection)
+            {
+                case ExperimentParameters.SelectionType.Distinct:
+                    return new ParentsRandomDistinctSelector(experimentParameters); ;
+                case ExperimentParameters.SelectionType.Union:
+                    return new ParentsRandomUnionSelector(experimentParameters);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }            
         }
 
-        public static ISelector GetSurvivorsSelector(ExperimentParameters experimentParameters)
+        public static ISurvivorsSelector GetSurvivorsSelector(ExperimentParameters experimentParameters)
         {
             switch (experimentParameters.TypeOfSurvivorsSelection)
             {
