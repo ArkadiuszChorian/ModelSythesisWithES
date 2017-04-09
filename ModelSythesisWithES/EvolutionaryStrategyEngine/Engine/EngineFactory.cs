@@ -13,9 +13,9 @@ using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.Engine
 {
-    public class EngineFactory
+    public static class EngineFactory
     {
-        public IEngine GetEngine(ExperimentParameters experimentParameters)
+        public static IEngine GetEngine(ExperimentParameters experimentParameters)
         {
             IEngine engine;
 

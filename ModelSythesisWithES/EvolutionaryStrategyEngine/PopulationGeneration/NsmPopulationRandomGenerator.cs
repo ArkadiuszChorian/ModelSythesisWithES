@@ -13,7 +13,7 @@ namespace EvolutionaryStrategyEngine.PopulationGeneration
 
             for (var i = 0; i < experimentParameters.PopulationSize; i++)
             {
-                population[i] = new Solution(experimentParameters);
+                population.Add(new Solution(experimentParameters));
 
                 for (var j = 0; j < population[i].ObjectCoefficients.Length; j++)
                 {

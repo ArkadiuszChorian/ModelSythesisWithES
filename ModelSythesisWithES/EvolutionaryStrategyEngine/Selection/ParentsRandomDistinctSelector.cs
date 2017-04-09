@@ -26,7 +26,7 @@ namespace EvolutionaryStrategyEngine.Selection
             for (var i = 0; i < NumberOfSolutionsToSelect; i++)
             {
                 //TODO: Solutions are taken with repetition
-                selectedSolutions[i] = solutions[MersenneTwister.Instance.Next(solutions.Count)];
+                selectedSolutions.Add(solutions[MersenneTwister.Instance.Next(solutions.Count)]);
             }
 
             return selectedSolutions;

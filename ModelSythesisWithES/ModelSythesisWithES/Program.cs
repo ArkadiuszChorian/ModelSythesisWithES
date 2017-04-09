@@ -40,7 +40,8 @@ namespace ModelSythesisWithES
 
             experimentParameters.ConstraintsToPointGeneration = constraints;
 
-            var engine = new EngineFactory().GetEngine<NStepsMutationSolution>(experimentParameters);
+            //var engine = new EngineFactory().GetEngine<NStepsMutationSolution>(experimentParameters);
+            var engine = EngineFactory.GetEngine(experimentParameters);
             engine.RunExperiment();
 
             var bestSolutionConstraints = engine.Population.First().GetConstraints(experimentParameters);
