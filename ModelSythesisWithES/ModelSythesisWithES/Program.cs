@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Windows.Forms;
 using EvolutionaryStrategyEngine.Constraints;
 using EvolutionaryStrategyEngine.DistanceMeasuring;
 using EvolutionaryStrategyEngine.Engine;
@@ -9,6 +11,7 @@ using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.PointsGeneration;
 using EvolutionaryStrategyEngine.Solutions;
 using EvolutionaryStrategyEngine.Utils;
+using EvolutionaryStrategyEngine.Visualization;
 
 namespace ModelSythesisWithES
 {
@@ -16,11 +19,21 @@ namespace ModelSythesisWithES
     {
         private const string ResultsPath = "../../TestsResults/";
 
+        [STAThread]
         static void Main(string[] args)
         {
+            //var plotThread = new Thread(() =>
+            //{
+            //    Application.EnableVisualStyles();
+            //    Application.Run(new PlotForm());
+            //});
+
+            //plotThread.SetApartmentState(ApartmentState.STA);
+            //plotThread.Start();
+
             var experimentParameters = new ExperimentParameters(2, 10, 
                 typeOfMutation: ExperimentParameters.MutationType.UncorrelatedNSteps,
-                stepThreshold: 0.0001);
+                stepThreshold: 0.0001, numberOfGenerations: 100);
 
             var constraints = new List<Constraint>
             {
@@ -46,10 +59,19 @@ namespace ModelSythesisWithES
 
             var bestSolutionConstraints = engine.Population.First().GetConstraints(experimentParameters);
             var bestSolutionSamples = new PositiveMeasurePointsGenerator(new Domain(experimentParameters)).GeneratePoints(100, bestSolutionConstraints);
+
+            var initialSolutionConstraints = engine.InitialPopulation.First().GetConstraints(experimentParameters);
+            //var initialSolutionSamples = new PositiveMeasurePointsGenerator(new Domain(experimentParameters)).GeneratePoints(100, bestSolutionConstraints);        
+
             var evaluator = (Evaluator)engine.Evaluator;
 
             Plotter.Plot(evaluator.PositiveMeasurePoints, evaluator.NegativeMeasurePoints);
-            Plotter.Plot(bestSolutionSamples);
+            //Plotter.PlotLines(bestSolutionConstraints, -100, 100);
+            //Plotter.Plot(bestSolutionSamples);
+
+            Plotter.PlotLinesWithPointsInside(bestSolutionSamples, bestSolutionConstraints, -100, 100);
+            Plotter.PlotLines(constraints, -100, 100);
+            Plotter.PlotLines(initialSolutionConstraints, -100, 100);
 
             Console.WriteLine("Done!");
             Console.ReadKey();

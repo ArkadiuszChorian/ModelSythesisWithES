@@ -27,5 +27,6 @@ namespace EvolutionaryStrategyEngine.Engine
         IPointsGenerator NegativePointsGenerator { get; set; }
         ExperimentParameters ExperimentParameters { get; set; }
         IList<Solution> Population { get; set; }
+        IList<Solution> InitialPopulation { get; set; }
     }
 }

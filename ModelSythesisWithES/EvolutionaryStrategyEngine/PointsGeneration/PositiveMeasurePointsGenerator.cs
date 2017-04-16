@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EvolutionaryStrategyEngine.Constraints;
 using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Utils;
@@ -19,8 +20,10 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
         public Point[] GeneratePoints(int numberOfPointsToGenerate, List<Constraint> constraints)
         {
             //TODO: Check if constraints has common space. Now, if they don't have, algorithm will stuck in while loop.
-
+            
             var points = new Point[numberOfPointsToGenerate];
+            //var random = new Random();
+            int posx = 0, posy = 0, negx = 0, negy = 0;
 
             for (var i = 0; i < numberOfPointsToGenerate; i++)
             {
@@ -35,6 +38,7 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
                     for (var j = 0; j < NumberOfDimensions; j++)
                     {
                         currentPoint.Coordinates[j] = MersenneTwister.Instance.NextDouble(Domain.Limits[j].Item1, Domain.Limits[j].Item2);
+                        //currentPoint.Coordinates[j] = random.Next((int)Domain.Limits[j].Item1, (int)Domain.Limits[j].Item2);
                     }
 
                     foreach (var constraint in constraints)
@@ -45,6 +49,24 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
                             break;
                         }
                     }
+                }
+
+                if (currentPoint.Coordinates[0] >= 0)
+                {
+                    posx++;
+                }
+                else
+                {
+                    negx++;
+                }
+
+                if (currentPoint.Coordinates[1] >= 0)
+                {
+                    posy++;
+                }
+                else
+                {
+                    negy++;
                 }
             }
 

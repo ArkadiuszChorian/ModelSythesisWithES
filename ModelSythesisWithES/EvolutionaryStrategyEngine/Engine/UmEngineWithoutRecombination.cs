@@ -9,6 +9,7 @@ using EvolutionaryStrategyEngine.PointsGeneration;
 using EvolutionaryStrategyEngine.PopulationGeneration;
 using EvolutionaryStrategyEngine.Selection;
 using EvolutionaryStrategyEngine.Solutions;
+using EvolutionaryStrategyEngine.Utils;
 
 namespace EvolutionaryStrategyEngine.Engine
 {
@@ -44,10 +45,12 @@ namespace EvolutionaryStrategyEngine.Engine
 
         //TODO
         public IList<Solution> Population { get; set; }
+        public IList<Solution> InitialPopulation { get; set; }
 
         public virtual void RunExperiment()
         {
             Population = PopulationGenerator.GeneratePopulation(ExperimentParameters);
+            InitialPopulation = Population.DeepCopyByExpressionTree();
 
             for (var i = 0; i < ExperimentParameters.NumberOfGenerations; i++)
             {

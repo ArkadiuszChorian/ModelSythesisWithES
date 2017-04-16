@@ -63,8 +63,13 @@
       <HintPath>..\packages\OxyPlot.Core.1.0.0\lib\net45\OxyPlot.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="OxyPlot.WindowsForms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=245eacd6b5d2d338, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.WindowsForms.1.0.0\lib\net45\OxyPlot.WindowsForms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="ZedGraph, Version=5.1.6.417, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
@@ -137,6 +142,9 @@
     <Compile Include="Solutions\Solution.cs" />
     <Compile Include="Models\ExperimentParameters.cs" />
     <Compile Include="Utils\Plotter.cs" />
+    <Compile Include="Visualization\PlotForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

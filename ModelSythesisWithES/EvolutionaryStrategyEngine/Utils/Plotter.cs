@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using Accord.Controls;
+using EvolutionaryStrategyEngine.Constraints;
 using EvolutionaryStrategyEngine.Models;
+using EvolutionaryStrategyEngine.PointsGeneration;
 
 namespace EvolutionaryStrategyEngine.Utils
 {
@@ -31,6 +36,19 @@ namespace EvolutionaryStrategyEngine.Utils
         public static void Plot(Point[] points)
         {
             ScatterplotBox.Show(points.ToDoublesArray());
+        }
+
+        public static void PlotLines(List<Constraint> constraints, int minValue, int maxValue)
+        {
+            ScatterplotBox.Show(constraints.Get2DLinesFromConstraints(minValue, maxValue));
+        }
+
+        public static void PlotLinesWithPointsInside(Point[] points, List<Constraint> constraints, int minValue,
+            int maxValue)
+        {
+            var mergedPoints = points.ToDoublesArray().Concat(constraints.Get2DLinesFromConstraints(minValue, maxValue));
+
+            ScatterplotBox.Show(mergedPoints.ToArray());
         }
     }
 }
