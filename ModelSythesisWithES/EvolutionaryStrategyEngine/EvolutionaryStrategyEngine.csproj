@@ -142,6 +142,7 @@
     <Compile Include="Solutions\Solution.cs" />
     <Compile Include="Models\ExperimentParameters.cs" />
     <Compile Include="Utils\Plotter.cs" />
+    <Compile Include="Visualization\Visualization.cs" />
     <Compile Include="Visualization\PlotForm.cs">
       <SubType>Form</SubType>
     </Compile>

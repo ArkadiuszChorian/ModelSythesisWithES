@@ -12,6 +12,7 @@ using EvolutionaryStrategyEngine.PointsGeneration;
 using EvolutionaryStrategyEngine.Solutions;
 using EvolutionaryStrategyEngine.Utils;
 using EvolutionaryStrategyEngine.Visualization;
+using OxyPlot;
 
 namespace ModelSythesisWithES
 {
@@ -19,7 +20,6 @@ namespace ModelSythesisWithES
     {
         private const string ResultsPath = "../../TestsResults/";
 
-        [STAThread]
         static void Main(string[] args)
         {
             //var plotThread = new Thread(() =>
@@ -33,14 +33,17 @@ namespace ModelSythesisWithES
 
             var experimentParameters = new ExperimentParameters(2, 10, 
                 typeOfMutation: ExperimentParameters.MutationType.UncorrelatedNSteps,
-                stepThreshold: 0.0001, numberOfGenerations: 100);
+                stepThreshold: 0.1, numberOfGenerations: 100);
 
             var constraints = new List<Constraint>
             {
                 //new LinearConstraint(new []{1.0, 0}, 10.0),
                 //new LinearConstraint(new []{0, -1.0}, 10.0),
                 new LinearConstraint(new []{-1.0, 1.0}, 20.0),
-                new LinearConstraint(new []{1.0, -1.0}, 20.0)
+                new LinearConstraint(new []{1.0, -1.0}, 20.0),
+
+                new LinearConstraint(new []{-1.0, -1.0}, 20.0),
+                new LinearConstraint(new []{1.0, 1.0}, 20.0)
             };
 
             var constraints2 = new List<Constraint>
@@ -65,13 +68,28 @@ namespace ModelSythesisWithES
 
             var evaluator = (Evaluator)engine.Evaluator;
 
-            Plotter.Plot(evaluator.PositiveMeasurePoints, evaluator.NegativeMeasurePoints);
+            //Plotter.Plot(evaluator.PositiveMeasurePoints, evaluator.NegativeMeasurePoints);
+
             //Plotter.PlotLines(bestSolutionConstraints, -100, 100);
             //Plotter.Plot(bestSolutionSamples);
 
-            Plotter.PlotLinesWithPointsInside(bestSolutionSamples, bestSolutionConstraints, -100, 100);
-            Plotter.PlotLines(constraints, -100, 100);
-            Plotter.PlotLines(initialSolutionConstraints, -100, 100);
+            //Plotter.PlotLinesWithPointsInside(bestSolutionSamples, bestSolutionConstraints, -100, 100);
+            //Plotter.PlotLines(constraints, -100, 100);
+            //Plotter.PlotLines(initialSolutionConstraints, -100, 100);
+
+            var visualization = new Visualization();
+
+            Console.WriteLine("Before plot!");
+
+            //visualization.AddClusters(evaluator.PositiveMeasurePoints, evaluator.NegativeMeasurePoints).AddModelPlot(bestSolutionConstraints, "asd").AddModelPlot(constraints, "asd").Show();
+            visualization
+                .AddNextPlot()
+                .AddPoints(evaluator.PositiveMeasurePoints, OxyColors.Green)
+                .AddPoints(evaluator.NegativeMeasurePoints, OxyColors.Red)
+                .AddConstraints(constraints, OxyPalettes.Rainbow)
+                .AddNextPlot()
+                .AddConstraints(bestSolutionConstraints)
+                .Show();
 
             Console.WriteLine("Done!");
             Console.ReadKey();

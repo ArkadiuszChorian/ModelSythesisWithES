@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using EvolutionaryStrategyEngine.Constraints;
 using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Solutions;
+using OxyPlot;
 
 namespace EvolutionaryStrategyEngine.Utils
 {
