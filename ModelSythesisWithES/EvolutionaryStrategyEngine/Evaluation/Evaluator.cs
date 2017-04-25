@@ -56,6 +56,8 @@ namespace EvolutionaryStrategyEngine.Evaluation
             }
 
             return (double)numberOfPositivePointsSatisfyingConstraints / (PositiveMeasurePoints.Length + numberOfNegativePointsSatisfyingConstraints);
+            //return (double)numberOfPositivePointsSatisfyingConstraints / (PositiveMeasurePoints.Length + NegativeMeasurePoints.Length);
+            //return (double)numberOfPositivePointsSatisfyingConstraints;
         }
 
         private bool IsSatisfyingConstraints(Solution solution, Point point)

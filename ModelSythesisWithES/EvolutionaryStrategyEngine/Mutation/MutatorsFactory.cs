@@ -27,9 +27,9 @@ namespace EvolutionaryStrategyEngine.Mutation
                 case ExperimentParameters.MutationType.UncorrelatedOneStep:
                     return new OsmStdDevsMutator();
                 case ExperimentParameters.MutationType.UncorrelatedNSteps:
-                    return new NsmStdDevsMutator();
+                    return new NsmStdDevsMutator(experimentParameters);
                 case ExperimentParameters.MutationType.Correlated:
-                    return new NsmStdDevsMutator();
+                    return new NsmStdDevsMutator(experimentParameters);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

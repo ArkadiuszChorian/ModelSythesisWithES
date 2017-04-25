@@ -33,7 +33,9 @@ namespace ModelSythesisWithES
 
             var experimentParameters = new ExperimentParameters(2, 10, 
                 typeOfMutation: ExperimentParameters.MutationType.UncorrelatedNSteps,
-                stepThreshold: 0.1, numberOfGenerations: 100);
+                stepThreshold: 0.1, numberOfGenerations: 100,
+                globalLerningRate: 1 / Math.Sqrt(2 * 2),
+                individualLearningRate: 1 / Math.Sqrt(2 * Math.Sqrt(2)));
 
             var constraints = new List<Constraint>
             {
@@ -88,7 +90,7 @@ namespace ModelSythesisWithES
                 .AddPoints(evaluator.NegativeMeasurePoints, OxyColors.Red)
                 .AddConstraints(constraints, OxyPalettes.Rainbow)
                 .AddNextPlot()
-                .AddConstraints(bestSolutionConstraints)
+                .AddConstraints(bestSolutionConstraints, OxyPalettes.Rainbow)
                 .Show();
 
             Console.WriteLine("Done!");
