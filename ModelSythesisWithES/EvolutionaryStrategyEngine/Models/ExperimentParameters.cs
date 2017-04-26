@@ -34,9 +34,11 @@ namespace EvolutionaryStrategyEngine.Models
             double upperLimitOfDomain = 100,
             bool usePointsGeneration = true,
 
-            int populationSize = 100,
+            int basePopulationSize = 15,
+            int offspringPopulationSize = 100,
             int numberOfGenerations = 100,
             int oneFifthRuleCheckInterval = 5,
+            double oneFifthRuleScalingFactior = 0.9,
 
             bool useRecombination = false,
             RecombinerType typeOfObjectsRecombiner = RecombinerType.Discrete,
@@ -66,9 +68,11 @@ namespace EvolutionaryStrategyEngine.Models
             DefaultDomainLimit = Tuple.Create(lowerLimitOfDomain, upperLimitOfDomain);
             UsePointsGeneration = usePointsGeneration;
 
-            PopulationSize = populationSize;
+            BasePopulationSize = basePopulationSize;
+            OffspringPopulationSize = offspringPopulationSize;
             NumberOfGenerations = numberOfGenerations;
             OneFifthRuleCheckInterval = oneFifthRuleCheckInterval;
+            OneFifthRuleScalingFactor = oneFifthRuleScalingFactior;
 
             UseRecombination = useRecombination;
             TypeOfObjectsRecombiner = typeOfObjectsRecombiner;
@@ -122,9 +126,11 @@ namespace EvolutionaryStrategyEngine.Models
         public bool UsePointsGeneration { get; set; }
 
         //Experiment execution
-        public int PopulationSize { get; set; }
+        public int BasePopulationSize { get; set; }
+        public int OffspringPopulationSize { get; set; }
         public int NumberOfGenerations { get; set; }    
         public int OneFifthRuleCheckInterval { get; set; }
+        public double OneFifthRuleScalingFactor { get; set; }
 
         //Recombination
         public bool UseRecombination { get; set; }

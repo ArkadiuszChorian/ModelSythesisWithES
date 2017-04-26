@@ -19,8 +19,9 @@ namespace EvolutionaryStrategyEngine.Engine
         {
             IEngine engine;
 
-            //Population
-            IList<Solution> population = new List<Solution>(experimentParameters.PopulationSize);
+            //BasePopulation
+            IList<Solution> basePopulation = new List<Solution>(experimentParameters.BasePopulationSize);
+            IList<Solution> offspringPopulation = new List<Solution>(experimentParameters.OffspringPopulationSize);
             IPopulationGenerator populationGenerator = PopulationGeneratorsFactory.GetPopulationGenerator(experimentParameters);
 
             //Points generators
@@ -54,13 +55,13 @@ namespace EvolutionaryStrategyEngine.Engine
                     var rotationsRecombiner = RecombinersFactory.GetRotationsRecombiner(experimentParameters);
                     var rotationsMutator = MutatorsFactory.GetRotationsMutator(experimentParameters);
 
-                    engine = new CmEngineWithRecombination(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, population, objectRecombiner, stdDevsRecombiner, rotationsMutator, rotationsRecombiner);
+                    engine = new CmEngineWithRecombination(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, basePopulation, offspringPopulation, objectRecombiner, stdDevsRecombiner, rotationsMutator, rotationsRecombiner);
                 }
                 else
                 {
                     var rotationsMutator = MutatorsFactory.GetRotationsMutator(experimentParameters);
 
-                    engine = new CmEngineWithoutRecombination(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, population, rotationsMutator);
+                    engine = new CmEngineWithoutRecombination(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, basePopulation, offspringPopulation, rotationsMutator);
                 }
             }
             else
@@ -70,11 +71,11 @@ namespace EvolutionaryStrategyEngine.Engine
                     var objectRecombiner = RecombinersFactory.GetObjectRecombiner(experimentParameters);
                     var stdDevsRecombiner = RecombinersFactory.GetStdDevsRecombiner(experimentParameters);
 
-                    engine = new UmEngineWithRecombination(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, population, objectRecombiner, stdDevsRecombiner);
+                    engine = new UmEngineWithRecombination(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, basePopulation, offspringPopulation, objectRecombiner, stdDevsRecombiner);
                 }
                 else
                 {
-                    engine = new UmEngineWithoutRecombination(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, population);
+                    engine = new UmEngineWithoutRecombination(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, basePopulation, offspringPopulation);
                 }
             }             
             

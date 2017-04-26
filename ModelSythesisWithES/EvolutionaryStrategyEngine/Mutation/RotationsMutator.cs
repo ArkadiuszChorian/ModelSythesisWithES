@@ -1,4 +1,5 @@
 ﻿using System;
+using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Solutions;
 using EvolutionaryStrategyEngine.Utils;
 
@@ -6,6 +7,11 @@ namespace EvolutionaryStrategyEngine.Mutation
 {
     public class RotationsMutator : IMutator
     {
+        public RotationsMutator(ExperimentParameters experimentParameters)
+        {
+            RotationAngle = experimentParameters.RotationAngle;
+        }
+
         public double RotationAngle { get; set; }
 
         public Solution Mutate(Solution solution)

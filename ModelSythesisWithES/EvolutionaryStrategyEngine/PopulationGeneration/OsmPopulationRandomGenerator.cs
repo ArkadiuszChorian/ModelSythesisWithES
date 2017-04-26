@@ -9,9 +9,9 @@ namespace EvolutionaryStrategyEngine.PopulationGeneration
     {
         public IList<Solution> GeneratePopulation(ExperimentParameters experimentParameters)
         {
-            var population = new List<Solution>(experimentParameters.PopulationSize);
+            var population = new List<Solution>(experimentParameters.BasePopulationSize);
 
-            for (var i = 0; i < experimentParameters.PopulationSize; i++)
+            for (var i = 0; i < experimentParameters.BasePopulationSize; i++)
             {
                 population[i] = new Solution(experimentParameters);
 

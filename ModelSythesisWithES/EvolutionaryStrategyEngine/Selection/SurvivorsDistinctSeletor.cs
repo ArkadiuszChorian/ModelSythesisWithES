@@ -9,7 +9,7 @@ namespace EvolutionaryStrategyEngine.Selection
     {
         public SurvivorsDistinctSeletor(ExperimentParameters experimentParameters)
         {
-            NumberOfSolutionsToSelect = experimentParameters.PopulationSize;//(int)(experimentParameters.PartOfSurvivorsSolutionsToSelect * experimentParameters.PopulationSize);
+            NumberOfSolutionsToSelect = experimentParameters.BasePopulationSize;//(int)(experimentParameters.PartOfSurvivorsSolutionsToSelect * experimentParameters.BasePopulationSize);
         }
 
         public int NumberOfSolutionsToSelect { get; set; }

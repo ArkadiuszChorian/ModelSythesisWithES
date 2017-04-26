@@ -11,7 +11,11 @@ namespace EvolutionaryStrategyEngine.DistanceMeasuring
 
             for (var i = 0; i < numberOfDimensions; i++)
             {
-                distance += Math.Abs(vector1[i] - vector2[i]) / (Math.Abs(vector1[i]) + Math.Abs(vector2[i]));
+                var divider = Math.Abs(vector1[i]) + Math.Abs(vector2[i]);
+
+                if(divider == 0.0) continue;
+
+                distance += Math.Abs(vector1[i] - vector2[i]) / divider;
             }
 
             return distance;

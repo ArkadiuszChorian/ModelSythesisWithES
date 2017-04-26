@@ -33,5 +33,25 @@ namespace EvolutionaryStrategyEngine.MutationSupervison
 
             return solutions;
         }
+
+        public void RemeberSolutionParameters(Solution solution)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void IncrementMutationsNumber()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void IncrementGenerationNumber()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void CompareNewSolutionParameters(Solution solution)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

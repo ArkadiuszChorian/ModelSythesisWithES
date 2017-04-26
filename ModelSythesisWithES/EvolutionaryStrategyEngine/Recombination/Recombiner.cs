@@ -10,7 +10,7 @@ namespace EvolutionaryStrategyEngine.Recombination
     {
         protected Recombiner(ExperimentParameters experimentParameters)
         {
-            NumberOfSolutionsToRecombine = (int)experimentParameters.PartOfPopulationToRecombine * experimentParameters.PopulationSize;
+            NumberOfSolutionsToRecombine = (int)experimentParameters.PartOfPopulationToRecombine * experimentParameters.BasePopulationSize;
         }
 
         public int NumberOfSolutionsToRecombine { get; set; }

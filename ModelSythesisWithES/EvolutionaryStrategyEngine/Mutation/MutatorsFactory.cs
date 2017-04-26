@@ -25,7 +25,7 @@ namespace EvolutionaryStrategyEngine.Mutation
             switch (experimentParameters.TypeOfMutation)
             {
                 case ExperimentParameters.MutationType.UncorrelatedOneStep:
-                    return new OsmStdDevsMutator();
+                    return new OsmStdDevsMutator(experimentParameters);
                 case ExperimentParameters.MutationType.UncorrelatedNSteps:
                     return new NsmStdDevsMutator(experimentParameters);
                 case ExperimentParameters.MutationType.Correlated:
@@ -37,7 +37,7 @@ namespace EvolutionaryStrategyEngine.Mutation
 
         public static IMutator GetRotationsMutator(ExperimentParameters experimentParameters)
         {
-            return new RotationsMutator();
+            return new RotationsMutator(experimentParameters);
         }
     }
 }

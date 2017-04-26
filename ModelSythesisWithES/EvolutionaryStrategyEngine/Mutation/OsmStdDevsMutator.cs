@@ -1,4 +1,5 @@
 ﻿using System;
+using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Solutions;
 using EvolutionaryStrategyEngine.Utils;
 
@@ -6,6 +7,12 @@ namespace EvolutionaryStrategyEngine.Mutation
 {
     public class OsmStdDevsMutator : IMutator
     {
+        public OsmStdDevsMutator(ExperimentParameters experimentParameters)
+        {
+            IndividualLearningRate = experimentParameters.IndividualLearningRate;
+            StepThreshold = experimentParameters.StepThreshold;
+        }
+
         public double IndividualLearningRate { get; set; }
         public double StepThreshold { get; set; }
 

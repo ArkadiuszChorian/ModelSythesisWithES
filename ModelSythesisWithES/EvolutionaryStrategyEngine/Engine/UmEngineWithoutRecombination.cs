@@ -15,7 +15,7 @@ namespace EvolutionaryStrategyEngine.Engine
 {
     public class UmEngineWithoutRecombination : IEngine
     {
-        public UmEngineWithoutRecombination(IPopulationGenerator populationGenerator, IEvaluator evaluator, ILogger logger, IMutator objectMutator, IMutator stdDeviationsMutator, IMutationRuleSupervisor mutationRuleSupervisor, ISelector parentsSelector, ISurvivorsSelector survivorsSelector, IPointsGenerator positivePointsGenerator, IPointsGenerator negativePointsGenerator, ExperimentParameters experimentParameters, IList<Solution> population)
+        public UmEngineWithoutRecombination(IPopulationGenerator populationGenerator, IEvaluator evaluator, ILogger logger, IMutator objectMutator, IMutator stdDeviationsMutator, IMutationRuleSupervisor mutationRuleSupervisor, ISelector parentsSelector, ISurvivorsSelector survivorsSelector, IPointsGenerator positivePointsGenerator, IPointsGenerator negativePointsGenerator, ExperimentParameters experimentParameters, IList<Solution> basePopulation, IList<Solution> offspringPopulation)
         {
             PopulationGenerator = populationGenerator;
             Evaluator = evaluator;
@@ -28,7 +28,8 @@ namespace EvolutionaryStrategyEngine.Engine
             PositivePointsGenerator = positivePointsGenerator;
             NegativePointsGenerator = negativePointsGenerator;
             ExperimentParameters = experimentParameters;
-            Population = population;
+            BasePopulation = basePopulation;
+            OffspringPopulation = offspringPopulation;
         }
 
         public IPopulationGenerator PopulationGenerator { get; set; }
@@ -44,31 +45,56 @@ namespace EvolutionaryStrategyEngine.Engine
         public ExperimentParameters ExperimentParameters { get; set; }
 
         //TODO
-        public IList<Solution> Population { get; set; }
+        public IList<Solution> BasePopulation { get; set; }
+        public IList<Solution> OffspringPopulation { get; set; }
         public IList<Solution> InitialPopulation { get; set; }
 
         public virtual void RunExperiment()
         {
-            Population = PopulationGenerator.GeneratePopulation(ExperimentParameters);
-            InitialPopulation = Population.DeepCopyByExpressionTree();
+            BasePopulation = PopulationGenerator.GeneratePopulation(ExperimentParameters);
+
+            for (var i = 0; i < ExperimentParameters.OffspringPopulationSize; i++)
+            {
+                OffspringPopulation.Add(new Solution(ExperimentParameters));
+            }
+            
+            InitialPopulation = BasePopulation.DeepCopyByExpressionTree();
 
             for (var i = 0; i < ExperimentParameters.NumberOfGenerations; i++)
             {
-                var newPopulation = ParentsSelector.Select(Population);
+                //var newPopulation = ParentsSelector.Select(BasePopulation);
 
-                for (var j = 0; j < newPopulation.Count; j++)
+                //MutationRuleSupervisor.IncrementGenerationNumber();
+
+                for (var j = 0; j < ExperimentParameters.OffspringPopulationSize; j++)
                 {
-                    newPopulation[j] = StdDeviationsMutator.Mutate(newPopulation[j]);
-                    newPopulation[j] = ObjectMutator.Mutate(newPopulation[j]);
+                    OffspringPopulation[j] = BasePopulation[MersenneTwister.Instance.Next(BasePopulation.Count)].DeepCopyByExpressionTree();
 
-                    newPopulation[j].FitnessScore = Evaluator.Evaluate(newPopulation[j]);
+                    OffspringPopulation[j] = StdDeviationsMutator.Mutate(OffspringPopulation[j]);
+                    OffspringPopulation[j] = ObjectMutator.Mutate(OffspringPopulation[j]);
+
+                    OffspringPopulation[j].FitnessScore = Evaluator.Evaluate(OffspringPopulation[j]);
+                    //MutationRuleSupervisor.RemeberSolutionParameters(newPopulation[j]);
+
+                    //newPopulation[j] = StdDeviationsMutator.Mutate(newPopulation[j]);
+                    //newPopulation[j] = ObjectMutator.Mutate(newPopulation[j]);
+
+                    //MutationRuleSupervisor.IncrementMutationsNumber();
+
+                    //newPopulation[j].FitnessScore = Evaluator.Evaluate(newPopulation[j]);
+
+                    //MutationRuleSupervisor.CompareNewSolutionParameters(newPopulation[j]);
                 }
 
-                Population = SurvivorsSelector.MakeUnionOrDistinct(newPopulation, Population);
-                Population = SurvivorsSelector.Select(newPopulation);
+                //MutationRuleSupervisor.EnsureRuleFullfillment(newPopulation);
+
+                //BasePopulation = SurvivorsSelector.MakeUnionOrDistinct(newPopulation, BasePopulation);
+                //BasePopulation = SurvivorsSelector.Select(newPopulation);
+
+                BasePopulation = SurvivorsSelector.Select(OffspringPopulation);
             }
 
-            Population = Population.OrderByDescending(solution => solution.FitnessScore).ToList();
+            BasePopulation = BasePopulation.OrderByDescending(solution => solution.FitnessScore).ToList();
         }      
     }
 }
