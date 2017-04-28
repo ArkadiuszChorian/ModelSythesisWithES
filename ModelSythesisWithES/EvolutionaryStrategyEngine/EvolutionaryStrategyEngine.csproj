@@ -136,6 +136,7 @@
     <Compile Include="Mutation\IMutator.cs" />
     <Compile Include="Selection\ISurvivorsSelector.cs" />
     <Compile Include="Utils\DeepCopyByExpressionTrees.cs" />
+    <Compile Include="Utils\Defaults.cs" />
     <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Utils\MersenneTwister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

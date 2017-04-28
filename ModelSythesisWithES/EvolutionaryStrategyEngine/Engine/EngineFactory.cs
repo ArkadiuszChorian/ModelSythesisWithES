@@ -27,11 +27,11 @@ namespace EvolutionaryStrategyEngine.Engine
             //Points generators
             var domain = new Domain(experimentParameters);
             IPointsGenerator positivePointsGenerator = new PositiveMeasurePointsGenerator(domain);
-            var positivePoints = positivePointsGenerator.GeneratePoints(experimentParameters.NumberOfPositiveMeasurePoints, experimentParameters.ConstraintsToPointGeneration);
+            var positivePoints = positivePointsGenerator.GeneratePoints(experimentParameters.NumberOfPositiveMeasurePoints, experimentParameters.ConstraintsToPointsGeneration);
             IPointsGenerator negativePointsGenerator = new NegativeMeasurePointsGenerator(positivePoints, new CanberraDistanceCalculator(), domain);
 
             //Evaluator
-            var negativePoints = negativePointsGenerator.GeneratePoints(experimentParameters.NumberOfNegativeMeasurePoints, experimentParameters.ConstraintsToPointGeneration);
+            var negativePoints = negativePointsGenerator.GeneratePoints(experimentParameters.NumberOfNegativeMeasurePoints, experimentParameters.ConstraintsToPointsGeneration);
             IEvaluator evaluator = new Evaluator(experimentParameters, positivePoints, negativePoints);
 
             //Logger

@@ -60,7 +60,7 @@ namespace ModelSythesisWithES
                 new LinearConstraint(new []{0, -1.0}, 20)
             };
 
-            experimentParameters.ConstraintsToPointGeneration = constraints;
+            experimentParameters.ConstraintsToPointsGeneration = constraints;
 
             //var engine = new EngineFactory().GetEngine<NStepsMutationSolution>(experimentParameters);
             var engine = EngineFactory.GetEngine(experimentParameters);

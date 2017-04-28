@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -30,6 +31,16 @@ namespace EvolutionaryStrategyEngine.Utils
                 var value = match.Groups["value"].Value;
                 _dictionary[name] = value;
             }
+        }
+
+        public static bool HasAnyKeys()
+        {
+            return Instance._dictionary.Any();
+        }
+
+        public static bool HasKey(string key)
+        {
+            return Instance._dictionary.ContainsKey(key);
         }
 
         [DebuggerHidden]
@@ -144,7 +155,7 @@ namespace EvolutionaryStrategyEngine.Utils
             {
                 return @default;
             }
-        }
+        }       
 
         public string this[string key] => Get(key);
     }
