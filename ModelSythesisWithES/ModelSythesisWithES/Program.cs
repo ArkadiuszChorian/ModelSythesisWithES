@@ -32,16 +32,28 @@ namespace ModelSythesisWithES
             //plotThread.Start();
 
             var experimentParameters = new ExperimentParameters(2, 10, 
-                typeOfMutation: ExperimentParameters.MutationType.UncorrelatedNSteps,
+                typeOfMutation: ExperimentParameters.MutationType.Correlated,
                 stepThreshold: 0.1, numberOfGenerations: 100,
-                basePopulationSize: 60,
-                offspringPopulationSize: 400,
+                basePopulationSize: 15,
+                //basePopulationSize: 3,
+                offspringPopulationSize: 100,
+                //offspringPopulationSize: 20,
                 globalLerningRate: 1 / Math.Sqrt(2 * 2),
                 //globalLerningRate: 0.7,
                 individualLearningRate: 1 / Math.Sqrt(2 * Math.Sqrt(2)));
-                //individualLearningRate: 0.8);
+            //individualLearningRate: 0.8);
+
+            var visualization = new Visualization();
 
             var constraints = new List<Constraint>
+            {
+                new Linear2DConstraint(1, 60, Linear2DConstraint.InequalityValues.UnderLine),
+                new Linear2DConstraint(1, 0, Linear2DConstraint.InequalityValues.OverLine),
+                new Linear2DConstraint(-2, 60, Linear2DConstraint.InequalityValues.UnderLine),
+                new Linear2DConstraint(-2, 0, Linear2DConstraint.InequalityValues.OverLine)
+            };
+
+            var constraints2 = new List<Constraint>
             {
                 //new LinearConstraint(new []{1.0, 0}, 10.0),
                 //new LinearConstraint(new []{0, -1.0}, 10.0),
@@ -52,13 +64,15 @@ namespace ModelSythesisWithES
                 new LinearConstraint(new []{1.0, 1.0}, 20.0)
             };
 
-            var constraints2 = new List<Constraint>
+            var constraints3 = new List<Constraint>
             {
                 new LinearConstraint(new []{1.0, 0}, 20),
                 new LinearConstraint(new []{-1.0, 0}, 20),
                 new LinearConstraint(new []{0, 1.0}, 20),
                 new LinearConstraint(new []{0, -1.0}, 20)
             };
+
+            //visualization.AddNextPlot().AddConstraints(constraints, OxyPalettes.Rainbow).Show();
 
             experimentParameters.ConstraintsToPointsGeneration = constraints;
 
@@ -72,8 +86,7 @@ namespace ModelSythesisWithES
             var initialSolutionConstraints = engine.InitialPopulation.First().GetConstraints(experimentParameters);
             //var initialSolutionSamples = new PositiveMeasurePointsGenerator(new Domain(experimentParameters)).GeneratePoints(100, bestSolutionConstraints);        
 
-            var evaluator = (Evaluator)engine.Evaluator;
-            var visualization = new Visualization();
+            var evaluator = (Evaluator)engine.Evaluator;            
 
             Console.WriteLine("Before plot!");
 

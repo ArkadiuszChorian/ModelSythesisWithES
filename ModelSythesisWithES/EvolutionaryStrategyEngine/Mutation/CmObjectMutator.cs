@@ -2,6 +2,7 @@
 using Accord.Statistics.Distributions.Multivariate;
 using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Solutions;
+using Modeling.GP.ES;
 
 namespace EvolutionaryStrategyEngine.Mutation
 {
@@ -11,7 +12,7 @@ namespace EvolutionaryStrategyEngine.Mutation
 
         public CmObjectMutator(ExperimentParameters experimentParameters)
         {
-            _zeroMeans = new double[experimentParameters.NumberOfDimensions];
+            _zeroMeans = new double[(experimentParameters.NumberOfDimensions + 1) * experimentParameters.NumberOfConstraints];
         }
 
         public Solution Mutate(Solution solution)
@@ -34,7 +35,7 @@ namespace EvolutionaryStrategyEngine.Mutation
                 }
             }
 
-            var mutationVector = new MultivariateNormalDistribution(_zeroMeans, covarianceMatrix).Generate();
+            var mutationVector = new RobustMultivariateNormalDistribution(_zeroMeans, covarianceMatrix).Generate();
 
             for (var i = 0; i < solution.ObjectCoefficients.Length; i++)
             {

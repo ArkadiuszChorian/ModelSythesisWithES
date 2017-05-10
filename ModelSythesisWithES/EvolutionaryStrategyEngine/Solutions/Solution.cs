@@ -19,11 +19,16 @@ namespace EvolutionaryStrategyEngine.Solutions
                 case ExperimentParameters.MutationType.Correlated:
                     StdDeviationsCoefficients = new double[(experimentParameters.NumberOfDimensions + 1) * experimentParameters.NumberOfConstraints];
 
-                    RotationsCoefficients = new double[experimentParameters.NumberOfDimensions * (experimentParameters.NumberOfDimensions - 1) / 2][];
+                    //var size = (experimentParameters.NumberOfDimensions * experimentParameters.NumberOfConstraints) * (experimentParameters.NumberOfDimensions * experimentParameters.NumberOfConstraints - 1) / 2;
+                    var size = ObjectCoefficients.Length * (ObjectCoefficients.Length - 1) / 2;
+
+                    //RotationsCoefficients = new double[experimentParameters.NumberOfDimensions * (experimentParameters.NumberOfDimensions - 1) / 2][];
+                    RotationsCoefficients = new double[size][];
 
                     for (var i = 0; i < RotationsCoefficients.Length; i++)
-                    {
-                        RotationsCoefficients[i] = new double[experimentParameters.NumberOfDimensions * (experimentParameters.NumberOfDimensions - 1) / 2];
+                    {                        
+                        //RotationsCoefficients[i] = new double[experimentParameters.NumberOfDimensions * (experimentParameters.NumberOfDimensions - 1) / 2];
+                        RotationsCoefficients[i] = new double[size];
                     }
                     break;
                 default:

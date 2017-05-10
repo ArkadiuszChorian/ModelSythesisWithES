@@ -9,6 +9,7 @@ using EvolutionaryStrategyEngine.PointsGeneration;
 using EvolutionaryStrategyEngine.PopulationGeneration;
 using EvolutionaryStrategyEngine.Selection;
 using EvolutionaryStrategyEngine.Solutions;
+using EvolutionaryStrategyEngine.Utils;
 
 namespace EvolutionaryStrategyEngine.Engine
 {
@@ -25,20 +26,26 @@ namespace EvolutionaryStrategyEngine.Engine
         {
             BasePopulation = PopulationGenerator.GeneratePopulation(ExperimentParameters);
 
+            for (var i = 0; i < ExperimentParameters.OffspringPopulationSize; i++)
+            {
+                OffspringPopulation.Add(new Solution(ExperimentParameters));
+            }
+
+            InitialPopulation = BasePopulation.DeepCopyByExpressionTree();
+
             for (var i = 0; i < ExperimentParameters.NumberOfGenerations; i++)
             {
-                var newPopulation = ParentsSelector.Select(BasePopulation);
-
-                for (var j = 0; j < newPopulation.Count; j++)
+                for (var j = 0; j < ExperimentParameters.OffspringPopulationSize; j++)
                 {
-                    newPopulation[j] = StdDeviationsMutator.Mutate(newPopulation[j]);
-                    newPopulation[j] = ObjectMutator.Mutate(newPopulation[j]);
+                    OffspringPopulation[j] = BasePopulation[MersenneTwister.Instance.Next(BasePopulation.Count)].DeepCopyByExpressionTree();
 
-                    newPopulation[j].FitnessScore = Evaluator.Evaluate(newPopulation[j]);
+                    OffspringPopulation[j] = StdDeviationsMutator.Mutate(OffspringPopulation[j]);
+                    OffspringPopulation[j] = RotationsMutator.Mutate(OffspringPopulation[j]);
+                    OffspringPopulation[j] = ObjectMutator.Mutate(OffspringPopulation[j]);
+
+                    OffspringPopulation[j].FitnessScore = Evaluator.Evaluate(OffspringPopulation[j]);
                 }
-
-                BasePopulation = SurvivorsSelector.MakeUnionOrDistinct(newPopulation, BasePopulation);
-                BasePopulation = SurvivorsSelector.Select(newPopulation);
+                BasePopulation = SurvivorsSelector.Select(OffspringPopulation);
             }
 
             BasePopulation = BasePopulation.OrderByDescending(solution => solution.FitnessScore).ToList();

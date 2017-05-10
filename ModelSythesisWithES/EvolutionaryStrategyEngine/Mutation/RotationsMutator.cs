@@ -23,6 +23,7 @@ namespace EvolutionaryStrategyEngine.Mutation
                 for (var j = i + 1; j < vectorSize; j++)
                 {
                     var mutationValue = RotationAngle * MersenneTwister.Instance.NextDoublePositive();
+                    //var mutationValue = RotationAngle * 0.5;
 
                     solution.RotationsCoefficients[i][j] += mutationValue;
                     solution.RotationsCoefficients[j][i] += mutationValue;

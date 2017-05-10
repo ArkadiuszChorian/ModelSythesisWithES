@@ -78,17 +78,9 @@ namespace EvolutionaryStrategyEngine.Utils
         {
             get
             {
-                if (_instance == null)
-                {
-                    try
-                    {
-                        _instance = new MersenneTwister(Arguments.Get<int>("seed"));
-                    }
-                    catch (KeyNotFoundException)
-                    {
-                        _instance = new MersenneTwister();
-                    }                    
-                }
+                if (_instance != null) return _instance;
+
+                _instance = Arguments.HasKey("seed") ? new MersenneTwister(Arguments.Get<int>("seed")) : new MersenneTwister();
 
                 return _instance;
             }

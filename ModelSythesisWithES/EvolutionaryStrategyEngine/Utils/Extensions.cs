@@ -67,5 +67,7 @@ namespace EvolutionaryStrategyEngine.Utils
 
             return points.ToArray();
         }
+
+        //public static IList<Solution>
     }
 }

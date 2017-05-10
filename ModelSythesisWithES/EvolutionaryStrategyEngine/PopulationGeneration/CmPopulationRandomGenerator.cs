@@ -13,7 +13,7 @@ namespace EvolutionaryStrategyEngine.PopulationGeneration
 
             for (var i = 0; i < experimentParameters.BasePopulationSize; i++)
             {
-                population[i] = new Solution(experimentParameters);
+                population.Add(new Solution(experimentParameters));
 
                 for (var j = 0; j < population[i].ObjectCoefficients.Length; j++)
                 {
@@ -21,16 +21,25 @@ namespace EvolutionaryStrategyEngine.PopulationGeneration
                     population[i].StdDeviationsCoefficients[j] = MersenneTwister.Instance.NextDoublePositive();                  
                 }
 
-                for (var j = 0; j < population[i].RotationsCoefficients.Length; j++)
-                {
-                    for (var k = j + 1; k < population[i].RotationsCoefficients.Length; k++)
-                    {
-                        var randomValue = MersenneTwister.Instance.NextDoublePositive();
+                var size = population[i].RotationsCoefficients.Length;
 
-                        population[i].RotationsCoefficients[j][k] = randomValue;
-                        population[i].RotationsCoefficients[k][j] = randomValue;                      
+                if (size > 1)
+                {
+                    for (var j = 0; j < size; j++)
+                    {
+                        for (var k = j + 1; k < size; k++)
+                        {
+                            var randomValue = MersenneTwister.Instance.NextDoublePositive();
+
+                            population[i].RotationsCoefficients[j][k] = randomValue;
+                            population[i].RotationsCoefficients[k][j] = randomValue;
+                        }
                     }
                 }
+                else
+                {
+                    population[i].RotationsCoefficients[0][0] = MersenneTwister.Instance.NextDoublePositive();
+                }               
             }
 
             return population;
