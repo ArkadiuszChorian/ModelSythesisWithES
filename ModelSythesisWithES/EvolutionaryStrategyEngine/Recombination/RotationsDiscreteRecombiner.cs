@@ -26,10 +26,10 @@ namespace EvolutionaryStrategyEngine.Recombination
             {
                 for (var j = i + 1; j < vectorSize; j++)
                 {
-                    var chosenValue = selectedParents[MersenneTwister.Instance.Next(selectedParents.Count)].RotationsCoefficients[i][j];
+                    //var chosenValue = selectedParents[MersenneTwister.Instance.Next(selectedParents.Count)].RotationsCoefficients[i][j];
 
-                    child.RotationsCoefficients[i][j] = chosenValue;
-                    child.RotationsCoefficients[j][i] = chosenValue;
+                    //child.RotationsCoefficients[i][j] = chosenValue;
+                    //child.RotationsCoefficients[j][i] = chosenValue;
                 }
             }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -18,30 +19,39 @@ namespace ModelSythesisWithES
 {
     class Program
     {
-        private const string ResultsPath = "../../TestsResults/";
-
         static void Main(string[] args)
         {
-            //var plotThread = new Thread(() =>
-            //{
-            //    Application.EnableVisualStyles();
-            //    Application.Run(new PlotForm());
-            //});
-
-            //plotThread.SetApartmentState(ApartmentState.STA);
-            //plotThread.Start();
+            var stoper = new Stopwatch();
+            stoper.Start();
 
             var experimentParameters = new ExperimentParameters(2, 10, 
                 typeOfMutation: ExperimentParameters.MutationType.Correlated,
-                stepThreshold: 0.1, numberOfGenerations: 100,
+                stepThreshold: 0.1, numberOfGenerations: 300,
+                basePopulationSize: 30,
+                //basePopulationSize: 3,
+                offspringPopulationSize: 200,
+                //offspringPopulationSize: 20,
+                globalLerningRate: 1 / Math.Sqrt(2 * 2),
+                //globalLerningRate: 0.7,
+                individualLearningRate: 1 / Math.Sqrt(2 * Math.Sqrt(2)),
+                //individualLearningRate: 0.8,
+                numberOfPositiveMeasurePoints: 300,
+                numberOfNegativeMeasurePoints: 300
+                );           
+
+            var experimentParameters2 = new ExperimentParameters(2, 10,
+                typeOfMutation: ExperimentParameters.MutationType.Correlated,
+                stepThreshold: 0.1, numberOfGenerations: 10,
                 basePopulationSize: 15,
                 //basePopulationSize: 3,
                 offspringPopulationSize: 100,
                 //offspringPopulationSize: 20,
                 globalLerningRate: 1 / Math.Sqrt(2 * 2),
                 //globalLerningRate: 0.7,
-                individualLearningRate: 1 / Math.Sqrt(2 * Math.Sqrt(2)));
-            //individualLearningRate: 0.8);
+                individualLearningRate: 1 / Math.Sqrt(2 * Math.Sqrt(2)),
+                numberOfPositiveMeasurePoints: 100,
+                numberOfNegativeMeasurePoints: 100
+                );
 
             var visualization = new Visualization();
 
@@ -72,25 +82,15 @@ namespace ModelSythesisWithES
                 new LinearConstraint(new []{0, -1.0}, 20)
             };
 
-            //visualization.AddNextPlot().AddConstraints(constraints, OxyPalettes.Rainbow).Show();
-
             experimentParameters.ConstraintsToPointsGeneration = constraints;
-
-            //var engine = new EngineFactory().GetEngine<NStepsMutationSolution>(experimentParameters);
+            
             var engine = EngineFactory.GetEngine(experimentParameters);
             engine.RunExperiment();
 
             var bestSolutionConstraints = engine.BasePopulation.First().GetConstraints(experimentParameters);
-            var bestSolutionSamples = new PositiveMeasurePointsGenerator(new Domain(experimentParameters)).GeneratePoints(100, bestSolutionConstraints);
-
-            var initialSolutionConstraints = engine.InitialPopulation.First().GetConstraints(experimentParameters);
-            //var initialSolutionSamples = new PositiveMeasurePointsGenerator(new Domain(experimentParameters)).GeneratePoints(100, bestSolutionConstraints);        
 
             var evaluator = (Evaluator)engine.Evaluator;            
-
-            Console.WriteLine("Before plot!");
-
-            //visualization.AddClusters(evaluator.PositiveMeasurePoints, evaluator.NegativeMeasurePoints).AddModelPlot(bestSolutionConstraints, "asd").AddModelPlot(constraints, "asd").Show();
+            
             visualization
                 .AddNextPlot()
                 .AddPoints(evaluator.PositiveMeasurePoints, OxyColors.Green)
@@ -101,8 +101,13 @@ namespace ModelSythesisWithES
                 .AddPoints(evaluator.NegativeMeasurePoints, OxyColors.Red)
                 .AddConstraints(bestSolutionConstraints, OxyPalettes.Rainbow)
                 .Show();
-
+           
+            stoper.Stop();
             Console.WriteLine("Done!");
+            Console.WriteLine("=== Time ===");
+            Console.WriteLine("SEC = " + stoper.Elapsed.TotalSeconds);
+            Console.WriteLine("MIN = " + stoper.Elapsed.TotalMinutes);
+            Console.WriteLine("MIN = " + stoper.Elapsed.Minutes);
             Console.ReadKey();
         }
     }

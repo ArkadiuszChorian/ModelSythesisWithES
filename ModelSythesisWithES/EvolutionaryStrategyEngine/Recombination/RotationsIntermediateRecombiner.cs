@@ -25,10 +25,10 @@ namespace EvolutionaryStrategyEngine.Recombination
             {
                 for (var j = i + 1; j < vectorSize; j++)
                 {
-                    var averangeValue = selectedParents.Sum(parent => parent.RotationsCoefficients[i][j]) / selectedParents.Count;
+                    //var averangeValue = selectedParents.Sum(parent => parent.RotationsCoefficients[i][j]) / selectedParents.Count;
 
-                    child.RotationsCoefficients[i][j] = averangeValue;
-                    child.RotationsCoefficients[j][i] = averangeValue;
+                    //child.RotationsCoefficients[i][j] = averangeValue;
+                    //child.RotationsCoefficients[j][i] = averangeValue;
                 }
             }
 

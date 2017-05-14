@@ -20,16 +20,17 @@ namespace EvolutionaryStrategyEngine.Solutions
                     StdDeviationsCoefficients = new double[(experimentParameters.NumberOfDimensions + 1) * experimentParameters.NumberOfConstraints];
 
                     //var size = (experimentParameters.NumberOfDimensions * experimentParameters.NumberOfConstraints) * (experimentParameters.NumberOfDimensions * experimentParameters.NumberOfConstraints - 1) / 2;
-                    var size = ObjectCoefficients.Length * (ObjectCoefficients.Length - 1) / 2;
+                    //var size = ObjectCoefficients.Length * (ObjectCoefficients.Length - 1) / 2;
+                    var size = ObjectCoefficients.Length * (ObjectCoefficients.Length - 1) / 2 + ObjectCoefficients.Length;
 
                     //RotationsCoefficients = new double[experimentParameters.NumberOfDimensions * (experimentParameters.NumberOfDimensions - 1) / 2][];
-                    RotationsCoefficients = new double[size][];
+                    RotationsCoefficients = new double[size];
 
-                    for (var i = 0; i < RotationsCoefficients.Length; i++)
-                    {                        
-                        //RotationsCoefficients[i] = new double[experimentParameters.NumberOfDimensions * (experimentParameters.NumberOfDimensions - 1) / 2];
-                        RotationsCoefficients[i] = new double[size];
-                    }
+                    //for (var i = 0; i < RotationsCoefficients.Length; i++)
+                    //{                        
+                    //    //RotationsCoefficients[i] = new double[experimentParameters.NumberOfDimensions * (experimentParameters.NumberOfDimensions - 1) / 2];
+                    //    RotationsCoefficients[i] = new double[size];
+                    //}
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -41,12 +42,13 @@ namespace EvolutionaryStrategyEngine.Solutions
             ObjectCoefficients = new double[vectorSize];
             StdDeviationsCoefficients = new double[vectorSize];
 
-            RotationsCoefficients = new double[vectorSize * (vectorSize - 1) / 2][];
+            //RotationsCoefficients = new double[vectorSize * (vectorSize - 1) / 2];
+            RotationsCoefficients = new double[vectorSize * (vectorSize - 1) / 2];
 
-            for (var i = 0; i < RotationsCoefficients.Length; i++)
-            {
-                RotationsCoefficients[i] = new double[vectorSize * (vectorSize - 1) / 2];
-            }
+            //for (var i = 0; i < RotationsCoefficients.Length; i++)
+            //{
+            //    RotationsCoefficients[i] = new double[vectorSize * (vectorSize - 1) / 2];
+            //}
         }
 
         public Solution(Solution solution)
@@ -61,7 +63,8 @@ namespace EvolutionaryStrategyEngine.Solutions
         public double[] ObjectCoefficients { get; set; }
         public double OneStepStdDeviation { get; set; }
         public double[] StdDeviationsCoefficients { get; set; }
-        public double[][] RotationsCoefficients { get; set; }
+        //public double[][] RotationsCoefficients { get; set; }
+        public double[] RotationsCoefficients { get; set; }
         public double FitnessScore { get; set; }
     }
 }

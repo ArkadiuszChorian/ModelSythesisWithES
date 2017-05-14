@@ -23,23 +23,32 @@ namespace EvolutionaryStrategyEngine.PopulationGeneration
 
                 var size = population[i].RotationsCoefficients.Length;
 
-                if (size > 1)
+                for (var j = 0; j < size; j++)
                 {
-                    for (var j = 0; j < size; j++)
-                    {
-                        for (var k = j + 1; k < size; k++)
-                        {
-                            var randomValue = MersenneTwister.Instance.NextDoublePositive();
-
-                            population[i].RotationsCoefficients[j][k] = randomValue;
-                            population[i].RotationsCoefficients[k][j] = randomValue;
-                        }
-                    }
+                    var randomValue = MersenneTwister.Instance.NextDoublePositive();
+                    
+                    population[i].RotationsCoefficients[j] = randomValue;
                 }
-                else
-                {
-                    population[i].RotationsCoefficients[0][0] = MersenneTwister.Instance.NextDoublePositive();
-                }               
+
+                //if (size > 1)
+                //{
+                //    for (var j = 0; j < size; j++)
+                //    {
+                //        for (var k = j + 1; k < size; k++)
+                //        {
+                //            var randomValue = MersenneTwister.Instance.NextDoublePositive();
+
+                //            //population[i].RotationsCoefficients[j][k] = randomValue;
+                //            //population[i].RotationsCoefficients[k][j] = randomValue;
+                //            population[i].RotationsCoefficients[]
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    //population[i].RotationsCoefficients[0][0] = MersenneTwister.Instance.NextDoublePositive();
+                //    population[i].RotationsCoefficients[0] = MersenneTwister.Instance.NextDoublePositive();
+                //}               
             }
 
             return population;
