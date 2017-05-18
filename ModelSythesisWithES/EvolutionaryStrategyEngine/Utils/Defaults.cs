@@ -17,6 +17,12 @@ namespace EvolutionaryStrategyEngine.Utils
             return 1 / Math.Sqrt(2 * Math.Sqrt(numberOfDimensions));
         }
 
+        public const int Seed = 1;
+
+        public const double BallnBoundaryValue = 100;
+        public const double CubenBoundaryValue = 100;
+        public const double SimplexnBoundaryValue = 100;
+
         public const double StepThreshold = 0.1;
         public const double RotationAngle = 5 * Math.PI / 180;
         public const ExperimentParameters.MutationType TypeOfMutation = ExperimentParameters.MutationType.Correlated;

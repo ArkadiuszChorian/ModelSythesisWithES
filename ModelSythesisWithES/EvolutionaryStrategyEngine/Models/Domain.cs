@@ -1,28 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace EvolutionaryStrategyEngine.Models
+﻿namespace EvolutionaryStrategyEngine.Models
 {
     public class Domain
     {
-        public Domain(ExperimentParameters experimentParameters)
+        public Domain(double lowerLimit, double upperLimit)
         {
-            NumberOfDimensions = experimentParameters.NumberOfDimensions;
-            Limits = new List<Tuple<double, double>>(experimentParameters.NumberOfDimensions);
-
-            for (var i = 0; i < experimentParameters.NumberOfDimensions; i++)
-            {
-                Limits.Add(experimentParameters.DefaultDomainLimit);
-            }
+            LowerLimit = lowerLimit;
+            UpperLimit = upperLimit;
         }
 
-        public Domain(ExperimentParameters experimentParameters, List<Tuple<double, double>> domainLimits)
-        {
-            NumberOfDimensions = experimentParameters.NumberOfDimensions;
-            Limits = domainLimits;
-        }
-
-        public int NumberOfDimensions { get; set; }
-        public List<Tuple<double, double>> Limits { get; set; }
+        public double LowerLimit { get; set; }
+        public double UpperLimit { get; set; }
     }
 }

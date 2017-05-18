@@ -60,6 +60,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using EvolutionaryStrategyEngine.Models;
 
 namespace EvolutionaryStrategyEngine.Utils
 {
@@ -80,7 +81,7 @@ namespace EvolutionaryStrategyEngine.Utils
             {
                 if (_instance != null) return _instance;
 
-                _instance = Arguments.HasKey("seed") ? new MersenneTwister(Arguments.Get<int>("seed")) : new MersenneTwister();
+                _instance = Arguments.HasKey("Seed") ? new MersenneTwister(Arguments.Get<int>("Seed")) : new MersenneTwister(Defaults.Seed);
 
                 return _instance;
             }
@@ -125,6 +126,11 @@ namespace EvolutionaryStrategyEngine.Utils
             }
 
             init(initArray);
+        }
+
+        public static void Initialize(ExperimentParameters experimentParameters)
+        {
+            _instance = Arguments.HasKey("Seed") ? new MersenneTwister(Arguments.Get<int>("Seed")) : new MersenneTwister(experimentParameters.Seed);
         }
 
         /// <summary>

@@ -21,10 +21,12 @@ namespace EvolutionaryStrategyEngine.Utils
             return array;
         }
 
-        public static List<Constraint> GetConstraints(this Solution solution, ExperimentParameters experimentParameters)
+        public static Constraint[] GetConstraints(this Solution solution, ExperimentParameters experimentParameters)
         {
-            var constraints = new List<Constraint>();
+            //var constraints = new List<Constraint>();
+            var constraints = new Constraint[experimentParameters.NumberOfConstraints];
             var numberOfConstraintCoefficients = experimentParameters.NumberOfDimensions + 1;
+            var j = 0;
 
             for (var i = 0; i < experimentParameters.NumberOfConstraints; i += numberOfConstraintCoefficients)
             {
@@ -33,7 +35,8 @@ namespace EvolutionaryStrategyEngine.Utils
 
                 Array.Copy(solution.ObjectCoefficients, i, constraintCoefficients, 0, numberOfConstraintCoefficients - 1);
 
-                constraints.Add(new LinearConstraint(constraintCoefficients, constraintLimitingValue));
+                //constraints.Add(new LinearConstraint(constraintCoefficients, constraintLimitingValue));
+                constraints[j++] = new LinearConstraint(constraintCoefficients, constraintLimitingValue);
             }
 
             return constraints;

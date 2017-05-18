@@ -12,15 +12,15 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
         private Point[] _positiveMeasurePoints;
         private IDistanceCalculator _distanceCalculator;
 
-        public NegativeMeasurePointsGenerator(Point[] positiveMeasurePoints, IDistanceCalculator distanceCalculator, Domain domain)
+        public NegativeMeasurePointsGenerator(Point[] positiveMeasurePoints, IDistanceCalculator distanceCalculator, Domain2 domain2)
         {
             _positiveMeasurePoints = positiveMeasurePoints;
             _distanceCalculator = distanceCalculator;
-            Domain = domain;
-            NumberOfDimensions = domain.NumberOfDimensions;
+            Domain2 = domain2;
+            NumberOfDimensions = domain2.NumberOfDimensions;
         }
 
-        public Domain Domain { get; set; }
+        public Domain2 Domain2 { get; set; }
         public int NumberOfDimensions { get; set; }
 
         public void CalculateNearestNeighbourDistances()
@@ -63,7 +63,7 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
 
                     for (var j = 0; j < NumberOfDimensions; j++)
                     {
-                        currentPoint.Coordinates[j] = MersenneTwister.Instance.NextDouble(Domain.Limits[j].Item1, Domain.Limits[j].Item2);
+                        currentPoint.Coordinates[j] = MersenneTwister.Instance.NextDouble(Domain2.Limits[j].Item1, Domain2.Limits[j].Item2);
                     }
 
                     for (var j = 0; j < _positiveMeasurePoints.Length; j++)

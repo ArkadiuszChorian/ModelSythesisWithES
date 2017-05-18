@@ -100,9 +100,22 @@ namespace EvolutionaryStrategyEngine.Evaluation
         //    //return (double)numberOfPositivePointsSatisfyingConstraints;
         //}
 
-        private bool IsSatisfyingConstraints(List<Constraint> constraints, Point point)
+        private bool IsSatisfyingConstraints2(List<Constraint> constraints, Point point)
         {
             return constraints.All(constraint => constraint.IsSatysfingConstraint(point));
+        }
+
+        private bool IsSatisfyingConstraints(Constraint[] constraints, Point point)
+        {
+            var length = constraints.Length;
+
+            for (var i = 0; i < length; i++)
+            {
+                if (!constraints[i].IsSatysfingConstraint(point))
+                    return false;
+            }
+
+            return true;
         }
     }
 }

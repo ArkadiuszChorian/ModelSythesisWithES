@@ -8,13 +8,13 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
 {
     public class PositiveMeasurePointsGenerator : IPointsGenerator
     {
-        public PositiveMeasurePointsGenerator(Domain domain)
+        public PositiveMeasurePointsGenerator(Domain2 domain2)
         {
-            NumberOfDimensions = domain.NumberOfDimensions;
-            Domain = domain;
+            NumberOfDimensions = domain2.NumberOfDimensions;
+            Domain2 = domain2;
         }
 
-        public Domain Domain { get; set; }
+        public Domain2 Domain2 { get; set; }
         public int NumberOfDimensions { get; set; }  
            
         public Point[] GeneratePoints(int numberOfPointsToGenerate, List<Constraint> constraints)
@@ -22,8 +22,6 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
             //TODO: Check if constraints has common space. Now, if they don't have, algorithm will stuck in while loop.
             
             var points = new Point[numberOfPointsToGenerate];
-            //var random = new Random();
-            int posx = 0, posy = 0, negx = 0, negy = 0;
 
             for (var i = 0; i < numberOfPointsToGenerate; i++)
             {
@@ -37,8 +35,8 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
 
                     for (var j = 0; j < NumberOfDimensions; j++)
                     {
-                        currentPoint.Coordinates[j] = MersenneTwister.Instance.NextDouble(Domain.Limits[j].Item1, Domain.Limits[j].Item2);
-                        //currentPoint.Coordinates[j] = random.Next((int)Domain.Limits[j].Item1, (int)Domain.Limits[j].Item2);
+                        currentPoint.Coordinates[j] = MersenneTwister.Instance.NextDouble(Domain2.Limits[j].Item1, Domain2.Limits[j].Item2);
+                        //currentPoint.Coordinates[j] = random.Next((int)Domain2.Limits[j].Item1, (int)Domain2.Limits[j].Item2);
                     }
 
                     foreach (var constraint in constraints)
@@ -49,24 +47,6 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
                             break;
                         }
                     }
-                }
-
-                if (currentPoint.Coordinates[0] >= 0)
-                {
-                    posx++;
-                }
-                else
-                {
-                    negx++;
-                }
-
-                if (currentPoint.Coordinates[1] >= 0)
-                {
-                    posy++;
-                }
-                else
-                {
-                    negy++;
                 }
             }
 

@@ -25,7 +25,7 @@ namespace EvolutionaryStrategyEngine.Engine
             IPopulationGenerator populationGenerator = PopulationGeneratorsFactory.GetPopulationGenerator(experimentParameters);
 
             //Points generators
-            var domain = new Domain(experimentParameters);
+            var domain = new Domain2(experimentParameters);
             IPointsGenerator positivePointsGenerator = new PositiveMeasurePointsGenerator(domain);
             var positivePoints = positivePointsGenerator.GeneratePoints(experimentParameters.NumberOfPositiveMeasurePoints, experimentParameters.ConstraintsToPointsGeneration);
             IPointsGenerator negativePointsGenerator = new NegativeMeasurePointsGenerator(positivePoints, new CanberraDistanceCalculator(), domain);
