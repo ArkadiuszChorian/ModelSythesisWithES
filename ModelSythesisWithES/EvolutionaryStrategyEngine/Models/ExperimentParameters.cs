@@ -32,15 +32,16 @@ namespace EvolutionaryStrategyEngine.Models
                 RotationAngle = Arguments.HasKey(nameof(Defaults.RotationAngle)) ? Arguments.Get<double>(nameof(Defaults.RotationAngle)) : Defaults.RotationAngle;
                 TypeOfMutation = Arguments.HasKey(nameof(Defaults.TypeOfMutation)) ? Arguments.Get<MutationType>(nameof(Defaults.TypeOfMutation)) : Defaults.TypeOfMutation;
 
-                PartOfParentsSolutionsToSelect = Arguments.HasKey(nameof(Defaults.PartOfParentsSolutionsToSelect)) ? Arguments.Get<double>(nameof(Defaults.PartOfParentsSolutionsToSelect)) : Defaults.PartOfParentsSolutionsToSelect;
+                NumberOfParentsSolutionsToSelect = Arguments.HasKey(nameof(Defaults.NumberOfParentsSolutionsToSelect)) ? Arguments.Get<int>(nameof(Defaults.NumberOfParentsSolutionsToSelect)) : Defaults.NumberOfParentsSolutionsToSelect;
                 PartOfSurvivorsSolutionsToSelect = Arguments.HasKey(nameof(Defaults.PartOfSurvivorsSolutionsToSelect)) ? Arguments.Get<double>(nameof(Defaults.PartOfSurvivorsSolutionsToSelect)) : Defaults.PartOfSurvivorsSolutionsToSelect;
                 TypeOfSurvivorsSelection = Arguments.HasKey(nameof(Defaults.TypeOfSurvivorsSelection)) ? Arguments.Get<SelectionType>(nameof(Defaults.TypeOfSurvivorsSelection)) : Defaults.TypeOfSurvivorsSelection;
 
                 NumberOfPositiveMeasurePoints = Arguments.HasKey(nameof(Defaults.NumberOfPositiveMeasurePoints)) ? Arguments.Get<int>(nameof(Defaults.NumberOfPositiveMeasurePoints)) : Defaults.NumberOfPositiveMeasurePoints;
                 NumberOfNegativeMeasurePoints = Arguments.HasKey(nameof(Defaults.NumberOfNegativeMeasurePoints)) ? Arguments.Get<int>(nameof(Defaults.NumberOfNegativeMeasurePoints)) : Defaults.NumberOfNegativeMeasurePoints;
-                DefaultDomainLimit = Tuple.Create(
-                    Arguments.HasKey(nameof(Defaults.LowerLimitOfDomain)) ? Arguments.Get<double>(nameof(Defaults.LowerLimitOfDomain)) : Defaults.LowerLimitOfDomain,
-                    Arguments.HasKey(nameof(Defaults.UpperLimitOfDomain)) ? Arguments.Get<double>(nameof(Defaults.UpperLimitOfDomain)) : Defaults.UpperLimitOfDomain);
+                //DefaultDomainLimit = Tuple.Create(Arguments.HasKey(nameof(Defaults.DefaultDomainLowerLimit)) ? Arguments.Get<double>(nameof(Defaults.DefaultDomainLowerLimit)) : Defaults.DefaultDomainLowerLimit,
+                //    Arguments.HasKey(nameof(Defaults.DefaultDomainUpperLimit)) ? Arguments.Get<double>(nameof(Defaults.DefaultDomainUpperLimit)) : Defaults.DefaultDomainUpperLimit);
+                DefaultDomainLowerLimit = Arguments.HasKey(nameof(Defaults.DefaultDomainLowerLimit)) ? Arguments.Get<double>(nameof(Defaults.DefaultDomainLowerLimit)) : Defaults.DefaultDomainLowerLimit;
+                DefaultDomainUpperLimit = Arguments.HasKey(nameof(Defaults.DefaultDomainUpperLimit)) ? Arguments.Get<double>(nameof(Defaults.DefaultDomainUpperLimit)) : Defaults.DefaultDomainUpperLimit;
 
                 // ReSharper disable once SimplifyConditionalTernaryExpression === Reason: All defaults have to be in Defaults class.
                 UsePointsGeneration = Arguments.HasKey(nameof(Defaults.UsePointsGeneration)) ? Arguments.Get<bool>(nameof(Defaults.UsePointsGeneration)) : Defaults.UsePointsGeneration;
@@ -59,6 +60,7 @@ namespace EvolutionaryStrategyEngine.Models
                 PartOfPopulationToRecombine = Arguments.HasKey(nameof(Defaults.PartOfPopulationToRecombine)) ? Arguments.Get<double>(nameof(Defaults.PartOfPopulationToRecombine)) : Defaults.PartOfPopulationToRecombine;
 
                 ConstraintsToPointsGeneration = Arguments.HasKey(nameof(Defaults.ConstraintsToPointsGeneration)) ? Arguments.GetObject<List<Constraint>>(nameof(Defaults.ConstraintsToPointsGeneration)) : Defaults.ConstraintsToPointsGeneration;
+                TypeOfBenchmark = Arguments.HasKey(nameof(Defaults.TypeOfBenchmark)) ? Arguments.Get<BenchmarkType>(nameof(Defaults.TypeOfBenchmark)) : Defaults.TypeOfBenchmark;
             }
             catch (KeyNotFoundException)
             {
@@ -84,14 +86,14 @@ namespace EvolutionaryStrategyEngine.Models
             double rotationAngle = Defaults.RotationAngle,
             MutationType typeOfMutation = Defaults.TypeOfMutation,
 
-            double partOfParentsSolutionsToSelect = Defaults.PartOfParentsSolutionsToSelect,
+            int numberOfParentsSolutionsToSelect = Defaults.NumberOfParentsSolutionsToSelect,
             double partOfSurvivorsSolutionsToSelect = Defaults.PartOfSurvivorsSolutionsToSelect,
             SelectionType typeOfSurvivorsSelection = Defaults.TypeOfSurvivorsSelection,
 
             int numberOfPositiveMeasurePoints = Defaults.NumberOfPositiveMeasurePoints,
             int numberOfNegativeMeasurePoints = Defaults.NumberOfNegativeMeasurePoints,
-            double lowerLimitOfDomain = Defaults.LowerLimitOfDomain,
-            double upperLimitOfDomain = Defaults.UpperLimitOfDomain,
+            double defaultDomainLowerLimit = Defaults.DefaultDomainLowerLimit,
+            double defaultDomainUpperLimit = Defaults.DefaultDomainUpperLimit,
             bool usePointsGeneration = Defaults.UsePointsGeneration,
 
             int basePopulationSize = Defaults.BasePopulationSize,
@@ -106,7 +108,8 @@ namespace EvolutionaryStrategyEngine.Models
             RecombinerType typeOfRotationsRecombiner = Defaults.TypeOfRotationsRecombiner,
             double partOfPopulationToRecombine = Defaults.PartOfPopulationToRecombine,
 
-            List<Constraint> constraintsToPointsGeneration = Defaults.ConstraintsToPointsGeneration)
+            BenchmarkType typeOfBenchmark = Defaults.TypeOfBenchmark,
+            List<Constraint> constraintsToPointsGeneration = Defaults.ConstraintsToPointsGeneration)            
         {
             NumberOfDimensions = numberOfDimensions;
 
@@ -124,13 +127,15 @@ namespace EvolutionaryStrategyEngine.Models
             RotationAngle = rotationAngle;
             TypeOfMutation = typeOfMutation;
 
-            PartOfParentsSolutionsToSelect = partOfParentsSolutionsToSelect;
+            NumberOfParentsSolutionsToSelect = numberOfParentsSolutionsToSelect;
             PartOfSurvivorsSolutionsToSelect = partOfSurvivorsSolutionsToSelect;
             TypeOfSurvivorsSelection = typeOfSurvivorsSelection;
 
             NumberOfPositiveMeasurePoints = numberOfPositiveMeasurePoints;
             NumberOfNegativeMeasurePoints = numberOfNegativeMeasurePoints;
-            DefaultDomainLimit = Tuple.Create(lowerLimitOfDomain, upperLimitOfDomain);
+            //DefaultDomainLimit = Tuple.Create(defaultDomainLowerLimit, defaultDomainUpperLimit);
+            DefaultDomainLowerLimit = defaultDomainLowerLimit;
+            DefaultDomainUpperLimit = defaultDomainUpperLimit;
             UsePointsGeneration = usePointsGeneration;
 
             BasePopulationSize = basePopulationSize;
@@ -146,6 +151,7 @@ namespace EvolutionaryStrategyEngine.Models
             PartOfPopulationToRecombine = partOfPopulationToRecombine;
 
             ConstraintsToPointsGeneration = constraintsToPointsGeneration;
+            TypeOfBenchmark = typeOfBenchmark;
         }
 
         public enum MutationType
@@ -164,6 +170,13 @@ namespace EvolutionaryStrategyEngine.Models
         {
             Discrete,
             Intermediate
+        }
+
+        public enum BenchmarkType
+        {
+            Balln,
+            Cuben,
+            Simplexn
         }
 
         //Global parameters
@@ -186,14 +199,16 @@ namespace EvolutionaryStrategyEngine.Models
         public MutationType TypeOfMutation { get; set; }
 
         //Selection
-        public double PartOfParentsSolutionsToSelect { get; set; }
+        public int NumberOfParentsSolutionsToSelect { get; set; }
         public double PartOfSurvivorsSolutionsToSelect { get; set; }
         public SelectionType TypeOfSurvivorsSelection { get; set; }
 
         //Points generation
         public int NumberOfPositiveMeasurePoints { get; set; }
         public int NumberOfNegativeMeasurePoints { get; set; }
-        public Tuple<double, double> DefaultDomainLimit { get; set; }
+        //public Tuple<double, double> DefaultDomainLimit { get; set; }
+        public double DefaultDomainLowerLimit { get; set; }
+        public double DefaultDomainUpperLimit { get; set; }
         public bool UsePointsGeneration { get; set; }
 
         //Experiment execution
@@ -212,5 +227,6 @@ namespace EvolutionaryStrategyEngine.Models
 
         //Constraints to generate points
         public List<Constraint> ConstraintsToPointsGeneration { get; set; }
+        public BenchmarkType TypeOfBenchmark { get; set; }
     }
 }

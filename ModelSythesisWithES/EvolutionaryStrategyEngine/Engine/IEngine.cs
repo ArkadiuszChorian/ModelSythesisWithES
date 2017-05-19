@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EvolutionaryStrategyEngine.Benchmarks;
 using EvolutionaryStrategyEngine.Evaluation;
 using EvolutionaryStrategyEngine.Logging;
 using EvolutionaryStrategyEngine.Models;
@@ -15,19 +16,20 @@ namespace EvolutionaryStrategyEngine.Engine
     {
         void RunExperiment();
 
+        IBenchmark Benchmark { get; set; }
         IPopulationGenerator PopulationGenerator { get; set; }
         IEvaluator Evaluator { get; set; }
         ILogger Logger { get; set; }
         IMutator ObjectMutator { get; set; }
         IMutator StdDeviationsMutator { get; set; }
         IMutationRuleSupervisor MutationRuleSupervisor { get; set; }
-        ISelector ParentsSelector { get; set; }
+        IParentsSelector ParentsSelector { get; set; }
         ISurvivorsSelector SurvivorsSelector { get; set; }
         IPointsGenerator PositivePointsGenerator { get; set; }
         IPointsGenerator NegativePointsGenerator { get; set; }
         ExperimentParameters ExperimentParameters { get; set; }
-        IList<Solution> BasePopulation { get; set; }
-        IList<Solution> OffspringPopulation { get; set; }
-        IList<Solution> InitialPopulation { get; set; }
+        Solution[] BasePopulation { get; set; }
+        Solution[] OffspringPopulation { get; set; }
+        Solution[] InitialPopulation { get; set; }
     }
 }

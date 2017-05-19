@@ -1,31 +1,31 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using EvolutionaryStrategyEngine.Models;
+﻿using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Solutions;
 using EvolutionaryStrategyEngine.Utils;
 
 namespace EvolutionaryStrategyEngine.Recombination
 {
-    public class NsmStdDevsDiscreteRecombiner : Recombiner
+    public class NsmStdDevsDiscreteRecombiner : IRecombiner
     {
-        public NsmStdDevsDiscreteRecombiner(ExperimentParameters experimentParameters) : base(experimentParameters)
+        private readonly MersenneTwister _randomGenerator;
+       
+        public NsmStdDevsDiscreteRecombiner(ExperimentParameters experimentParameters)
         {
+            _randomGenerator = MersenneTwister.Instance;
+            ExperimentParameters = experimentParameters;
         }
 
-        public override Solution Recombine(IList<Solution> parents, Solution child = null)
+        public ExperimentParameters ExperimentParameters { get; set; }
+
+        public Solution Recombine(Solution[] parents, Solution child = null)
         {
-            var selectedParents = SelectParents(parents);
-            var vectorSize = selectedParents.First().ObjectCoefficients.Length;
+            var vectorSize = parents[0].StdDeviationsCoefficients.Length;
+            var numberOfParents = parents.Length;
 
             if (child == null)
-            {
-                child = new Solution(selectedParents.First());
-            }
+                child = new Solution(ExperimentParameters);
 
             for (var i = 0; i < vectorSize; i++)
-            {
-                child.StdDeviationsCoefficients[i] = selectedParents[MersenneTwister.Instance.Next(selectedParents.Count)].StdDeviationsCoefficients[i];
-            }
+                child.StdDeviationsCoefficients[i] = parents[_randomGenerator.Next(numberOfParents)].StdDeviationsCoefficients[i];
 
             return child;
         }

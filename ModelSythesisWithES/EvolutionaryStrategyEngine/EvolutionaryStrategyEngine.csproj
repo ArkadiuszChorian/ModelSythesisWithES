@@ -80,7 +80,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Benchmarks\BallnBenchmark.cs" />
+    <Compile Include="Benchmarks\BenchmarkFactory.cs" />
     <Compile Include="Benchmarks\CubenBenchmark.cs" />
+    <Compile Include="Benchmarks\GeneralBenchmark.cs" />
     <Compile Include="Benchmarks\IBenchmark.cs" />
     <Compile Include="Benchmarks\SimplexnBenchmark.cs" />
     <Compile Include="Constraints\BallConstraint.cs" />
@@ -91,7 +93,6 @@
     <Compile Include="DistanceMeasuring\IDistanceCalculator.cs" />
     <Compile Include="Engine\CmEngineWithoutRecombination.cs" />
     <Compile Include="Engine\CmEngineWithRecombination.cs" />
-    <Compile Include="Engine\EngineBase.cs" />
     <Compile Include="Engine\UmEngineWithRecombination.cs" />
     <Compile Include="Engine\EngineFactory.cs" />
     <Compile Include="Engine\IEngine.cs" />
@@ -127,8 +128,7 @@
     <Compile Include="Recombination\RecombinersFactory.cs" />
     <Compile Include="Recombination\RotationsDiscreteRecombiner.cs" />
     <Compile Include="Recombination\RotationsIntermediateRecombiner.cs" />
-    <Compile Include="Selection\ISelector.cs" />
-    <Compile Include="Selection\ParentsRandomUnionSelector.cs" />
+    <Compile Include="Selection\IParentsSelector.cs" />
     <Compile Include="Selection\SelectorsFactory.cs" />
     <Compile Include="Selection\SurvivorsUnionSelector.cs" />
     <Compile Include="Mutation\NsmObjectMutator.cs" />
@@ -138,8 +138,8 @@
     <Compile Include="Mutation\RotationsMutator.cs" />
     <Compile Include="Recombination\IRecombiner.cs" />
     <Compile Include="Recombination\OsmStdDevsDiscreteRecombiner.cs" />
-    <Compile Include="Selection\ParentsRandomDistinctSelector.cs" />
-    <Compile Include="Selection\SurvivorsDistinctSeletor.cs" />
+    <Compile Include="Selection\ParentsRandomSelector.cs" />
+    <Compile Include="Selection\SurvivorsDistinctSelector.cs" />
     <Compile Include="Utils\Arguments.cs" />
     <Compile Include="Evaluation\IEvaluator.cs" />
     <Compile Include="Mutation\IMutator.cs" />
@@ -151,12 +151,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solutions\Solution.cs" />
     <Compile Include="Models\ExperimentParameters.cs" />
-    <Compile Include="Utils\Plotter.cs" />
     <Compile Include="Utils\RobustMultivariateNormalDistribution.cs" />
-    <Compile Include="Visualization\Visualization.cs" />
-    <Compile Include="Visualization\PlotForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Utils\Visualization.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

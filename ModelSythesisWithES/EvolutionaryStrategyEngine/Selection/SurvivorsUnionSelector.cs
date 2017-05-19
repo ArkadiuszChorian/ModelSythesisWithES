@@ -1,19 +1,32 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.Selection
 {
-    public class SurvivorsUnionSelector : SurvivorsDistinctSeletor
+    public class SurvivorsUnionSelector : ISurvivorsSelector
     {
-        public SurvivorsUnionSelector(ExperimentParameters experimentParameters) : base(experimentParameters)
+        public SurvivorsUnionSelector(ExperimentParameters experimentParameters)
         {
+            ExperimentParameters = experimentParameters;
         }
 
-        public override IList<Solution> MakeUnionOrDistinct(IList<Solution> newSolutions, IList<Solution> oldSolutions)
+        public ExperimentParameters ExperimentParameters { get; set; }
+
+        public Solution[] Select(Solution[] parentSolutions, Solution[] offspringSolutions)
         {
-            return oldSolutions.Concat(newSolutions).ToList();
+            var parentsLength = parentSolutions.Length;
+            var offspringLength = offspringSolutions.Length;
+            var union = new int[parentsLength + offspringLength];
+            var survivors = new Solution[ExperimentParameters.BasePopulationSize];
+
+            Array.Copy(parentSolutions, union, parentsLength);
+            Array.Copy(offspringSolutions, 0, union, parentsLength, offspringLength);
+        
+            Array.Sort(union);
+            Array.Copy(union, survivors, ExperimentParameters.BasePopulationSize);
+
+            return survivors;
         }
     }
 }

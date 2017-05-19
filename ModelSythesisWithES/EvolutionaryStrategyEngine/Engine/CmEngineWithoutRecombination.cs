@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using EvolutionaryStrategyEngine.Benchmarks;
 using EvolutionaryStrategyEngine.Evaluation;
 using EvolutionaryStrategyEngine.Logging;
 using EvolutionaryStrategyEngine.Models;
@@ -15,7 +15,7 @@ namespace EvolutionaryStrategyEngine.Engine
 {
     public class CmEngineWithoutRecombination : UmEngineWithoutRecombination
     {
-        public CmEngineWithoutRecombination(IPopulationGenerator populationGenerator, IEvaluator evaluator, ILogger logger, IMutator objectMutator, IMutator stdDeviationsMutator, IMutationRuleSupervisor mutationRuleSupervisor, ISelector parentsSelector, ISurvivorsSelector survivorsSelector, IPointsGenerator positivePointsGenerator, IPointsGenerator negativePointsGenerator, ExperimentParameters experimentParameters, IList<Solution> basePopulation, IList<Solution> offspringPopulation, IMutator rotationsMutator) : base(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, basePopulation, offspringPopulation)
+        public CmEngineWithoutRecombination(IBenchmark benchmark, IPopulationGenerator populationGenerator, IEvaluator evaluator, ILogger logger, IMutator objectMutator, IMutator stdDeviationsMutator, IMutationRuleSupervisor mutationRuleSupervisor, IParentsSelector parentsParentsSelector, ISurvivorsSelector survivorsSelector, IPointsGenerator positivePointsGenerator, IPointsGenerator negativePointsGenerator, ExperimentParameters experimentParameters, Solution[] basePopulation, Solution[] offspringPopulation, IMutator rotationsMutator) : base(benchmark, populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsParentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, basePopulation, offspringPopulation)
         {
             RotationsMutator = rotationsMutator;
         }
@@ -24,31 +24,30 @@ namespace EvolutionaryStrategyEngine.Engine
         
         public override void RunExperiment()
         {
+            var offspringPopulationSize = ExperimentParameters.OffspringPopulationSize;
+            var numberOfGenerations = ExperimentParameters.NumberOfGenerations;
+
             BasePopulation = PopulationGenerator.GeneratePopulation(ExperimentParameters);
 
-            for (var i = 0; i < ExperimentParameters.OffspringPopulationSize; i++)
-            {
-                OffspringPopulation.Add(new Solution(ExperimentParameters));
-            }
+            for (var i = 0; i < offspringPopulationSize; i++)
+                OffspringPopulation[i] = new Solution(ExperimentParameters);           
 
             InitialPopulation = BasePopulation.DeepCopyByExpressionTree();
 
-            for (var i = 0; i < ExperimentParameters.NumberOfGenerations; i++)
+            for (var i = 0; i < numberOfGenerations; i++)
             {
-                for (var j = 0; j < ExperimentParameters.OffspringPopulationSize; j++)
+                for (var j = 0; j < offspringPopulationSize; j++)
                 {
-                    OffspringPopulation[j] = BasePopulation[MersenneTwister.Instance.Next(BasePopulation.Count)].DeepCopyByExpressionTree();
-
+                    OffspringPopulation[j] = ParentsSelector.Select(BasePopulation)[0];
+                    
                     OffspringPopulation[j] = StdDeviationsMutator.Mutate(OffspringPopulation[j]);
                     OffspringPopulation[j] = RotationsMutator.Mutate(OffspringPopulation[j]);
                     OffspringPopulation[j] = ObjectMutator.Mutate(OffspringPopulation[j]);
 
                     OffspringPopulation[j].FitnessScore = Evaluator.Evaluate(OffspringPopulation[j]);
                 }
-                BasePopulation = SurvivorsSelector.Select(OffspringPopulation);
+                BasePopulation = SurvivorsSelector.Select(BasePopulation, OffspringPopulation);
             }
-
-            BasePopulation = BasePopulation.OrderByDescending(solution => solution.FitnessScore).ToList();
         }
     }
 }

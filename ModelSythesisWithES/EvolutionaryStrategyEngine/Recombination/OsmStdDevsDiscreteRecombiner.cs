@@ -1,27 +1,27 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using EvolutionaryStrategyEngine.Models;
+﻿using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Solutions;
 using EvolutionaryStrategyEngine.Utils;
 
 namespace EvolutionaryStrategyEngine.Recombination
 {
-    public class OsmStdDevsDiscreteRecombiner : Recombiner
+    public class OsmStdDevsDiscreteRecombiner : IRecombiner
     {
-        public OsmStdDevsDiscreteRecombiner(ExperimentParameters experimentParameters) : base(experimentParameters)
+        private readonly MersenneTwister _randomGenerator;
+
+        public OsmStdDevsDiscreteRecombiner(ExperimentParameters experimentParameters)
         {
+            _randomGenerator = MersenneTwister.Instance;
+            ExperimentParameters = experimentParameters;
         }
 
-        public override Solution Recombine(IList<Solution> parents, Solution child = null)
+        public ExperimentParameters ExperimentParameters { get; set; }
+
+        public Solution Recombine(Solution[] parents, Solution child = null)
         {
-            var selectedParents = SelectParents(parents);
-
             if (child == null)
-            {
-                child = new Solution(selectedParents.First());
-            }
+                child = new Solution(ExperimentParameters);
 
-            child.OneStepStdDeviation = selectedParents[MersenneTwister.Instance.Next(selectedParents.Count)].OneStepStdDeviation;
+            child.OneStepStdDeviation = parents[_randomGenerator.Next(parents.Length)].OneStepStdDeviation;
 
             return child;
         }

@@ -5,17 +5,18 @@ namespace EvolutionaryStrategyEngine.Selection
 {
     public static class SelectorsFactory
     {
-        public static ISelector GetParentsSelector(ExperimentParameters experimentParameters)
+        public static IParentsSelector GetParentsSelector(ExperimentParameters experimentParameters)
         {
-            switch (experimentParameters.TypeOfSurvivorsSelection)
-            {
-                case ExperimentParameters.SelectionType.Distinct:
-                    return new ParentsRandomDistinctSelector(experimentParameters); ;
-                case ExperimentParameters.SelectionType.Union:
-                    return new ParentsRandomUnionSelector(experimentParameters);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }            
+            return new ParentsRandomSelector(experimentParameters);
+            //switch (experimentParameters.TypeOfSurvivorsSelection)
+            //{
+            //    case ExperimentParameters.SelectionType.Distinct:
+            //        return new ParentsRandomSelector(experimentParameters); ;
+            //    case ExperimentParameters.SelectionType.Union:
+            //        return new ParentsRandomUnionSelector(experimentParameters);
+            //    default:
+            //        throw new ArgumentOutOfRangeException();
+            //}            
         }
 
         public static ISurvivorsSelector GetSurvivorsSelector(ExperimentParameters experimentParameters)
@@ -23,7 +24,7 @@ namespace EvolutionaryStrategyEngine.Selection
             switch (experimentParameters.TypeOfSurvivorsSelection)
             {
                 case ExperimentParameters.SelectionType.Distinct:
-                    return new SurvivorsDistinctSeletor(experimentParameters);
+                    return new SurvivorsDistinctSelector(experimentParameters);
                 case ExperimentParameters.SelectionType.Union:
                     return new SurvivorsUnionSelector(experimentParameters);
                 default:

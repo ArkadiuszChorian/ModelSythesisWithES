@@ -1,35 +1,33 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using EvolutionaryStrategyEngine.Models;
+﻿using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.Recombination
 {
-    public class RotationsIntermediateRecombiner : Recombiner
+    public class RotationsIntermediateRecombiner : IRecombiner
     {
-        public RotationsIntermediateRecombiner(ExperimentParameters experimentParameters) : base(experimentParameters)
+        public RotationsIntermediateRecombiner(ExperimentParameters experimentParameters)
         {
+            ExperimentParameters = experimentParameters;
         }
 
-        public override Solution Recombine(IList<Solution> parents, Solution child = null)
+        public ExperimentParameters ExperimentParameters { get; set; }
+
+        public Solution Recombine(Solution[] parents, Solution child = null)
         {
-            var selectedParents = SelectParents(parents);
-            var vectorSize = selectedParents.First().ObjectCoefficients.Length;
+            var vectorSize = parents[0].RotationsCoefficients.Length;
+            var numberOfParents = parents.Length;
 
             if (child == null)
-            {
-                child = new Solution(selectedParents.First());
-            }
+                child = new Solution(ExperimentParameters);
 
             for (var i = 0; i < vectorSize; i++)
             {
-                for (var j = i + 1; j < vectorSize; j++)
-                {
-                    //var averangeValue = selectedParents.Sum(parent => parent.RotationsCoefficients[i][j]) / selectedParents.Count;
+                var sum = 0.0;
 
-                    //child.RotationsCoefficients[i][j] = averangeValue;
-                    //child.RotationsCoefficients[j][i] = averangeValue;
-                }
+                for (var j = 0; j < numberOfParents; j++)
+                    sum += parents[j].RotationsCoefficients[i];
+
+                child.RotationsCoefficients[i] = sum / numberOfParents;
             }
 
             return child;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EvolutionaryStrategyEngine.Benchmarks;
 using EvolutionaryStrategyEngine.DistanceMeasuring;
 using EvolutionaryStrategyEngine.Evaluation;
 using EvolutionaryStrategyEngine.Logging;
@@ -20,18 +21,21 @@ namespace EvolutionaryStrategyEngine.Engine
             IEngine engine;
 
             //BasePopulation
-            IList<Solution> basePopulation = new List<Solution>(experimentParameters.BasePopulationSize);
-            IList<Solution> offspringPopulation = new List<Solution>(experimentParameters.OffspringPopulationSize);
+            Solution[] basePopulation = new Solution[experimentParameters.BasePopulationSize];
+            Solution[] offspringPopulation = new Solution[experimentParameters.OffspringPopulationSize];
+            IBenchmark benchmark = BenchmarkFactory.GetBenchmark(experimentParameters);
             IPopulationGenerator populationGenerator = PopulationGeneratorsFactory.GetPopulationGenerator(experimentParameters);
 
             //Points generators
-            var domain = new Domain2(experimentParameters);
-            IPointsGenerator positivePointsGenerator = new PositiveMeasurePointsGenerator(domain);
-            var positivePoints = positivePointsGenerator.GeneratePoints(experimentParameters.NumberOfPositiveMeasurePoints, experimentParameters.ConstraintsToPointsGeneration);
-            IPointsGenerator negativePointsGenerator = new NegativeMeasurePointsGenerator(positivePoints, new CanberraDistanceCalculator(), domain);
+            //var domain = new Domain2(experimentParameters);
+            IPointsGenerator positivePointsGenerator = new PositiveMeasurePointsGenerator();
+            var positivePoints =
+                positivePointsGenerator.GeneratePoints(experimentParameters.NumberOfPositiveMeasurePoints, benchmark);
+            IPointsGenerator negativePointsGenerator = new NegativeMeasurePointsGenerator(positivePoints, new CanberraDistanceCalculator());
 
             //Evaluator
-            var negativePoints = negativePointsGenerator.GeneratePoints(experimentParameters.NumberOfNegativeMeasurePoints, experimentParameters.ConstraintsToPointsGeneration);
+            var negativePoints =
+                negativePointsGenerator.GeneratePoints(experimentParameters.NumberOfNegativeMeasurePoints, benchmark);
             IEvaluator evaluator = new Evaluator(experimentParameters, positivePoints, negativePoints);
 
             //Logger
@@ -55,13 +59,13 @@ namespace EvolutionaryStrategyEngine.Engine
                     var rotationsRecombiner = RecombinersFactory.GetRotationsRecombiner(experimentParameters);
                     var rotationsMutator = MutatorsFactory.GetRotationsMutator(experimentParameters);
 
-                    engine = new CmEngineWithRecombination(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, basePopulation, offspringPopulation, objectRecombiner, stdDevsRecombiner, rotationsMutator, rotationsRecombiner);
+                    engine = new CmEngineWithRecombination(benchmark, populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, basePopulation, offspringPopulation, objectRecombiner, stdDevsRecombiner, rotationsMutator, rotationsRecombiner);
                 }
                 else
                 {
                     var rotationsMutator = MutatorsFactory.GetRotationsMutator(experimentParameters);
 
-                    engine = new CmEngineWithoutRecombination(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, basePopulation, offspringPopulation, rotationsMutator);
+                    engine = new CmEngineWithoutRecombination(benchmark, populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, basePopulation, offspringPopulation, rotationsMutator);
                 }
             }
             else
@@ -71,11 +75,11 @@ namespace EvolutionaryStrategyEngine.Engine
                     var objectRecombiner = RecombinersFactory.GetObjectRecombiner(experimentParameters);
                     var stdDevsRecombiner = RecombinersFactory.GetStdDevsRecombiner(experimentParameters);
 
-                    engine = new UmEngineWithRecombination(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, basePopulation, offspringPopulation, objectRecombiner, stdDevsRecombiner);
+                    engine = new UmEngineWithRecombination(benchmark, populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, basePopulation, offspringPopulation, objectRecombiner, stdDevsRecombiner);
                 }
                 else
                 {
-                    engine = new UmEngineWithoutRecombination(populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, basePopulation, offspringPopulation);
+                    engine = new UmEngineWithoutRecombination(benchmark, populationGenerator, evaluator, logger, objectMutator, stdDeviationsMutator, mutationRuleSupervisor, parentsSelector, survivorsSelector, positivePointsGenerator, negativePointsGenerator, experimentParameters, basePopulation, offspringPopulation);
                 }
             }             
             

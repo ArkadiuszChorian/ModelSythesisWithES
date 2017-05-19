@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Accord;
 using Accord.Math;
 using Accord.Math.Decompositions;
@@ -12,7 +8,7 @@ using Accord.Statistics.Distributions.Fitting;
 using Accord.Statistics.Distributions.Multivariate;
 using Accord.Statistics.Distributions.Univariate;
 
-namespace Modeling.GP.ES
+namespace EvolutionaryStrategyEngine.Utils
 {
     [Serializable]
     public class RobustMultivariateNormalDistribution : MultivariateContinuousDistribution,

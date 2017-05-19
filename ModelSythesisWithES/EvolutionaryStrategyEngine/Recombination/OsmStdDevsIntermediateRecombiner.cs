@@ -1,26 +1,30 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using EvolutionaryStrategyEngine.Models;
+﻿using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.Recombination
 {
-    public class OsmStdDevsIntermediateRecombiner : Recombiner
+    public class OsmStdDevsIntermediateRecombiner : IRecombiner
     {
-        public OsmStdDevsIntermediateRecombiner(ExperimentParameters experimentParameters) : base(experimentParameters)
+        public OsmStdDevsIntermediateRecombiner(ExperimentParameters experimentParameters)
         {
+            ExperimentParameters = experimentParameters;
         }
 
-        public override Solution Recombine(IList<Solution> parents, Solution child = null)
+        public ExperimentParameters ExperimentParameters { get; set; }
+
+        public Solution Recombine(Solution[] parents, Solution child = null)
         {
-            var selectedParents = SelectParents(parents);
+            var numberOfParents = parents.Length;
 
             if (child == null)
-            {
-                child = new Solution(selectedParents.First());
-            }
+                child = new Solution(ExperimentParameters);
 
-            child.OneStepStdDeviation = selectedParents.Sum(parent => parent.OneStepStdDeviation) / selectedParents.Count;
+            var sum = 0.0;
+
+            for (var j = 0; j < numberOfParents; j++)
+                sum += parents[j].OneStepStdDeviation;
+
+            child.OneStepStdDeviation = sum / numberOfParents;           
 
             return child;
         }

@@ -6,18 +6,17 @@ using System.Threading;
 using System.Windows.Forms;
 using EvolutionaryStrategyEngine.Constraints;
 using EvolutionaryStrategyEngine.Models;
-using EvolutionaryStrategyEngine.Utils;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using OxyPlot.WindowsForms;
 
-namespace EvolutionaryStrategyEngine.Visualization
+namespace EvolutionaryStrategyEngine.Utils
 {
     public class Visualization
     {
-        private RangeColorAxis _colorAxis;
-        private Dictionary<OxyColor, double> _colorKey;
+        private readonly RangeColorAxis _colorAxis;
+        private readonly Dictionary<OxyColor, double> _colorKey;
         private const string ColorAxisName = "ColorAxis";
 
         public Visualization()
@@ -46,13 +45,12 @@ namespace EvolutionaryStrategyEngine.Visualization
 
         public List<PlotView> Plots { get; set; }
       
-        //[STAThread]
         public Thread Show()
         {
 
-            int c = Plots.Count;
+            var c = Plots.Count;
 
-            int h = 500 + ((c - 1) / 3) * 400;
+            var h = 500 + ((c - 1) / 3) * 400;
             int w;
             if (c > 2) w = 1300;
             else w = 100 + c * 400;
@@ -64,7 +62,7 @@ namespace EvolutionaryStrategyEngine.Visualization
                 Width = w
             };
 
-            int i = 0;
+            var i = 0;
 
             foreach (var plot in Plots)
             {
@@ -299,9 +297,11 @@ namespace EvolutionaryStrategyEngine.Visualization
         public Visualization AddModelPlot(List<Constraint> constraints, string title)
         {
 
-            var plot = new PlotView();
-            plot.Location = new System.Drawing.Point(450, 20);
-            plot.Size = new System.Drawing.Size(400, 400);
+            var plot = new PlotView
+            {
+                Location = new System.Drawing.Point(450, 20),
+                Size = new System.Drawing.Size(400, 400)
+            };
 
             var plotModel = new PlotModel { Title = title };
             plotModel.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Minimum = 0, Maximum = 100 });

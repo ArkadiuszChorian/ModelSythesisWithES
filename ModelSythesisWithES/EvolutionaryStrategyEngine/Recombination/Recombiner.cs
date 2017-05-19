@@ -6,7 +6,7 @@ using EvolutionaryStrategyEngine.Utils;
 
 namespace EvolutionaryStrategyEngine.Recombination
 {
-    public abstract class Recombiner : IRecombiner
+    public abstract class Recombiner
     {
         protected Recombiner(ExperimentParameters experimentParameters)
         {

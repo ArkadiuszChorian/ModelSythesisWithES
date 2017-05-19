@@ -3,7 +3,7 @@ using EvolutionaryStrategyEngine.Models;
 
 namespace EvolutionaryStrategyEngine.Solutions
 {
-    public class Solution
+    public class Solution : IComparable<Solution>
     {
         public Solution(ExperimentParameters experimentParameters)
         {
@@ -66,5 +66,10 @@ namespace EvolutionaryStrategyEngine.Solutions
         //public double[][] RotationsCoefficients { get; set; }
         public double[] RotationsCoefficients { get; set; }
         public double FitnessScore { get; set; }
+
+        public int CompareTo(Solution other)
+        {
+            return FitnessScore.CompareTo(other.FitnessScore);
+        }
     }
 }

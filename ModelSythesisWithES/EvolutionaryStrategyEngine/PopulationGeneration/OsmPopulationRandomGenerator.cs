@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using EvolutionaryStrategyEngine.Models;
+﻿using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Solutions;
 using EvolutionaryStrategyEngine.Utils;
 
@@ -7,20 +6,30 @@ namespace EvolutionaryStrategyEngine.PopulationGeneration
 {
     public class OsmPopulationRandomGenerator : IPopulationGenerator
     {
-        public IList<Solution> GeneratePopulation(ExperimentParameters experimentParameters)
-        {
-            var population = new List<Solution>(experimentParameters.BasePopulationSize);
+        private readonly MersenneTwister _randomGenerator;
 
-            for (var i = 0; i < experimentParameters.BasePopulationSize; i++)
+        public OsmPopulationRandomGenerator()
+        {
+            _randomGenerator = MersenneTwister.Instance;
+        }
+
+        public Solution[] GeneratePopulation(ExperimentParameters experimentParameters)
+        {
+            var basePopulationSize = experimentParameters.BasePopulationSize;
+            var population = new Solution[basePopulationSize];
+
+            for (var i = 0; i < basePopulationSize; i++)
             {
                 population[i] = new Solution(experimentParameters);
 
-                for (var j = 0; j < population[i].ObjectCoefficients.Length; j++)
+                var lenght = population[i].ObjectCoefficients.Length;
+
+                for (var j = 0; j < lenght; j++)
                 {
-                    population[i].ObjectCoefficients[j] = MersenneTwister.Instance.NextDouble();
+                    population[i].ObjectCoefficients[j] = _randomGenerator.NextDouble();
                     
                 }
-                population[i].OneStepStdDeviation = MersenneTwister.Instance.NextDoublePositive();
+                population[i].OneStepStdDeviation = _randomGenerator.NextDoublePositive();
             }
 
             return population;

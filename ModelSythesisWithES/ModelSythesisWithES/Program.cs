@@ -12,7 +12,6 @@ using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.PointsGeneration;
 using EvolutionaryStrategyEngine.Solutions;
 using EvolutionaryStrategyEngine.Utils;
-using EvolutionaryStrategyEngine.Visualization;
 using OxyPlot;
 
 namespace ModelSythesisWithES
@@ -24,7 +23,23 @@ namespace ModelSythesisWithES
             var stoper = new Stopwatch();
             stoper.Start();
 
-            var experimentParameters = new ExperimentParameters(2, 10, 
+            var experimentParameters = new ExperimentParameters(2, 10,
+                typeOfMutation: ExperimentParameters.MutationType.Correlated,
+                typeOfBenchmark: ExperimentParameters.BenchmarkType.Cuben,
+                stepThreshold: 0.1, numberOfGenerations: 10,
+                basePopulationSize: 15,
+                //basePopulationSize: 3,
+                offspringPopulationSize: 100,
+                //offspringPopulationSize: 20,
+                globalLerningRate: 1 / Math.Sqrt(2 * 2),
+                //globalLerningRate: 0.7,
+                individualLearningRate: 1 / Math.Sqrt(2 * Math.Sqrt(2)),
+                //individualLearningRate: 0.8,
+                numberOfPositiveMeasurePoints: 100,
+                numberOfNegativeMeasurePoints: 100
+                );
+
+            var experimentParameters3 = new ExperimentParameters(2, 10, 
                 typeOfMutation: ExperimentParameters.MutationType.Correlated,
                 stepThreshold: 0.1, numberOfGenerations: 300,
                 basePopulationSize: 30,
@@ -95,7 +110,8 @@ namespace ModelSythesisWithES
                 .AddNextPlot()
                 .AddPoints(evaluator.PositiveMeasurePoints, OxyColors.Green)
                 .AddPoints(evaluator.NegativeMeasurePoints, OxyColors.Red)
-                .AddConstraints(constraints, OxyPalettes.Rainbow)
+                //.AddConstraints(constraints, OxyPalettes.Rainbow)
+                .AddConstraints(engine.Benchmark.Constraints, OxyPalettes.Rainbow)
                 .AddNextPlot()
                 .AddPoints(evaluator.PositiveMeasurePoints, OxyColors.Green)
                 .AddPoints(evaluator.NegativeMeasurePoints, OxyColors.Red)

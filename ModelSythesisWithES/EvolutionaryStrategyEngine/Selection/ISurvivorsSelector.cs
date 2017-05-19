@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using EvolutionaryStrategyEngine.Solutions;
+﻿using EvolutionaryStrategyEngine.Solutions;
 
 namespace EvolutionaryStrategyEngine.Selection
 {
-    public interface ISurvivorsSelector : ISelector
+    public interface ISurvivorsSelector
     {
-        IList<Solution> MakeUnionOrDistinct(IList<Solution> newSolutions, IList<Solution> oldSolutions);
+        Solution[] Select(Solution[] parentSolutions, Solution[] offspringSolutions);
     }
 }

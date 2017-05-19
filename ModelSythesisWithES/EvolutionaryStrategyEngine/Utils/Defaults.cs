@@ -27,14 +27,14 @@ namespace EvolutionaryStrategyEngine.Utils
         public const double RotationAngle = 5 * Math.PI / 180;
         public const ExperimentParameters.MutationType TypeOfMutation = ExperimentParameters.MutationType.Correlated;
 
-        public const double PartOfParentsSolutionsToSelect = 1.0;
+        public const int NumberOfParentsSolutionsToSelect = 1;
         public const double PartOfSurvivorsSolutionsToSelect = (double)1 / 7;
         public const ExperimentParameters.SelectionType TypeOfSurvivorsSelection = ExperimentParameters.SelectionType.Distinct;
 
         public const int NumberOfPositiveMeasurePoints = 100;
         public const int NumberOfNegativeMeasurePoints = 100;
-        public const double LowerLimitOfDomain = -100;
-        public const double UpperLimitOfDomain = 100;
+        public const double DefaultDomainLowerLimit = -100;
+        public const double DefaultDomainUpperLimit = 100;
         public const bool UsePointsGeneration = true;
 
         public const int BasePopulationSize = 15;
@@ -50,5 +50,6 @@ namespace EvolutionaryStrategyEngine.Utils
         public const double PartOfPopulationToRecombine = (double)2 / 100;
 
         public const List<Constraint> ConstraintsToPointsGeneration = default(List<Constraint>);
+        public const ExperimentParameters.BenchmarkType TypeOfBenchmark = ExperimentParameters.BenchmarkType.Simplexn;
     }
 }

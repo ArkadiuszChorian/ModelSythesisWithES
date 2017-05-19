@@ -1,8 +1,7 @@
 ﻿using System;
-using Accord.Statistics.Distributions.Multivariate;
 using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Solutions;
-using Modeling.GP.ES;
+using EvolutionaryStrategyEngine.Utils;
 
 namespace EvolutionaryStrategyEngine.Mutation
 {

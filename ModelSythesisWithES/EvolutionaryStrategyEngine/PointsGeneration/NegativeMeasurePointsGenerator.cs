@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using EvolutionaryStrategyEngine.Constraints;
+﻿using EvolutionaryStrategyEngine.Benchmarks;
 using EvolutionaryStrategyEngine.DistanceMeasuring;
 using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Utils;
@@ -9,27 +7,26 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
 {
     public class NegativeMeasurePointsGenerator : IPointsGenerator
     {
-        private Point[] _positiveMeasurePoints;
-        private IDistanceCalculator _distanceCalculator;
+        private readonly MersenneTwister _randomGenerator;
+        private readonly Point[] _positiveMeasurePoints;
+        private readonly IDistanceCalculator _distanceCalculator;
 
-        public NegativeMeasurePointsGenerator(Point[] positiveMeasurePoints, IDistanceCalculator distanceCalculator, Domain2 domain2)
+        public NegativeMeasurePointsGenerator(Point[] positiveMeasurePoints, IDistanceCalculator distanceCalculator)
         {
+            _randomGenerator = MersenneTwister.Instance;
             _positiveMeasurePoints = positiveMeasurePoints;
             _distanceCalculator = distanceCalculator;
-            Domain2 = domain2;
-            NumberOfDimensions = domain2.NumberOfDimensions;
         }
-
-        public Domain2 Domain2 { get; set; }
-        public int NumberOfDimensions { get; set; }
 
         public void CalculateNearestNeighbourDistances()
         {
-            for (var i = 0; i < _positiveMeasurePoints.Length; i++)
+            var numberOfPositiveMeasurePoints = _positiveMeasurePoints.Length;
+
+            for (var i = 0; i < numberOfPositiveMeasurePoints; i++)
             {
                 _positiveMeasurePoints[i].DistanceToNearestNeighbour = int.MaxValue;
 
-                for (var j = 0; j < _positiveMeasurePoints.Length; j++)
+                for (var j = 0; j < numberOfPositiveMeasurePoints; j++)
                 {
                     if (i == j)
                     {
@@ -47,32 +44,31 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
             }
         }
 
-        public Point[] GeneratePoints(int numberOfPointsToGenerate, List<Constraint> constraints = null)
+        public Point[] GeneratePoints(int numberOfPointsToGenerate, IBenchmark benchmark)
         {
+            var numberOfDimensions = benchmark.Domains.Length;
             var points = new Point[numberOfPointsToGenerate];
 
             for (var i = 0; i < numberOfPointsToGenerate; i++)
             {
-                points[i] = new Point(NumberOfDimensions);
+                points[i] = new Point(numberOfDimensions);
                 var currentPoint = points[i];
-                var isSatsfyngNearestNeighbourConstraints = false;
+                var isSatisfyingNearestNeighbourConstraints = false;
 
-                while (isSatsfyngNearestNeighbourConstraints == false)
+                while (isSatisfyingNearestNeighbourConstraints == false)
                 {
-                    isSatsfyngNearestNeighbourConstraints = true;
+                    isSatisfyingNearestNeighbourConstraints = true;
 
-                    for (var j = 0; j < NumberOfDimensions; j++)
+                    for (var j = 0; j < numberOfDimensions; j++)
                     {
-                        currentPoint.Coordinates[j] = MersenneTwister.Instance.NextDouble(Domain2.Limits[j].Item1, Domain2.Limits[j].Item2);
+                        currentPoint.Coordinates[j] = _randomGenerator.NextDouble(benchmark.Domains[j].LowerLimit, benchmark.Domains[j].UpperLimit);
                     }
 
                     for (var j = 0; j < _positiveMeasurePoints.Length; j++)
                     {
-                        if (IsOutsideNeighbourhood(currentPoint, _positiveMeasurePoints[j]) == false)
-                        {
-                            isSatsfyngNearestNeighbourConstraints = false;
-                            break;
-                        }
+                        if (IsOutsideNeighbourhood(currentPoint, _positiveMeasurePoints[j])) continue;
+                        isSatisfyingNearestNeighbourConstraints = false;
+                        break;
                     }
                 }
             }

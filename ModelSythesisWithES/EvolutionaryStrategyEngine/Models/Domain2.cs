@@ -12,7 +12,7 @@ namespace EvolutionaryStrategyEngine.Models
 
             for (var i = 0; i < experimentParameters.NumberOfDimensions; i++)
             {
-                Limits.Add(experimentParameters.DefaultDomainLimit);
+                //Limits.Add(experimentParameters.DefaultDomainLimit);
             }
         }
 
