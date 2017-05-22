@@ -141,16 +141,33 @@ namespace EvolutionaryStrategyEngine.Utils
 
             for (var i = 0; i < constraints.Count; i++)
             {
-                var series =
-                    new FunctionSeries(
-                        x =>
-                            (constraints[i].LimitingValue / constraints[i].TermsCoefficients[1]) -
-                            ((constraints[i].TermsCoefficients[0] / constraints[i].TermsCoefficients[1]) * x), xMin, xMax, step)
-                    {
-                        Color = palette?.Colors[i] ?? color
-                    };
+                //var series =
+                //    new FunctionSeries(
+                //        x =>
+                //            (constraints[i].LimitingValue / constraints[i].TermsCoefficients[1]) -
+                //            ((constraints[i].TermsCoefficients[0] / constraints[i].TermsCoefficients[1]) * x), xMin, xMax, step)
+                //    {
+                //        Color = palette?.Colors[i] ?? color
+                //    };
 
-                plot.Model.Series.Add(series);
+                //FunctionSeries series;
+                //var constraintTypeName = constraints[i].GetType().FullName;
+
+                //switch (constraintTypeName)
+                //{
+                //    case nameof(LinearConstraint):
+                //        series = GetLinearSeries(constraints[i], palette?.Colors[i] ?? color, xMin, xMax, step);
+                //        break;
+                //    case nameof(BallConstraint):
+                //        break;
+                //    default:
+                //        series = GetLinearSeries(constraints[i], palette?.Colors[i] ?? color, xMin, xMax, step);
+                //        break;
+                //}
+
+                //plot.Model.Series.Add(series);
+
+                plot.Model.Series.Add(GetFunctionSeries(constraints[i], palette?.Colors[i] ?? color, xMin, xMax, step));
             }
 
             //foreach (var constraint in constraints)
@@ -231,69 +248,7 @@ namespace EvolutionaryStrategyEngine.Utils
             return this;
         }       
 
-        //public Visualization addModelPlot(ClusterWizard input, MathModel model, bool modelClassLabels, String title)
-        //{
-
-        //    var plot = new PlotView();
-        //    plot.Location = new System.Drawing.Point(450, 20);
-        //    plot.Size = new System.Drawing.Size(400, 400);
-
-        //    var plotModel = new PlotModel { Title = title };
-        //    plotModel.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Minimum = 0, Maximum = 100 });
-        //    plotModel.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = 0, Maximum = 100 });
-        //    plot.Model = plotModel;
-
-        //    var zeroOneAxis = new RangeColorAxis { Key = "zeroOneColors" };
-        //    zeroOneAxis.AddRange(0, 0.1, OxyColors.Red);
-        //    zeroOneAxis.AddRange(1, 1.1, OxyColors.ForestGreen);
-
-        //    plot.Model.Axes.Add(zeroOneAxis);
-
-        //    var positiveSeries = new ScatterSeries { MarkerType = MarkerType.Circle, ColorAxisKey = "zeroOneColors" };
-        //    var negativeSeries = new ScatterSeries { MarkerType = MarkerType.Circle, ColorAxisKey = "zeroOneColors" };
-
-        //    if (modelClassLabels)
-        //    {
-        //        foreach (var point in input.getAll())
-        //        {
-        //            if (model.Decide(point))
-        //            {
-        //                positiveSeries.Points.Add(new ScatterPoint(point[0], point[1], 3, 1));
-        //            }
-        //            else
-        //            {
-        //                negativeSeries.Points.Add(new ScatterPoint(point[0], point[1], 3, 0));
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        foreach (var point in input.getPositives())
-        //        {
-        //            positiveSeries.Points.Add(new ScatterPoint(point[0], point[1], 3, 1));
-        //        }
-
-        //        foreach (var cluster in input.getNegatives())
-        //        {
-        //            foreach (var point in cluster)
-        //            {
-        //                negativeSeries.Points.Add(new ScatterPoint(point[0], point[1], 3, 0));
-        //            }
-        //        }
-        //    }
-
-        //    plot.Model.Series.Add(positiveSeries);
-        //    plot.Model.Series.Add(negativeSeries);
-
-        //    foreach (var constraint in model.Constraints)
-        //    {
-        //        plot.Model.Series.Add(new FunctionSeries(x => (x * constraint[1] + constraint[0]) / -constraint[2], 0, 100, 0.2));
-        //    }
-
-        //    plotList.Add(plot);
-
-        //    return this;
-        //}
+        
         public Visualization AddModelPlot(List<Constraint> constraints, string title)
         {
 
@@ -325,6 +280,62 @@ namespace EvolutionaryStrategyEngine.Utils
             Plots.Add(plot);
 
             return this;
+        }
+
+        private Series GetFunctionSeries(Constraint constraint, OxyColor color = default(OxyColor), int xMin = -100, int xMax = 100,
+            double step = 0.5)
+        {
+            var constraintTypeName = constraint.GetType().FullName;
+
+            switch (constraintTypeName)
+            {
+                case nameof(LinearConstraint):
+                    return new FunctionSeries(
+                        x =>
+                            (constraint.LimitingValue / constraint.TermsCoefficients[1]) -
+                            ((constraint.TermsCoefficients[0] / constraint.TermsCoefficients[1]) * x), xMin, xMax, step)
+                    {
+                        Color = color.Equals(default(OxyColor)) ? OxyColors.Black : color
+                    };
+                case nameof(BallConstraint):
+                    //OxyPlot.Series.ScatterSeries s = new ScatterSeries().;
+                    //};
+                    return new FunctionSeries(
+                        x =>
+                            (constraint.LimitingValue / constraint.TermsCoefficients[1]) -
+                            ((constraint.TermsCoefficients[0] / constraint.TermsCoefficients[1]) * x), xMin, xMax, step)
+                    {
+                        Color = color.Equals(default(OxyColor)) ? OxyColors.Black : color
+                    };
+                default:
+                    return new FunctionSeries(
+                        x =>
+                            (constraint.LimitingValue / constraint.TermsCoefficients[1]) -
+                            ((constraint.TermsCoefficients[0] / constraint.TermsCoefficients[1]) * x), xMin, xMax, step)
+                    {
+                        Color = color.Equals(default(OxyColor)) ? OxyColors.Black : color
+                    };
+            }
+
+            //return new FunctionSeries(
+            //            x =>
+            //                (constraint.LimitingValue / constraint.TermsCoefficients[1]) -
+            //                ((constraint.TermsCoefficients[0] / constraint.TermsCoefficients[1]) * x), xMin, xMax, step)
+            //{
+            //    Color = color.Equals(default(OxyColor)) ? OxyColors.Black : color
+            //};
+        }
+
+        private FunctionSeries GetBallSeries(Constraint constraint, OxyColor color = default(OxyColor), int xMin = -100, int xMax = 100,
+            double step = 0.5)
+        {
+            return new FunctionSeries(
+                        x =>
+                            (constraint.LimitingValue / constraint.TermsCoefficients[1]) -
+                            ((constraint.TermsCoefficients[0] / constraint.TermsCoefficients[1]) * x), xMin, xMax, step)
+            {
+                Color = color.Equals(default(OxyColor)) ? OxyColors.Black : color
+            };
         }
     }
 }

@@ -176,7 +176,8 @@ namespace EvolutionaryStrategyEngine.Models
         {
             Balln,
             Cuben,
-            Simplexn
+            Simplexn,
+            Other
         }
 
         //Global parameters

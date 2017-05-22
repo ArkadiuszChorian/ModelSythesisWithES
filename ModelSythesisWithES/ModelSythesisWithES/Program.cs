@@ -25,8 +25,8 @@ namespace ModelSythesisWithES
 
             var experimentParameters = new ExperimentParameters(2, 10,
                 typeOfMutation: ExperimentParameters.MutationType.Correlated,
-                typeOfBenchmark: ExperimentParameters.BenchmarkType.Cuben,
-                stepThreshold: 0.1, numberOfGenerations: 10,
+                typeOfBenchmark: ExperimentParameters.BenchmarkType.Simplexn,
+                stepThreshold: 0.1, numberOfGenerations: 100,
                 basePopulationSize: 15,
                 //basePopulationSize: 3,
                 offspringPopulationSize: 100,

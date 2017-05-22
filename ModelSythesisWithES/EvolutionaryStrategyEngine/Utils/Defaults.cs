@@ -50,6 +50,6 @@ namespace EvolutionaryStrategyEngine.Utils
         public const double PartOfPopulationToRecombine = (double)2 / 100;
 
         public const List<Constraint> ConstraintsToPointsGeneration = default(List<Constraint>);
-        public const ExperimentParameters.BenchmarkType TypeOfBenchmark = ExperimentParameters.BenchmarkType.Simplexn;
+        public const ExperimentParameters.BenchmarkType TypeOfBenchmark = ExperimentParameters.BenchmarkType.Other;
     }
 }
