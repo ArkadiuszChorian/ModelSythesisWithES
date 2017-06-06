@@ -59,7 +59,8 @@ namespace EvolutionaryStrategyEngine.Utils
             {
                 Text = "Thesis",
                 Height = h,
-                Width = w
+                Width = w,
+                AutoScroll = true
             };
 
             var i = 0;
@@ -132,7 +133,7 @@ namespace EvolutionaryStrategyEngine.Utils
 
             if (paletteInitializer != null)
             {
-                palette = paletteInitializer.Invoke(constraints.Count);
+                palette = paletteInitializer.Invoke(constraints.Count == 1 ? constraints.Count + 1 : constraints.Count);
             }
             else
             {
@@ -167,7 +168,7 @@ namespace EvolutionaryStrategyEngine.Utils
 
                 //plot.Model.Series.Add(series);
 
-                plot.Model.Series.Add(GetFunctionSeries(constraints[i], palette?.Colors[i] ?? color, xMin, xMax, step));
+                plot.Model.Series.Add(GetSeries(constraints[i], palette?.Colors[i] ?? color, xMin, xMax, step));
             }
 
             //foreach (var constraint in constraints)
@@ -282,10 +283,10 @@ namespace EvolutionaryStrategyEngine.Utils
             return this;
         }
 
-        private Series GetFunctionSeries(Constraint constraint, OxyColor color = default(OxyColor), int xMin = -100, int xMax = 100,
+        private Series GetSeries(Constraint constraint, OxyColor color = default(OxyColor), int xMin = -100, int xMax = 100,
             double step = 0.5)
         {
-            var constraintTypeName = constraint.GetType().FullName;
+            var constraintTypeName = constraint.GetType().Name;
 
             switch (constraintTypeName)
             {
@@ -295,18 +296,17 @@ namespace EvolutionaryStrategyEngine.Utils
                             (constraint.LimitingValue / constraint.TermsCoefficients[1]) -
                             ((constraint.TermsCoefficients[0] / constraint.TermsCoefficients[1]) * x), xMin, xMax, step)
                     {
-                        Color = color.Equals(default(OxyColor)) ? OxyColors.Black : color
+                        Color = color.Equals(default(OxyColor)) ? OxyColors.Black : color,                       
                     };
                 case nameof(BallConstraint):
-                    //OxyPlot.Series.ScatterSeries s = new ScatterSeries().;
+                    //return new FunctionSeries(
+                    //    x =>
+                    //        (constraint.LimitingValue / constraint.TermsCoefficients[1]) -
+                    //        ((constraint.TermsCoefficients[0] / constraint.TermsCoefficients[1]) * x), xMin, xMax, step)
+                    //{
+                    //    Color = color.Equals(default(OxyColor)) ? OxyColors.Black : color
                     //};
-                    return new FunctionSeries(
-                        x =>
-                            (constraint.LimitingValue / constraint.TermsCoefficients[1]) -
-                            ((constraint.TermsCoefficients[0] / constraint.TermsCoefficients[1]) * x), xMin, xMax, step)
-                    {
-                        Color = color.Equals(default(OxyColor)) ? OxyColors.Black : color
-                    };
+                    return new ScatterSeries();
                 default:
                     return new FunctionSeries(
                         x =>

@@ -69,7 +69,8 @@ namespace EvolutionaryStrategyEngine.Solutions
 
         public int CompareTo(Solution other)
         {
-            return FitnessScore.CompareTo(other.FitnessScore);
+            //Minus sign to sort descending
+            return -FitnessScore.CompareTo(other.FitnessScore);
         }
     }
 }

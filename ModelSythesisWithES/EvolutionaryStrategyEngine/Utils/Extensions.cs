@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using EvolutionaryStrategyEngine.Benchmarks;
 using EvolutionaryStrategyEngine.Constraints;
 using EvolutionaryStrategyEngine.Models;
+using EvolutionaryStrategyEngine.PointsGeneration;
 using EvolutionaryStrategyEngine.Solutions;
-using OxyPlot;
 
 namespace EvolutionaryStrategyEngine.Utils
 {
@@ -28,6 +28,6 @@ namespace EvolutionaryStrategyEngine.Utils
             }
 
             return constraints;
-        }        
+        }
     }
 }

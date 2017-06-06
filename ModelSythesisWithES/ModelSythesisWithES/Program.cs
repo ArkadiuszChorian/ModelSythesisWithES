@@ -26,7 +26,7 @@ namespace ModelSythesisWithES
             var experimentParameters = new ExperimentParameters(2, 10,
                 typeOfMutation: ExperimentParameters.MutationType.Correlated,
                 typeOfBenchmark: ExperimentParameters.BenchmarkType.Simplexn,
-                stepThreshold: 0.1, numberOfGenerations: 100,
+                stepThreshold: 0.1, numberOfGenerations: 300,
                 basePopulationSize: 15,
                 //basePopulationSize: 3,
                 offspringPopulationSize: 100,
@@ -35,8 +35,9 @@ namespace ModelSythesisWithES
                 //globalLerningRate: 0.7,
                 individualLearningRate: 1 / Math.Sqrt(2 * Math.Sqrt(2)),
                 //individualLearningRate: 0.8,
-                numberOfPositiveMeasurePoints: 100,
-                numberOfNegativeMeasurePoints: 100
+                numberOfPositiveMeasurePoints: 300,
+                numberOfNegativeMeasurePoints: 300,
+                ballnBoundaryValue: 10
                 );
 
             var experimentParameters3 = new ExperimentParameters(2, 10, 
@@ -104,8 +105,8 @@ namespace ModelSythesisWithES
 
             var bestSolutionConstraints = engine.BasePopulation.First().GetConstraints(experimentParameters);
 
-            var evaluator = (Evaluator)engine.Evaluator;            
-            
+            var evaluator = (Evaluator)engine.Evaluator;
+
             visualization
                 .AddNextPlot()
                 .AddPoints(evaluator.PositiveMeasurePoints, OxyColors.Green)
@@ -116,8 +117,24 @@ namespace ModelSythesisWithES
                 .AddPoints(evaluator.PositiveMeasurePoints, OxyColors.Green)
                 .AddPoints(evaluator.NegativeMeasurePoints, OxyColors.Red)
                 .AddConstraints(bestSolutionConstraints, OxyPalettes.Rainbow)
+                //.AddNextPlot()
+                //.AddPoints(evaluator.PositiveMeasurePoints, OxyColors.Green)
+                //.AddPoints(evaluator.NegativeMeasurePoints, OxyColors.Red)
+                //.AddConstraints(engine.InitialPopulation.First().GetConstraints(experimentParameters), OxyPalettes.Rainbow)
                 .Show();
-           
+
+            //var engine2 = engine as CmEngineWithoutRecombination;
+
+            //for (var i = 0; i < engine2.OneSolutionHistory.Count; i++)
+            //{
+            //    visualization
+            //        .AddNextPlot(title: "Step " + i)
+            //        .AddPoints(evaluator.PositiveMeasurePoints, OxyColors.Green)
+            //        .AddConstraints(engine2.OneSolutionHistory[i].GetConstraints(experimentParameters), OxyPalettes.Rainbow);
+            //}
+
+            //visualization.Show();
+
             stoper.Stop();
             Console.WriteLine("Done!");
             Console.WriteLine("=== Time ===");

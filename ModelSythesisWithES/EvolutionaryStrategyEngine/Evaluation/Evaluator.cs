@@ -1,4 +1,5 @@
-﻿using EvolutionaryStrategyEngine.Constraints;
+﻿using System.Diagnostics;
+using EvolutionaryStrategyEngine.Constraints;
 using EvolutionaryStrategyEngine.Models;
 using EvolutionaryStrategyEngine.Solutions;
 using EvolutionaryStrategyEngine.Utils;
@@ -65,6 +66,11 @@ namespace EvolutionaryStrategyEngine.Evaluation
                 if (IsSatisfyingConstraints(constraints, NegativeMeasurePoints[i]))
                     numberOfNegativePointsSatisfyingConstraints++;
             }
+
+            //if (numberOfNegativePointsSatisfyingConstraints > 0 || numberOfPositivePointsSatisfyingConstraints > 0)
+            //{
+            //    Debugger.Break();
+            //}
 
             return (double)numberOfPositivePointsSatisfyingConstraints / (PositiveMeasurePoints.Length + numberOfNegativePointsSatisfyingConstraints);
         }

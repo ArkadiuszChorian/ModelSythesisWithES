@@ -48,6 +48,7 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
         {
             var numberOfDimensions = benchmark.Domains.Length;
             var points = new Point[numberOfPointsToGenerate];
+            const double m = 6;
 
             for (var i = 0; i < numberOfPointsToGenerate; i++)
             {
@@ -61,7 +62,8 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
 
                     for (var j = 0; j < numberOfDimensions; j++)
                     {
-                        currentPoint.Coordinates[j] = _randomGenerator.NextDouble(benchmark.Domains[j].LowerLimit, benchmark.Domains[j].UpperLimit);
+                        currentPoint.Coordinates[j] = _randomGenerator.NextDouble(benchmark.Domains[j].LowerLimit + m * benchmark.Domains[j].LowerLimit, benchmark.Domains[j].UpperLimit + m * benchmark.Domains[j].UpperLimit);
+                        //currentPoint.Coordinates[j] = _randomGenerator.NextDouble(-500, 500);
                     }
 
                     for (var j = 0; j < _positiveMeasurePoints.Length; j++)
