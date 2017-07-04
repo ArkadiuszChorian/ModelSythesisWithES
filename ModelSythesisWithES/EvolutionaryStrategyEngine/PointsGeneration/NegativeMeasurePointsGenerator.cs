@@ -16,6 +16,8 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
             _randomGenerator = MersenneTwister.Instance;
             _positiveMeasurePoints = positiveMeasurePoints;
             _distanceCalculator = distanceCalculator;
+
+            CalculateNearestNeighbourDistances();
         }
 
         public void CalculateNearestNeighbourDistances()
@@ -48,7 +50,7 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
         {
             var numberOfDimensions = benchmark.Domains.Length;
             var points = new Point[numberOfPointsToGenerate];
-            const double m = 6;
+            const double m = 1;
 
             for (var i = 0; i < numberOfPointsToGenerate; i++)
             {

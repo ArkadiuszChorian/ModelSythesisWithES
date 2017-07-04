@@ -19,7 +19,8 @@ namespace EvolutionaryStrategyEngine.Constraints
                 constraintSum += Math.Pow(point.Coordinates[i] - TermsCoefficients[i], 2);
             }
 
-            return Math.Pow(LimitingValue, 2) >= constraintSum;
+            //return Math.Pow(LimitingValue, 2) >= constraintSum;
+            return LimitingValue >= constraintSum;
         }
     }
 }

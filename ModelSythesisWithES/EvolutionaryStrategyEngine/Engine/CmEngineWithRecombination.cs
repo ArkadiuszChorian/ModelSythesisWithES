@@ -28,30 +28,34 @@ namespace EvolutionaryStrategyEngine.Engine
 
         public override void RunExperiment()
         {
-            //BasePopulation = PopulationGenerator.GeneratePopulation(ExperimentParameters);
+            var offspringPopulationSize = ExperimentParameters.OffspringPopulationSize;
+            var numberOfGenerations = ExperimentParameters.NumberOfGenerations;
 
-            //for (var i = 0; i < ExperimentParameters.NumberOfGenerations; i++)
-            //{
-            //    var newPopulation = ParentsSelector.Select(BasePopulation);
+            BasePopulation = PopulationGenerator.GeneratePopulation(ExperimentParameters);
+            
+            for (var i = 0; i < offspringPopulationSize; i++)
+                OffspringPopulation[i] = new Solution(ExperimentParameters);
 
-            //    for (var j = 0; j < newPopulation.Count; j++)
-            //    {
-            //        //TODO: Recombination
-            //        newPopulation[j] = StdDeviationsRecombiner.Recombine(newPopulation, newPopulation[i]);
-            //        newPopulation[j] = RotationsRecombiner.Recombine(newPopulation, newPopulation[i]);
-            //        newPopulation[j] = ObjectRecombiner.Recombine(newPopulation, newPopulation[i]);
+            InitialPopulation = BasePopulation.DeepCopyByExpressionTree();
 
-            //        newPopulation[j] = StdDeviationsMutator.Mutate(newPopulation[j]);
-            //        newPopulation[j] = ObjectMutator.Mutate(newPopulation[j]);
+            for (var i = 0; i < numberOfGenerations; i++)
+            {
+                for (var j = 0; j < offspringPopulationSize; j++)
+                {
+                    var parentsPopulation = ParentsSelector.Select(BasePopulation);
 
-            //        newPopulation[j].FitnessScore = Evaluator.Evaluate(newPopulation[j]);
-            //    }
+                    OffspringPopulation[j] = StdDeviationsRecombiner.Recombine(parentsPopulation, OffspringPopulation[j]);
+                    OffspringPopulation[j] = RotationsRecombiner.Recombine(parentsPopulation, OffspringPopulation[j]);
+                    OffspringPopulation[j] = ObjectRecombiner.Recombine(parentsPopulation, OffspringPopulation[j]);
 
-            //    BasePopulation = SurvivorsSelector.MakeUnionOrDistinct(newPopulation, BasePopulation);
-            //    BasePopulation = SurvivorsSelector.Select(newPopulation);
-            //}
+                    OffspringPopulation[j] = StdDeviationsMutator.Mutate(OffspringPopulation[j]);
+                    OffspringPopulation[j] = RotationsMutator.Mutate(OffspringPopulation[j]);
+                    OffspringPopulation[j] = ObjectMutator.Mutate(OffspringPopulation[j]);
 
-            //BasePopulation = BasePopulation.OrderByDescending(solution => solution.FitnessScore).ToList();
+                    OffspringPopulation[j].FitnessScore = Evaluator.Evaluate(OffspringPopulation[j]);
+                }
+                BasePopulation = SurvivorsSelector.Select(BasePopulation, OffspringPopulation);
+            }
         }
     }
 }

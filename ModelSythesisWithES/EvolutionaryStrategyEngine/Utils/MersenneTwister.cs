@@ -82,6 +82,7 @@ namespace EvolutionaryStrategyEngine.Utils
                 if (_instance != null) return _instance;
 
                 _instance = Arguments.HasKey("Seed") ? new MersenneTwister(Arguments.Get<int>("Seed")) : new MersenneTwister(Defaults.Seed);
+                Accord.Math.Random.Generator.Seed = Defaults.Seed;
 
                 return _instance;
             }
@@ -131,6 +132,7 @@ namespace EvolutionaryStrategyEngine.Utils
         public static void Initialize(ExperimentParameters experimentParameters)
         {
             _instance = Arguments.HasKey("Seed") ? new MersenneTwister(Arguments.Get<int>("Seed")) : new MersenneTwister(experimentParameters.Seed);
+            Accord.Math.Random.Generator.Seed = experimentParameters.Seed;
         }
 
         /// <summary>

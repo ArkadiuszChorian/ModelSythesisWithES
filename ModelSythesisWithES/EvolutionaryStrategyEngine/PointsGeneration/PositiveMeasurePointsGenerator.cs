@@ -21,7 +21,7 @@ namespace EvolutionaryStrategyEngine.PointsGeneration
             var constraints = benchmark.Constraints;
             var numberOfConstraints = constraints.Length;         
             var points = new Point[numberOfPointsToGenerate];
-            const double m = 10;
+            const double m = 1;
 
             for (var i = 0; i < numberOfPointsToGenerate; i++)
             {

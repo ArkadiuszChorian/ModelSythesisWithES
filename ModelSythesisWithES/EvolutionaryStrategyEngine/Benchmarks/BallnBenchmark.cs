@@ -16,8 +16,8 @@ namespace EvolutionaryStrategyEngine.Benchmarks
 
             for (var i = 0; i < numberOfDimensions; i++)
             {
-                termsCoefficients[i] = i;
-                Domains[i] = new Domain(i - 2 * ballnBoundaryValue, i + 2 * ballnBoundaryValue);
+                termsCoefficients[i] = i + 1;
+                Domains[i] = new Domain(i + 1 - 2 * ballnBoundaryValue, i + 1 + 2 * ballnBoundaryValue);
             }
 
             Constraints[0] = new BallConstraint(termsCoefficients, ballnBoundaryValue * ballnBoundaryValue);

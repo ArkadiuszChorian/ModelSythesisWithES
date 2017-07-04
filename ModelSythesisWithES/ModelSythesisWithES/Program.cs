@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -24,6 +25,26 @@ namespace ModelSythesisWithES
             stoper.Start();
 
             var experimentParameters = new ExperimentParameters(2, 10,
+                typeOfMutation: ExperimentParameters.MutationType.Correlated,
+                typeOfBenchmark: ExperimentParameters.BenchmarkType.Other,
+                stepThreshold: 0.1, numberOfGenerations: 100,
+                basePopulationSize: 15,
+                //basePopulationSize: 3,
+                offspringPopulationSize: 100,
+                //offspringPopulationSize: 20,
+                globalLerningRate: 1 / Math.Sqrt(2 * 2),
+                //globalLerningRate: 0.7,
+                individualLearningRate: 1 / Math.Sqrt(2 * Math.Sqrt(2)),
+                //individualLearningRate: 0.8,
+                numberOfPositiveMeasurePoints: 300,
+                numberOfNegativeMeasurePoints: 3000,
+                ballnBoundaryValue: 2,
+                seed: 1,
+                useRecombination: false,
+                numberOfParentsSolutionsToSelect: 5
+                );
+
+            var experimentParameters4 = new ExperimentParameters(2, 10,
                 typeOfMutation: ExperimentParameters.MutationType.Correlated,
                 typeOfBenchmark: ExperimentParameters.BenchmarkType.Simplexn,
                 stepThreshold: 0.1, numberOfGenerations: 300,
